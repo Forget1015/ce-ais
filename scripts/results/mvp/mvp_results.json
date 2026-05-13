@@ -1,0 +1,31 @@
+{
+  "mse": {
+    "clean/proxy_only": 0.20408107621329172,
+    "clean/steered_no_epistemic": 0.21126544543675013,
+    "clean/steered_full_efe": 0.20795436450413296,
+    "ood/proxy_only": 0.45202689034598215,
+    "ood/steered_no_epistemic": 0.43759874616350447,
+    "ood/steered_full_efe": 0.4455654389517648
+  },
+  "metrics": {
+    "ood_gain_steered_pct": 3.191877406106161,
+    "ood_gain_efe_pct": 1.4294396046376194,
+    "clean_delta_steered_pct": 3.520350517923474,
+    "clean_delta_efe_pct": 1.8979164372855148,
+    "epistemic_marginal_gain_pct": -1.7624378014685416
+  },
+  "criteria": {
+    "primary_pass": true,
+    "secondary_pass": true,
+    "stretch_pass": false
+  },
+  "config": {
+    "n_eval_frames": 200,
+    "brightness_shift": 0.3,
+    "gaussian_noise_std": 0.12,
+    "langevin_steps": 14,
+    "langevin_step_size": 0.15,
+    "langevin_kl_weight": 5.0,
+    "langevin_grad_clip": 3.5
+  }
+}

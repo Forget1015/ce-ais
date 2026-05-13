@@ -1,0 +1,14 @@
+# 消融实验: MSE 重建误差替换能量判别
+# 将 CE-WM 能量头替换为 MSE 重建误差
+inherit_from: "../base.yaml"
+
+ce_wm:
+  energy_type: "mse_reconstruction"  # 替换为 MSE 重建误差
+  d_model: 512
+  d_state: 64
+  n_layers: 24
+  expand_factor: 2
+  mimo_groups: 4
+  action_dim: 7
+  latent_dim: 128
+  dropout: 0.1

@@ -1,0 +1,8 @@
+# 消融实验: 剥离双向门控
+# 固定引导强度 λ=λ_max，不随不确定性变化
+inherit_from: "../base.yaml"
+
+bilateral_gating:
+  lambda_max: 1.0
+  sensitivity: 1.0e+10         # 极大灵敏度 → 门控函数退化为常数 λ_max
+  window_size: 50

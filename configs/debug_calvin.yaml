@@ -1,0 +1,48 @@
+# CALVIN 真数据 debug 配置
+# 用于在 calvin_debug_dataset (~4500 帧) 上跑通整条流水线，
+# 模型规模缩小以加速迭代。继承 base.yaml 后仅覆盖必要项。
+
+inherit_from: "base.yaml"
+
+project:
+  device: "cuda:0"
+
+# 数据路径与采样参数（base.yaml 没有此节，这里新增）
+data:
+  calvin_dir: "data/calvin_debug_dataset"
+  window_size: 16              # CE-WM 时序窗口长度 T
+  encoder_pos_offset_max: 4    # encoder 模式正样本帧偏移上限（同 episode 内 1..4 帧）
+  num_workers: 4               # DataLoader 工作进程数
+  max_episodes: null           # null = 加载全部 episode
+
+# 编码器：保持 base 的 200x200 / latent_dim=128 / resnet18，但缩小 batch 加速 debug
+encoder:
+  image_size: [128, 128]       # debug 阶段降分辨率提速
+  latent_dim: 64
+
+# CE-WM：debug 阶段大幅缩减规模
+ce_wm:
+  d_model: 256
+  n_layers: 4
+  expand_factor: 2
+  mimo_groups: 4
+  latent_dim: 64               # 与 encoder.latent_dim 对齐
+  dropout: 0.1
+
+steering:
+  n_steps: 2
+
+training:
+  encoder_epochs: 5
+  ce_wm_epochs: 5
+  batch_size: 16
+  learning_rate: 1.0e-4
+  weight_decay: 1.0e-5
+  amp: true
+  checkpoint_interval: 2
+  neg_sample_ratio: 6          # K=6 → 每个策略各贡献 2 个负样本
+
+logging:
+  tensorboard: true
+  wandb: false
+  log_interval: 5

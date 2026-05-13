@@ -1,0 +1,47 @@
+{
+  "config": {
+    "scene": "calvin_scene_D",
+    "vla_type": "proxy",
+    "steering": true,
+    "n_chains": 2,
+    "chain_length": 2,
+    "max_steps_per_task": 10,
+    "ood": [],
+    "seed": 42
+  },
+  "results": {
+    "chain_1": 0.0,
+    "chain_2": 0.0,
+    "avg_completed_tasks": 0.0
+  },
+  "chain_details": [
+    {
+      "protocol": "ABC_to_D",
+      "chain_length": 2,
+      "chain_success": false,
+      "completed_tasks": 0,
+      "task_results": [
+        {
+          "task": "unstack_block",
+          "success": false,
+          "steps": 10,
+          "time_s": 0.5609631538391113
+        }
+      ]
+    },
+    {
+      "protocol": "ABC_to_D",
+      "chain_length": 2,
+      "chain_success": false,
+      "completed_tasks": 0,
+      "task_results": [
+        {
+          "task": "push_red_block_left",
+          "success": false,
+          "steps": 10,
+          "time_s": 0.6167659759521484
+        }
+      ]
+    }
+  ]
+}

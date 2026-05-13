@@ -1,0 +1,20 @@
+# 数据和模型
+data/
+checkpoints/
+
+# 虚拟环境
+.venv/
+
+# 日志文件
+logs/
+
+# 缓存和临时文件
+.pytest_cache/
+.hypothesis/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+
+# IDE和工具配置
+.claude/

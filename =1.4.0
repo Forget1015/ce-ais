@@ -1,0 +1,50 @@
+Resolved 26 packages in 1.45s
+   Building causal-conv1d==1.6.1
+  × Failed to build `causal-conv1d==1.6.1`
+  ├─▶ The build backend returned an error
+  ╰─▶ Call to `setuptools.build_meta.build_wheel` failed (exit status: 1)
+
+      [stdout]
+
+
+      torch.__version__  = 2.10.0+cu128
+
+
+      running bdist_wheel
+      Guessing wheel URL:
+      https://github.com/Dao-AILab/causal-conv1d/releases/download/v1.6.1/causal_conv1d-1.6.1+cu12torch2.10cxx11abiTRUE-cp312-cp312-linux_x86_64.whl
+
+      [stderr]
+      /home/huangyixuan/.cache/uv/builds-v0/.tmp2FCUaK/lib/python3.12/site-packages/wheel/bdist_wheel.py:4:
+      FutureWarning: The 'wheel' package is no longer the canonical location
+      of the 'bdist_wheel' command, and will be removed in a future release.
+      Please update to setuptools v70.1 or later which contains an integrated
+      version of this command.
+        warn(
+      /home/huangyixuan/.cache/uv/builds-v0/.tmp2FCUaK/lib/python3.12/site-packages/torch/_subclasses/functional_tensor.py:283:
+      UserWarning: Failed to initialize NumPy: No module named 'numpy'
+      (Triggered internally at /pytorch/torch/csrc/utils/tensor_numpy.cpp:84.)
+        cpu = _conversion_method_template(device=torch.device("cpu"))
+      /home/huangyixuan/.cache/uv/builds-v0/.tmp2FCUaK/lib/python3.12/site-packages/setuptools/dist.py:765:
+      SetuptoolsDeprecationWarning: License classifiers are deprecated.
+      !!
+
+      
+      ********************************************************************************
+              Please consider removing the following classifiers in favor of a
+      SPDX license expression:
+
+              License :: OSI Approved :: BSD License
+
+              See
+      https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#license
+      for details.
+      
+      ********************************************************************************
+
+      !!
+        self._finalize_license_expression()
+      error: Remote end closed connection without response
+
+      hint: This usually indicates a problem with the package or the build
+      environment.

@@ -1,0 +1,102 @@
+# CE-AIS 基础配置文件
+# 包含所有默认超参数，消融实验配置通过 inherit_from 继承并覆盖
+
+# ============================================================
+# 数据集配置
+# ============================================================
+data:
+  calvin_dir: "data/task_ABC_D"   # CALVIN ABC→D 数据集路径
+  mmap_dir: "/tmp/calvin_mmap"    # mmap 加速目录 (convert_calvin_mmap.py 生成)
+  num_workers: 24                 # DataLoader 工作进程数 (56核 CPU，用不到一半)
+
+# ============================================================
+# 项目全局设置
+# ============================================================
+project:
+  name: "ce-ais"
+  seed: 42
+  device: "cuda:0"
+
+# ============================================================
+# 对比预训练视觉-本体编码器 (Contrastive Encoder)
+# ============================================================
+encoder:
+  backbone_type: "resnet18"       # 可选: resnet18, vit_small
+  pose_dim: 7                     # 末端执行器姿态维度 (xyz + quaternion)
+  visual_dim: 512                 # 视觉骨干输出维度
+  latent_dim: 128                 # 潜变量维度 d_z
+  temperature: 0.07               # InfoNCE 温度参数
+  image_size: [200, 200]          # 输入图像分辨率
+
+# ============================================================
+# Mamba-3 因果能量世界模型 (CE-WM)
+# ============================================================
+ce_wm:
+  d_model: 640                    # 模型隐藏维度
+  d_state: 64                     # SSM 状态维度
+  n_layers: 32                    # Mamba-3 层数 (32层 ~122M params, ~1.4ms/forward)
+  expand_factor: 3                # 扩展因子
+  mimo_groups: 4                  # MIMO 通道组数（纯 PyTorch 后端）
+  action_dim: 7                   # 动作维度 (xyz + rotation + gripper)
+  latent_dim: 128                 # 输入潜变量维度 (与 Encoder 对齐)
+  dropout: 0.1                    # MC-Dropout 概率
+  headdim: 64                     # Mamba2 头维度（CUDA 后端）
+
+# ============================================================
+# EFE 引导偏转 (退火朗之万动力学)
+# ============================================================
+steering:
+  n_steps: 5                      # 朗之万迭代步数
+  step_size: 0.01                 # 初始步长 ε_0
+  anneal_rate: 0.5                # 退火率 α (ε_k = ε_0 · α^k)
+  noise_scale: 0.001              # 探索噪声强度
+  kl_weight: 10.0                 # KL 散度权重 (1/σ²)
+  grad_mode: "finite_diff"        # 梯度模式: finite_diff (快) 或 autograd (精确)
+
+# ============================================================
+# 双向不确定性门控 (Bilateral Epistemic Uncertainty Gating)
+# ============================================================
+bilateral_gating:
+  lambda_max: 1.0                 # 最大引导强度
+  sensitivity: 0.1                # 门控灵敏度 σ_u
+  window_size: 50                 # 历史不确定性窗口长度
+  uncertainty_method: "mc_dropout" # 可选: mc_dropout, state_covariance
+  mc_samples: 5                   # MC-Dropout 采样次数
+
+# ============================================================
+# 训练超参数
+# ============================================================
+training:
+  encoder_epochs: 100             # Encoder 预训练轮数
+  ce_wm_epochs: 200               # CE-WM 预训练轮数
+  batch_size: 256                 # 默认训练批大小（回退值）
+  encoder_batch_size: 512         # Encoder 预训练批大小 (ResNet18 轻量，24GB 可用 768)
+  cewm_batch_size: 256            # CE-WM 预训练批大小 (有 K=5 负样本扩展，显存需求更大)
+  learning_rate: 1.0e-4           # 学习率
+  weight_decay: 1.0e-5            # 权重衰减
+  amp: true                       # 混合精度训练 (AMP)
+  checkpoint_interval: 1         # 每 N 个 epoch 保存检查点
+  neg_sample_ratio: 5             # 负样本比例 K
+
+# ============================================================
+# 评估参数
+# ============================================================
+evaluation:
+  protocol: "ABC_to_D"            # CALVIN 标准评估协议
+  max_chain_length: 5             # 最大多任务链长度
+  ood_perturbations:
+    physics:
+      mass_scale: [0.5, 2.0]      # 质量密度变异范围
+      friction_scale: [0.3, 1.5]  # 摩擦系数变异范围
+    visual:
+      brightness_jitter: 0.5      # 光照闪烁强度
+      gaussian_noise_std: 0.1     # 高斯噪点标准差
+      camera_pose_offset: 0.05    # 相机姿态偏转幅度
+
+# ============================================================
+# 日志与实验追踪
+# ============================================================
+logging:
+  tensorboard: true               # 启用 TensorBoard 日志
+  wandb: false                    # 启用 Weights & Biases (默认关闭)
+  log_interval: 10                # 每 N 步记录一次日志
