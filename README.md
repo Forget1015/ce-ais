@@ -155,7 +155,7 @@ uv run python scripts/pretrain.py --config configs/base.yaml
 
 ```bash
 # 2 卡并行（自动数据并行 DDP + 混合精度）
-uv run accelerate launch --num_processes=2 scripts/pretrain.py \
+uv run accelerate launch --num_processes=8 scripts/pretrain.py \
     --config configs/base.yaml
 
 # 指定 GPU 设备

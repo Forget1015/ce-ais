@@ -15,7 +15,7 @@ data:
 project:
   name: "ce-ais"
   seed: 42
-  device: "cuda:0"
+  device: "cuda:5"
 
 # ============================================================
 # 对比预训练视觉-本体编码器 (Contrastive Encoder)
