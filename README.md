@@ -128,7 +128,7 @@ CALVIN 数据集由 ~179 万个独立 `.npz` 压缩文件组成，原生加载�
 uv run python scripts/convert_calvin_mmap.py \
     --src data/task_ABC_D/training \
     --dst /tmp/calvin_mmap/training \
-    --workers 24
+    --workers 28
 
 # 如需转换验证集
 uv run python scripts/convert_calvin_mmap.py \
@@ -155,7 +155,8 @@ uv run python scripts/pretrain.py --config configs/base.yaml
 
 ```bash
 # 2 卡并行（自动数据并行 DDP + 混合精度）
-c
+uv run accelerate launch --num_processes=2 scripts/pretrain.py \
+    --config configs/base.yaml
 
 # 指定 GPU 设备
 CUDA_VISIBLE_DEVICES=0,1 uv run accelerate launch --num_processes=2 \

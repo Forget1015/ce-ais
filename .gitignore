@@ -1,5 +1,6 @@
 # 数据和模型
 data/
+!src/data/
 checkpoints/
 
 # 虚拟环境
