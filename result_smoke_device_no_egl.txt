@@ -1,0 +1,48 @@
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/_internal/defaults_list.py:251: UserWarning: In 'config_data_collection': Defaults list is missing `_self_`. See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/default_composition_order for more information
+  warnings.warn(msg, UserWarning)
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/core/default_element.py:124: UserWarning: In 'vr_input/vr_controller/vive': Usage of deprecated keyword in package header '# @package _group_'.
+See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/changes_to_package_header for more information
+  deprecation_warning(
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+pybullet build time: Oct 21 2025 10:07:17
+/data0/yejinxuan/workspace/calvin/calvin_env/calvin_env/envs/play_table_env.py:292: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  @hydra.main(config_path="../../conf", config_name="config_data_collection")
+Exception ignored in: <function PlayTableSimEnv.__del__ at 0x7fac56216a20>
+Traceback (most recent call last):
+  File "/data0/yejinxuan/workspace/calvin/calvin_env/calvin_env/envs/play_table_env.py", line 78, in __del__
+    self.close()
+  File "/data0/yejinxuan/workspace/calvin/calvin_env/calvin_env/envs/play_table_env.py", line 146, in close
+    self.p.disconnect(physicsClientId=self.cid)
+pybullet.error: Not connected to physics server.
+======================================================================
+CE-AIS Paper Main Experiments
+Methods: ['ce_ais']
+Chains: 1 x 1
+Device: cuda:0 (requested=cuda:0, visible=6)
+EGL: disabled
+======================================================================
+
+[1] Initializing CALVIN environment...
+  Available tasks: 34
+
+[Eval] Running: ce_ais
+  Loaded encoder checkpoint: /data0/yejinxuan/ce-ais/checkpoints/encoder_epoch0044.pt
+  Loaded CE-WM checkpoint: /data0/yejinxuan/ce-ais/checkpoints/cewm_epoch0015.pt
+  [ce_ais] L1=0.0%, L3=0.0%, L5=0.0%, latency=10602.4ms
+
+Results saved: results/smoke_device_no_egl/main_experiment.json
+
+======================================================================
+Method                     L1       L2       L3       L4       L5  Lat(ms)
+----------------------------------------------------------------------
+ce_ais                  0.0%    0.0%    0.0%    0.0%    0.0% 10602.4
+======================================================================
+disconnecting id 0 from server
+disconnecting id 0 from server
+argv[0]=

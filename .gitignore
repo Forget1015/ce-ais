@@ -2,7 +2,7 @@
 data/
 !src/data/
 checkpoints/
-
+checkpoints_sub/
 # 虚拟环境
 .venv/
 

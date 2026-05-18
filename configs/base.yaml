@@ -6,7 +6,7 @@
 # ============================================================
 data:
   calvin_dir: "data/task_ABC_D"   # CALVIN ABC→D 数据集路径
-  mmap_dir: "/tmp/calvin_mmap"    # mmap 加速目录 (convert_calvin_mmap.py 生成)
+  mmap_dir: "data/calvin_mmap"     # mmap 加速目录 (convert_calvin_mmap.py 生成)
   num_workers: 24                 # DataLoader 工作进程数 (56核 CPU，用不到一半)
 
 # ============================================================
@@ -67,14 +67,16 @@ bilateral_gating:
 # 训练超参数
 # ============================================================
 training:
-  encoder_epochs: 100             # Encoder 预训练轮数
+  encoder_epochs: 30             # Encoder 预训练轮数
   ce_wm_epochs: 200               # CE-WM 预训练轮数
   batch_size: 256                 # 默认训练批大小（回退值）
-  encoder_batch_size: 512         # Encoder 预训练批大小 (ResNet18 轻量，24GB 可用 768)
+  encoder_batch_size: 768         # Encoder 预训练批大小 (ResNet18 轻量，24GB 可用 768)
   cewm_batch_size: 256            # CE-WM 预训练批大小 (有 K=5 负样本扩展，显存需求更大)
   learning_rate: 1.0e-4           # 学习率
   weight_decay: 1.0e-5            # 权重衰减
   amp: true                       # 混合精度训练 (AMP)
+  mixed_precision: "bf16"         # A100 上 bf16 比 fp16 更稳定
+  grad_clip_norm: 1.0             # 防止 CE-WM 能量模型梯度爆炸
   checkpoint_interval: 1         # 每 N 个 epoch 保存检查点
   neg_sample_ratio: 5             # 负样本比例 K
 

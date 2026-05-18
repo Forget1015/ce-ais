@@ -9,7 +9,6 @@
 
 import glob
 import os
-import re
 from typing import Any, Dict, Optional
 
 import torch
@@ -20,6 +19,22 @@ class CheckpointManager:
 
     管理模型检查点的保存、加载和轮转，确保训练可中断恢复。
     """
+
+    @staticmethod
+    def _assert_finite_state(name: str, state: Any) -> None:
+        """拒绝保存包含 NaN/Inf 的状态。"""
+        if torch.is_tensor(state):
+            if torch.is_floating_point(state) and not torch.isfinite(state).all():
+                raise RuntimeError(
+                    f"Refusing to save checkpoint: non-finite tensor at {name}"
+                )
+            return
+        if isinstance(state, dict):
+            for key, value in state.items():
+                CheckpointManager._assert_finite_state(f"{name}.{key}", value)
+        elif isinstance(state, (list, tuple)):
+            for i, value in enumerate(state):
+                CheckpointManager._assert_finite_state(f"{name}[{i}]", value)
 
     def __init__(
         self,
@@ -73,11 +88,30 @@ class CheckpointManager:
         if extra:
             state["extra"] = extra
 
+        self._assert_finite_state("model_state_dict", state["model_state_dict"])
+        if "optimizer_state_dict" in state:
+            self._assert_finite_state(
+                "optimizer_state_dict", state["optimizer_state_dict"]
+            )
+        if "scheduler_state_dict" in state:
+            self._assert_finite_state(
+                "scheduler_state_dict", state["scheduler_state_dict"]
+            )
+
         filename = f"{self.prefix}_epoch{epoch:04d}.pt"
         filepath = os.path.join(self.checkpoint_dir, filename)
-        torch.save(state, filepath)
+        tmp_filepath = f"{filepath}.tmp"
+        try:
+            torch.save(state, tmp_filepath)
+            os.replace(tmp_filepath, filepath)
+        finally:
+            if os.path.exists(tmp_filepath):
+                try:
+                    os.remove(tmp_filepath)
+                except OSError:
+                    pass
 
-        # 检查点轮转：删除超出 max_keep 的旧检查点
+        # 检查点轮转：只有新检查点完整写入后，才删除旧检查点
         self._rotate()
 
         return filepath
@@ -103,6 +137,12 @@ class CheckpointManager:
             包含 epoch、global_step 和 extra 的状态字典。
         """
         state = torch.load(filepath, map_location=map_location, weights_only=False)
+
+        self._assert_finite_state("model_state_dict", state["model_state_dict"])
+        if optimizer is not None and "optimizer_state_dict" in state:
+            self._assert_finite_state(
+                "optimizer_state_dict", state["optimizer_state_dict"]
+            )
 
         model.load_state_dict(state["model_state_dict"])
 

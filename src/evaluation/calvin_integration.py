@@ -29,6 +29,7 @@ class Observation:
     rgb: torch.Tensor       # [B, 3, H, W] RGB 图像 (float32, [0,1])
     depth: torch.Tensor     # [B, 1, H, W] 深度图
     pose: torch.Tensor      # [B, d_p] 末端执行器姿态
+    raw: Optional[Dict[str, Any]] = None
 
 
 @dataclass
@@ -338,6 +339,12 @@ class CALVINWrapper:
         policy_fn: Callable,
         task_chain: List[str],
         max_steps_per_task: int = 300,
+        progress_fn: Optional[Callable[[str], None]] = None,
+        progress_steps: int = 25,
+        initial_robot_obs: Optional[np.ndarray] = None,
+        initial_scene_obs: Optional[np.ndarray] = None,
+        instructions: Optional[List[str]] = None,
+        policy_reset_fn: Optional[Callable[[], None]] = None,
     ) -> Dict[str, Any]:
         """运行 ABC→D 多任务链式评估。
 
@@ -345,6 +352,12 @@ class CALVINWrapper:
             policy_fn: 策略函数 (observation_dict, instruction) -> action。
             task_chain: 任务名称列表（按顺序执行）。
             max_steps_per_task: 每个任务的最大步数。
+            progress_fn: 可选进度输出函数。
+            progress_steps: 每隔多少 step 输出一次进度。
+            initial_robot_obs: 可选初始机器人状态。
+            initial_scene_obs: 可选初始场景状态。
+            instructions: 与 task_chain 对齐的自然语言指令。
+            policy_reset_fn: 可选的子任务 reset hook。
 
         Returns:
             评估结果字典。
@@ -353,10 +366,19 @@ class CALVINWrapper:
         task_results: List[Dict[str, Any]] = []
         chain_success = True
 
-        obs = self.reset(task=task_chain[0] if task_chain else None)
+        obs = self.reset(
+            task=task_chain[0] if task_chain else None,
+            robot_obs=initial_robot_obs,
+            scene_obs=initial_scene_obs,
+        )
 
         for i, task_name in enumerate(task_chain[:chain_length]):
+            instruction = instructions[i] if instructions and i < len(instructions) else task_name
             self._current_task = task_name
+            if policy_reset_fn is not None:
+                policy_reset_fn()
+            if progress_fn:
+                progress_fn(f"task {i + 1}/{chain_length} start: {task_name} | instruction: {instruction}")
             # 记录任务开始时的 scene info
             if self._env is not None:
                 self._start_info = self._env.get_info()
@@ -370,16 +392,31 @@ class CALVINWrapper:
                     "rgb": obs.rgb,
                     "depth": obs.depth,
                     "pose": obs.pose,
+                    "raw_calvin_obs": obs.raw,
                 }
-                action = policy_fn(obs_dict, task_name)
+                should_report = progress_fn and (
+                    step_idx == 0 or (progress_steps > 0 and (step_idx + 1) % progress_steps == 0)
+                )
+                if should_report:
+                    progress_fn(f"task {i + 1}/{chain_length} step {step_idx + 1}/{max_steps_per_task}: running policy")
+                policy_start = time.time()
+                action = policy_fn(obs_dict, instruction)
+                policy_time = time.time() - policy_start
+                if should_report:
+                    progress_fn(f"task {i + 1}/{chain_length} step {step_idx + 1}/{max_steps_per_task}: policy {policy_time:.2f}s, stepping env")
                 obs, reward, done, info = self.step(action)
                 task_steps += 1
 
                 if reward > 0:
                     task_success = True
+                    if progress_fn:
+                        progress_fn(f"task {i + 1}/{chain_length} success at step {task_steps}")
                     break
 
             elapsed = time.time() - start_time
+            if progress_fn:
+                status = "success" if task_success else "failed"
+                progress_fn(f"task {i + 1}/{chain_length} {status}: {task_steps} steps, {elapsed:.1f}s")
             task_results.append(
                 {
                     "task": task_name,
@@ -476,6 +513,7 @@ class CALVINWrapper:
             rgb=rgb if rgb is not None else torch.zeros(1, 3, 200, 200),
             depth=depth if depth is not None else torch.zeros(1, 1, 200, 200),
             pose=pose if pose is not None else torch.zeros(1, 7),
+            raw=raw_obs,
         )
 
     def _make_placeholder_observation(self) -> Observation:
@@ -498,7 +536,7 @@ class CALVINWrapper:
             noise = torch.randn_like(rgb) * self.ood_visual.gaussian_noise_std
             rgb = torch.clamp(rgb + noise, 0.0, 1.0)
 
-        return Observation(rgb=rgb, depth=obs.depth, pose=obs.pose)
+        return Observation(rgb=rgb, depth=obs.depth, pose=obs.pose, raw=obs.raw)
 
     @property
     def available_tasks(self) -> List[str]:
@@ -510,4 +548,8 @@ class CALVINWrapper:
     def close(self):
         """释放环境资源。"""
         if self._env is not None and hasattr(self._env, "close"):
-            self._env.close()
+            env = self._env
+            self._env = None
+            env.close()
+            if hasattr(env, "cid"):
+                env.cid = -1

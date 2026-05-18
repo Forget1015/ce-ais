@@ -130,6 +130,12 @@ class DualStreamTopology:
 
         return a_star.detach(), info
 
+    def reset(self) -> None:
+        """重置跨子任务状态。"""
+        self.last_action = None
+        if hasattr(self.vla, "reset"):
+            self.vla.reset()
+
     def safe_step(
         self,
         observation: dict,

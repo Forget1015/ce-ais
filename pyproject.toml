@@ -21,6 +21,8 @@ dependencies = [
     "pytest-cov>=4.1.0",
     "pillow>=10.0.0",
     "accelerate>=0.30.0",
+    "setuptools==80.9.0",
+    "wandb>=0.27.0",
 ]
 
 [project.optional-dependencies]

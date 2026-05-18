@@ -1,0 +1,18 @@
+{
+  "config": {
+    "n_chains": 0,
+    "chain_length": 5,
+    "max_steps_per_task": 300,
+    "seed": 42,
+    "vla_type": "openvla",
+    "device": "cuda:6",
+    "requested_device": "cuda:6",
+    "cuda_visible_devices": null,
+    "egl_visible_devices": "6",
+    "use_egl": true,
+    "methods": [],
+    "encoder_ckpt": null,
+    "cewm_ckpt": null
+  },
+  "results": {}
+}

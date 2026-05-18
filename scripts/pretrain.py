@@ -133,16 +133,28 @@ def main() -> None:
     config = build_config_from_dict(cm.config)
 
     # 创建 Accelerator（多卡 DDP + 混合精度）
-    accelerator = Accelerator(
-        mixed_precision="fp16" if config.training.amp else "no",
+    mixed_precision = (
+        config.training.mixed_precision if config.training.amp else "no"
     )
+    accelerator = Accelerator(mixed_precision=mixed_precision)
 
     if accelerator.is_main_process:
+        import torch as _torch
+        n = accelerator.num_processes
+        gpu_model = _torch.cuda.get_device_name(0) if _torch.cuda.is_available() else "cpu"
+        logical_devices = f"cuda:0..cuda:{n - 1}" if n > 1 else str(accelerator.device)
+        visible_devices = os.environ.get("CUDA_VISIBLE_DEVICES")
+        if visible_devices:
+            visible_ids = [d.strip() for d in visible_devices.split(",") if d.strip()]
+            physical_devices = ",".join(visible_ids[:n])
+            device_detail = f"logical={logical_devices}, physical={physical_devices}, visible={visible_devices}"
+        else:
+            device_detail = f"logical={logical_devices}, physical={logical_devices}"
         print(f"[CE-AIS] Config loaded from: {args.config}")
         print(f"[CE-AIS] Stage: {args.stage}")
         print(f"[CE-AIS] Resume: {args.resume}")
-        print(f"[CE-AIS] Device: {accelerator.device}")
-        print(f"[CE-AIS] Num processes: {accelerator.num_processes}")
+        print(f"[CE-AIS] Mixed precision: {mixed_precision}")
+        print(f"[CE-AIS] Devices: {n}x {gpu_model} ({device_detail})")
 
     # 延迟导入以避免无 GPU 时的 CUDA 错误
     import torch
@@ -246,6 +258,8 @@ def main() -> None:
                         f"({len(encoder_dataset.episodes)} episodes), "
                         f"backend={backend}, path={backend_path}"
                     )
+                    if not encoder_dataset._use_mmap:
+                        print("[CE-AIS] WARNING: using slow .npz backend; check data.mmap_dir")
             if args.stage in ("cewm", "both"):
                 cewm_dataset = CALVINDataset(
                     data_dir=str(calvin_path),
@@ -264,6 +278,8 @@ def main() -> None:
                         f"(window_size={cewm_dataset.window_size}), "
                         f"backend={backend}, path={backend_path}"
                     )
+                    if not cewm_dataset._use_mmap:
+                        print("[CE-AIS] WARNING: using slow .npz backend; check data.mmap_dir")
         except Exception as e:
             if accelerator.is_main_process:
                 print(f"[CE-AIS] Failed to load CALVIN data: {e}")

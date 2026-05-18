@@ -124,30 +124,30 @@ CALVIN 数据集由 ~179 万个独立 `.npz` 压缩文件组成，原生加载�
 
 ```bash
 # 转换训练集（多进程并行，约 15-20 分钟）
-# --workers: 并行进程数（默认 CPU 核数的一半，可自行指定）
+# --workers: 并行进程数（默认 CPU 核数的一半，可自行指定） nproc lscpu
 uv run python scripts/convert_calvin_mmap.py \
     --src data/task_ABC_D/training \
-    --dst /tmp/calvin_mmap/training \
-    --workers 28
+    --dst data/calvin_mmap/training \
+    --workers 56
 
 # 如需转换验证集
 uv run python scripts/convert_calvin_mmap.py \
     --src data/task_ABC_D/validation \
-    --dst /tmp/calvin_mmap/validation \
-    --workers 24
+    --dst data/calvin_mmap/validation \
+    --workers 56
 ```
 
-转换后 `configs/base.yaml` 中的 `data.mmap_dir` 已指向 `/tmp/calvin_mmap`，训练时会自动检测并使用 mmap 后端。如果 mmap 目录不存在，会自动回退到原生 `.npz` 加载。
+转换后 `configs/base.yaml` 中的 `data.mmap_dir` 已指向 `data/calvin_mmap`，训练时会自动检测并使用 mmap 后端。如果 mmap 目录不存在，会自动回退到原生 `.npz` 加载。
 
 > **注意**:
-> - `/tmp` 目录在系统重启后会被清空，重启后需要重新转换
-> - 如果有其他持久存储空间，改 `--dst` 路径并同步修改 `base.yaml` 中的 `mmap_dir`
+> - 默认转换到 `data/calvin_mmap`，这是持久路径，不会因为系统重启被清空
+> - 如果使用其他存储路径，改 `--dst` 路径并同步修改 `base.yaml` 中的 `mmap_dir`
 > - 需要目标磁盘有 ~360GB 可用空间
 
 ### Step 1: 两阶段预训练
 
 ```bash
-# 完整预训练（Stage 1: Encoder 100 epochs + Stage 2: CE-WM 200 epochs）
+# 完整预训练（Stage 1: Encoder 30 epochs + Stage 2: CE-WM 200 epochs）
 uv run python scripts/pretrain.py --config configs/base.yaml
 ```
 
@@ -177,7 +177,7 @@ uv run python scripts/pretrain.py --config configs/base.yaml --stage cewm
 
 # 指定 Encoder 权重路径
 uv run python scripts/pretrain.py --config configs/base.yaml --stage cewm \
-    --encoder-ckpt checkpoints/encoder_epoch100.pt
+    --encoder-ckpt checkpoints/encoder_epoch0030.pt
 
 # 从断点恢复训练
 uv run python scripts/pretrain.py --config configs/base.yaml --resume
@@ -201,9 +201,47 @@ tensorboard --logdir logs/
 
 ```bash
 # CE-AIS vs 4 baselines（CALVIN ABC→D 协议）
-PYOPENGL_PLATFORM=egl uv run python scripts/run_paper_experiments.py \
+# 不指定 checkpoint 时，会自动加载 checkpoints/ 下最新的 encoder_epoch*.pt 和 cewm_epoch*.pt
+HF_HOME=/data0/yejinxuan/hf_cache \
+HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYOPENGL_PLATFORM=egl \
+uv run python scripts/run_paper_experiments.py \
     --vla-type openvla
+
+# 推荐：显式指定 GPU、Encoder checkpoint 和 CE-WM checkpoint
+# 默认使用官方 CALVIN 可达任务序列：固定 initial_state + 5 个可连续完成的 subtask + 自然语言指令
+# --device cuda:N 直接选择物理 GPU N；不要再同时设置 CUDA_VISIBLE_DEVICES
+# 脚本会自动把 EGL_VISIBLE_DEVICES 设为同一个 GPU 序号，避免 PyTorch 和 EGL 分别占用不同卡
+# HF_HOME 指向本机已有 OpenVLA cache，离线模式可避免访问 HuggingFace / hf-mirror
+HF_HOME=/data0/yejinxuan/hf_cache \
+HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYOPENGL_PLATFORM=egl \
+uv run python scripts/run_paper_experiments.py \
+    --vla-type openvla \
+    --device cuda:6 \
+    --encoder-ckpt checkpoints/encoder_epoch0044.pt \
+    --cewm-ckpt checkpoints/cewm_epoch0015.pt
+
+# 如果当前机器缺少 pybullet 的 eglRendererPlugin，加 --no-egl 使用 DIRECT/TinyRenderer
+HF_HOME=/data0/yejinxuan/hf_cache \
+HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYOPENGL_PLATFORM=egl \
+uv run python scripts/run_paper_experiments.py \
+    --vla-type openvla \
+    --device cuda:4 \
+    --no-egl \
+    --encoder-ckpt checkpoints/encoder_epoch0044.pt \
+    --cewm-ckpt checkpoints/cewm_epoch0015.pt
 ```
+
+本机 OpenVLA cache 位于 `/data0/yejinxuan/hf_cache/hub/models--openvla--openvla-7b`，包含 `processor_config.json`、`model.safetensors.index.json` 和 3 个 `model-*.safetensors` 分片；设置 `HF_HOME=/data0/yejinxuan/hf_cache` 后，`openvla/openvla-7b` 会从该 cache 读取。若需要重新下载或更新模型，去掉 `HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1` 并确保代理/网络可用。
+
+主实验默认 `--sequence-source official`，会按 CALVIN 官方长程评估方式生成可达任务链，并把 task key 映射为自然语言指令。旧的随机任务链可用 `--sequence-source random` 复现，但它会随机组合任务和初始状态，通常不适合报告成功率。
+
+`eglRendererPlugin` 是 PyBullet/CALVIN 在无显示器服务器上做 GPU headless 渲染的插件，负责更快地渲染相机 RGB/depth 观测。缺失它不改变已训练的 Encoder、CE-WM、VLA 权重，也不改变任务定义；使用 `--no-egl` 会退回 PyBullet DIRECT/TinyRenderer，主要影响是渲染速度可能更慢，视觉观测可能和 EGL 渲染存在轻微数值差异。为了结果可比，同一组主实验和 baseline 应统一使用同一种渲染模式。
 
 ### Step 3: 消融实验
 
@@ -251,7 +289,7 @@ uv run python scripts/evaluate_pareto.py
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
 | `training.batch_size` | 256 | 训练批大小（RTX 3090 24GB 推荐 256） |
-| `training.encoder_epochs` | 100 | Encoder 预训练轮数 |
+| `training.encoder_epochs` | 30 | Encoder 预训练轮数 |
 | `training.ce_wm_epochs` | 200 | CE-WM 预训练轮数 |
 | `training.learning_rate` | 1e-4 | AdamW 学习率 |
 | `training.amp` | true | 混合精度训练 |

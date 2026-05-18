@@ -109,7 +109,7 @@ class PretrainPipeline:
 
         if resume:
             state = self.encoder_ckpt.resume_or_start(
-                self.encoder, optimizer
+                self.encoder, optimizer, map_location=self.device
             )
             start_epoch = state["epoch"]
             global_step = state["global_step"]
@@ -119,6 +119,7 @@ class PretrainPipeline:
         )
 
         total_epochs = self.config.training.encoder_epochs
+        grad_clip_norm = float(getattr(self.config.training, "grad_clip_norm", 0.0) or 0.0)
         losses_history = []
 
         for epoch in range(start_epoch, total_epochs):
@@ -157,7 +158,30 @@ class PretrainPipeline:
 
                     loss = self.infonce_loss(z_anchor, z_positive)
 
+                if not torch.isfinite(loss):
+                    if self.accelerator.is_main_process:
+                        tqdm.write(
+                            f"Skipping non-finite encoder batch at epoch={epoch}, "
+                            f"step={global_step}: loss={loss.item()}"
+                        )
+                    optimizer.zero_grad(set_to_none=True)
+                    continue
+
                 self.accelerator.backward(loss)
+                if grad_clip_norm > 0:
+                    self.accelerator.clip_grad_norm_(encoder.parameters(), grad_clip_norm)
+                grads_finite = all(
+                    p.grad is None or torch.isfinite(p.grad).all()
+                    for p in encoder.parameters()
+                )
+                if not grads_finite:
+                    if self.accelerator.is_main_process:
+                        tqdm.write(
+                            f"Skipping encoder step with non-finite gradients at "
+                            f"epoch={epoch}, step={global_step}"
+                        )
+                    optimizer.zero_grad(set_to_none=True)
+                    continue
                 optimizer.step()
 
                 epoch_loss += loss.item()
@@ -246,7 +270,7 @@ class PretrainPipeline:
 
         if resume:
             state = self.cewm_ckpt.resume_or_start(
-                self.ce_wm, optimizer
+                self.ce_wm, optimizer, map_location=self.device
             )
             start_epoch = state["epoch"]
             global_step = state["global_step"]
@@ -256,6 +280,7 @@ class PretrainPipeline:
         )
 
         total_epochs = self.config.training.ce_wm_epochs
+        grad_clip_norm = float(getattr(self.config.training, "grad_clip_norm", 0.0) or 0.0)
         losses_history = []
         energy_history: List[Dict[str, float]] = []  # 每 epoch 的能量统计
         energy_pos_accum = []  # 仅最后 epoch，用于最终详细报告
@@ -335,7 +360,32 @@ class PretrainPipeline:
 
                     loss = self.nce_loss(energy_pos, energy_neg)
 
+                if not torch.isfinite(loss):
+                    if self.accelerator.is_main_process:
+                        tqdm.write(
+                            f"Skipping non-finite CE-WM batch at epoch={epoch}, "
+                            f"step={global_step}: loss={loss.item()}, "
+                            f"energy_pos_finite={torch.isfinite(energy_pos).all().item()}, "
+                            f"energy_neg_finite={torch.isfinite(energy_neg).all().item()}"
+                        )
+                    optimizer.zero_grad(set_to_none=True)
+                    continue
+
                 self.accelerator.backward(loss)
+                if grad_clip_norm > 0:
+                    self.accelerator.clip_grad_norm_(ce_wm.parameters(), grad_clip_norm)
+                grads_finite = all(
+                    p.grad is None or torch.isfinite(p.grad).all()
+                    for p in ce_wm.parameters()
+                )
+                if not grads_finite:
+                    if self.accelerator.is_main_process:
+                        tqdm.write(
+                            f"Skipping CE-WM step with non-finite gradients at "
+                            f"epoch={epoch}, step={global_step}"
+                        )
+                    optimizer.zero_grad(set_to_none=True)
+                    continue
                 optimizer.step()
 
                 epoch_loss += loss.item()

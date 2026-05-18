@@ -1,0 +1,563 @@
+{
+  "config": {
+    "n_chains": 1,
+    "chain_length": 1,
+    "max_steps_per_task": 5,
+    "seed": 42,
+    "vla_type": "proxy",
+    "device": "cuda:0",
+    "requested_device": "cuda:0",
+    "cuda_visible_devices": null,
+    "egl_visible_devices": null,
+    "use_egl": false,
+    "methods": [],
+    "sequence_source": "official",
+    "encoder_ckpt": null,
+    "cewm_ckpt": null,
+    "calvin_policy_ckpt": null,
+    "calvin_train_folder": null,
+    "calvin_dataset_path": "data/task_ABC_D"
+  },
+  "results": {},
+  "diagnostics": {
+    "expert_replay": {
+      "success_rate": 0.92,
+      "successes": 46,
+      "total": 50,
+      "per_task": {
+        "open_drawer": {
+          "success": 4,
+          "total": 4
+        },
+        "turn_on_led": {
+          "success": 4,
+          "total": 4
+        },
+        "lift_blue_block_slider": {
+          "success": 2,
+          "total": 2
+        },
+        "move_slider_left": {
+          "success": 4,
+          "total": 4
+        },
+        "lift_red_block_slider": {
+          "success": 1,
+          "total": 1
+        },
+        "place_in_drawer": {
+          "success": 5,
+          "total": 5
+        },
+        "close_drawer": {
+          "success": 4,
+          "total": 4
+        },
+        "lift_pink_block_table": {
+          "success": 2,
+          "total": 2
+        },
+        "place_in_slider": {
+          "success": 4,
+          "total": 4
+        },
+        "turn_on_lightbulb": {
+          "success": 4,
+          "total": 4
+        },
+        "turn_off_led": {
+          "success": 0,
+          "total": 2
+        },
+        "lift_blue_block_table": {
+          "success": 1,
+          "total": 1
+        },
+        "lift_pink_block_slider": {
+          "success": 2,
+          "total": 2
+        },
+        "turn_off_lightbulb": {
+          "success": 1,
+          "total": 1
+        },
+        "move_slider_right": {
+          "success": 2,
+          "total": 2
+        },
+        "lift_blue_block_drawer": {
+          "success": 2,
+          "total": 2
+        },
+        "lift_red_block_drawer": {
+          "success": 2,
+          "total": 2
+        },
+        "push_red_block_right": {
+          "success": 0,
+          "total": 2
+        },
+        "lift_pink_block_drawer": {
+          "success": 1,
+          "total": 1
+        },
+        "lift_red_block_table": {
+          "success": 1,
+          "total": 1
+        }
+      },
+      "episodes": [
+        {
+          "task": "open_drawer",
+          "instruction": "open the drawer",
+          "start": 40,
+          "end": 104,
+          "steps": 62,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "open_drawer",
+          "instruction": "grasp the handle of the drawer, then open it",
+          "start": 48,
+          "end": 112,
+          "steps": 54,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "turn_on_led",
+          "instruction": "toggle the button to turn on the led light",
+          "start": 152,
+          "end": 216,
+          "steps": 60,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "turn_on_led",
+          "instruction": "push down the button to turn on the led light",
+          "start": 160,
+          "end": 224,
+          "steps": 52,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "lift_blue_block_slider",
+          "instruction": "lift the blue block lying in the sliding cabinet",
+          "start": 264,
+          "end": 328,
+          "steps": 63,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "lift_blue_block_slider",
+          "instruction": "in the sliding cabinet grasp the blue block",
+          "start": 272,
+          "end": 336,
+          "steps": 55,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "move_slider_left",
+          "instruction": "grasp the door handle and slide the door to the left",
+          "start": 376,
+          "end": 440,
+          "steps": 61,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "move_slider_left",
+          "instruction": "move the door all the way to the left",
+          "start": 384,
+          "end": 448,
+          "steps": 53,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "lift_red_block_slider",
+          "instruction": "pick up the red block from the sliding cabinet",
+          "start": 480,
+          "end": 544,
+          "steps": 57,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "place_in_drawer",
+          "instruction": "store the object in the drawer",
+          "start": 536,
+          "end": 600,
+          "steps": 63,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "place_in_drawer",
+          "instruction": "place the grasped object in the drawer",
+          "start": 544,
+          "end": 608,
+          "steps": 55,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "close_drawer",
+          "instruction": "go close the drawer",
+          "start": 600,
+          "end": 664,
+          "steps": 62,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "close_drawer",
+          "instruction": "grasp the handle of the drawer and close it",
+          "start": 608,
+          "end": 672,
+          "steps": 54,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "lift_pink_block_table",
+          "instruction": "grasp the pink block on the table, then lift it up",
+          "start": 752,
+          "end": 816,
+          "steps": 62,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "lift_pink_block_table",
+          "instruction": "grasp the pink block and lift it up",
+          "start": 760,
+          "end": 824,
+          "steps": 53,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "place_in_slider",
+          "instruction": "place the block in the slider",
+          "start": 809,
+          "end": 856,
+          "steps": 41,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "place_in_slider",
+          "instruction": "put the object in the cabinet",
+          "start": 820,
+          "end": 864,
+          "steps": 30,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "turn_on_lightbulb",
+          "instruction": "turn on the light bulb",
+          "start": 860,
+          "end": 896,
+          "steps": 36,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "turn_on_lightbulb",
+          "instruction": "move the light switch to turn on the light bulb",
+          "start": 864,
+          "end": 904,
+          "steps": 32,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "turn_off_led",
+          "instruction": "turn off the led lamp",
+          "start": 904,
+          "end": 968,
+          "steps": 65,
+          "success": false,
+          "error": null
+        },
+        {
+          "task": "turn_off_led",
+          "instruction": "push down the button to turn off the green light",
+          "start": 912,
+          "end": 976,
+          "steps": 65,
+          "success": false,
+          "error": null
+        },
+        {
+          "task": "lift_blue_block_table",
+          "instruction": "grasp the blue block on the table and lift it up",
+          "start": 984,
+          "end": 1048,
+          "steps": 57,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "open_drawer",
+          "instruction": "grasp the handle of the drawer, then open it",
+          "start": 1144,
+          "end": 1208,
+          "steps": 61,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "open_drawer",
+          "instruction": "open the drawer",
+          "start": 1152,
+          "end": 1216,
+          "steps": 53,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "place_in_drawer",
+          "instruction": "place the grasped object in the drawer",
+          "start": 1284,
+          "end": 1320,
+          "steps": 35,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "place_in_drawer",
+          "instruction": "store the block in the drawer",
+          "start": 1294,
+          "end": 1328,
+          "steps": 25,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "lift_pink_block_slider",
+          "instruction": "in the cabinet pick up the pink block",
+          "start": 1336,
+          "end": 1400,
+          "steps": 63,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "lift_pink_block_slider",
+          "instruction": "lift the pink block lying in the slider",
+          "start": 1344,
+          "end": 1408,
+          "steps": 55,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "place_in_drawer",
+          "instruction": "place the grasped object in the drawer",
+          "start": 1392,
+          "end": 1456,
+          "steps": 57,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "turn_off_lightbulb",
+          "instruction": "move down the switch",
+          "start": 1488,
+          "end": 1552,
+          "steps": 54,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "move_slider_right",
+          "instruction": "move the door all the way to the right and let go",
+          "start": 1600,
+          "end": 1664,
+          "steps": 60,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "move_slider_right",
+          "instruction": "grasp the door handle and move the door to the right",
+          "start": 1608,
+          "end": 1672,
+          "steps": 52,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "close_drawer",
+          "instruction": "push the drawer",
+          "start": 1712,
+          "end": 1776,
+          "steps": 61,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "close_drawer",
+          "instruction": "go close the drawer",
+          "start": 1720,
+          "end": 1784,
+          "steps": 53,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "turn_on_led",
+          "instruction": "turn on the led light",
+          "start": 1776,
+          "end": 1840,
+          "steps": 59,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "turn_on_led",
+          "instruction": "turn on the green light",
+          "start": 1784,
+          "end": 1848,
+          "steps": 51,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "move_slider_left",
+          "instruction": "grasp the door handle, then slide the door to the left",
+          "start": 1872,
+          "end": 1936,
+          "steps": 60,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "move_slider_left",
+          "instruction": "grasp the door handle, then move the door to the left",
+          "start": 1880,
+          "end": 1944,
+          "steps": 52,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "turn_on_lightbulb",
+          "instruction": "push the switch upwards",
+          "start": 1960,
+          "end": 2024,
+          "steps": 63,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "turn_on_lightbulb",
+          "instruction": "toggle the light switch to turn on the yellow light",
+          "start": 1968,
+          "end": 2032,
+          "steps": 55,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "lift_blue_block_drawer",
+          "instruction": "grasp the blue block from the drawer",
+          "start": 2136,
+          "end": 2200,
+          "steps": 63,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "lift_blue_block_drawer",
+          "instruction": "lift the blue block lying in the drawer",
+          "start": 2144,
+          "end": 2208,
+          "steps": 55,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "place_in_slider",
+          "instruction": "place the object in the sliding cabinet",
+          "start": 2192,
+          "end": 2256,
+          "steps": 60,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "place_in_slider",
+          "instruction": "place the block in the sliding cabinet",
+          "start": 2200,
+          "end": 2264,
+          "steps": 52,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "lift_red_block_drawer",
+          "instruction": "grasp the red block from the drawer",
+          "start": 2256,
+          "end": 2320,
+          "steps": 62,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "lift_red_block_drawer",
+          "instruction": "go towards the red block in the drawer and pick it up",
+          "start": 2264,
+          "end": 2328,
+          "steps": 54,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "push_red_block_right",
+          "instruction": "push the red block to the right",
+          "start": 2352,
+          "end": 2416,
+          "steps": 65,
+          "success": false,
+          "error": null
+        },
+        {
+          "task": "push_red_block_right",
+          "instruction": "go slide the red block to the right",
+          "start": 2360,
+          "end": 2424,
+          "steps": 65,
+          "success": false,
+          "error": null
+        },
+        {
+          "task": "lift_pink_block_drawer",
+          "instruction": "grasp the pink block in the drawer",
+          "start": 2632,
+          "end": 2696,
+          "steps": 57,
+          "success": true,
+          "error": null
+        },
+        {
+          "task": "lift_red_block_table",
+          "instruction": "lift the red block from the table",
+          "start": 2784,
+          "end": 2848,
+          "steps": 57,
+          "success": true,
+          "error": null
+        }
+      ]
+    }
+  }
+}

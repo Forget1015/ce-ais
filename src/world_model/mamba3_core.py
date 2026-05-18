@@ -142,7 +142,7 @@ class Mamba3Block(nn.Module):
         C_raw = self.C_proj(x_branch)
         C_real, C_imag = C_raw.chunk(2, dim=-1)
 
-        dt = F.softplus(self.dt_proj(x_branch))
+        dt = F.softplus(self.dt_proj(x_branch)).clamp(max=1.0)
 
         A_c_real = -torch.exp(self.A_log_real)
         A_c_imag = self.A_log_imag

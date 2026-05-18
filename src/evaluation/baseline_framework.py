@@ -94,6 +94,9 @@ class FrozenOpenVLABaseline(BaselineMethod):
             "hf_token": self.config.get("hf_token"),
             "action_dim": self.config.get("action_dim", 7),
             "chunk_size": self.config.get("chunk_size", 1),
+            "calvin_policy_ckpt": self.config.get("calvin_policy_ckpt"),
+            "calvin_train_folder": self.config.get("calvin_train_folder"),
+            "calvin_dataset_path": self.config.get("calvin_dataset_path"),
         }
         self._adapter = build_vla_adapter(adapter_config)
 
@@ -103,6 +106,38 @@ class FrozenOpenVLABaseline(BaselineMethod):
         if self._adapter is None:
             raise RuntimeError("Call setup() before predict()")
         return self._adapter.predict(observation, instruction)
+
+
+class FrozenCalvinPolicyBaseline(BaselineMethod):
+    """冻结 CALVIN-native policy 基线。"""
+
+    def __init__(self, config: dict):
+        super().__init__("frozen_calvin_policy", config)
+        self._adapter = None
+
+    def setup(self) -> None:
+        logger.info("Setting up Frozen CALVIN policy baseline")
+        from src.dual_stream.vla_adapter import build_vla_adapter
+
+        adapter_config = {
+            "type": "calvin",
+            "device": self.config.get("device", "cuda"),
+            "action_dim": self.config.get("action_dim", 7),
+            "chunk_size": self.config.get("chunk_size", 1),
+            "calvin_policy_ckpt": self.config.get("calvin_policy_ckpt"),
+            "calvin_train_folder": self.config.get("calvin_train_folder"),
+            "calvin_dataset_path": self.config.get("calvin_dataset_path"),
+        }
+        self._adapter = build_vla_adapter(adapter_config)
+
+    def predict(self, observation: dict, instruction: str) -> torch.Tensor:
+        if self._adapter is None:
+            raise RuntimeError("Call setup() before predict()")
+        return self._adapter.predict(observation, instruction)
+
+    def reset_task(self) -> None:
+        if self._adapter is not None and hasattr(self._adapter, "reset"):
+            self._adapter.reset()
 
 
 class PDFBaseline(BaselineMethod):
@@ -136,6 +171,9 @@ class PDFBaseline(BaselineMethod):
             "hf_token": self.config.get("hf_token"),
             "action_dim": action_dim,
             "chunk_size": self.config.get("chunk_size", 1),
+            "calvin_policy_ckpt": self.config.get("calvin_policy_ckpt"),
+            "calvin_train_folder": self.config.get("calvin_train_folder"),
+            "calvin_dataset_path": self.config.get("calvin_dataset_path"),
         }
         self._adapter = build_vla_adapter(adapter_config)
 
@@ -240,6 +278,9 @@ class TTVLABaseline(BaselineMethod):
             "hf_token": self.config.get("hf_token"),
             "action_dim": action_dim,
             "chunk_size": self.config.get("chunk_size", 1),
+            "calvin_policy_ckpt": self.config.get("calvin_policy_ckpt"),
+            "calvin_train_folder": self.config.get("calvin_train_folder"),
+            "calvin_dataset_path": self.config.get("calvin_dataset_path"),
         }
         self._adapter = build_vla_adapter(adapter_config)
 
@@ -369,6 +410,9 @@ class AdaWorldPolicyBaseline(BaselineMethod):
             "hf_token": self.config.get("hf_token"),
             "action_dim": action_dim,
             "chunk_size": self.config.get("chunk_size", 1),
+            "calvin_policy_ckpt": self.config.get("calvin_policy_ckpt"),
+            "calvin_train_folder": self.config.get("calvin_train_folder"),
+            "calvin_dataset_path": self.config.get("calvin_dataset_path"),
         }
         self._adapter = build_vla_adapter(adapter_config)
 
@@ -453,6 +497,7 @@ class AdaWorldPolicyBaseline(BaselineMethod):
 # 基线方法注册表
 BASELINE_REGISTRY: Dict[str, type] = {
     "frozen_openvla": FrozenOpenVLABaseline,
+    "frozen_calvin_policy": FrozenCalvinPolicyBaseline,
     "pdf": PDFBaseline,
     "tt_vla": TTVLABaseline,
     "ada_world_policy": AdaWorldPolicyBaseline,
@@ -523,6 +568,7 @@ class BaselineFramework:
                 policy_fn=method.predict,
                 task_chain=chain,
                 max_steps_per_task=max_steps_per_task,
+                policy_reset_fn=getattr(method, "reset_task", None),
             )
 
             chain_len = result["chain_length"]

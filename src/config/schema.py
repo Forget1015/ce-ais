@@ -69,6 +69,8 @@ class TrainingConfig:
     learning_rate: float = 1e-4
     weight_decay: float = 1e-5
     amp: bool = True
+    mixed_precision: str = "bf16"
+    grad_clip_norm: float = 1.0
     checkpoint_interval: int = 10
     neg_sample_ratio: int = 5
 

@@ -17,6 +17,7 @@ OpenVLA 7B 在 RTX 4090 24GB 上的资源占用：
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import Optional
 
 import numpy as np
@@ -288,12 +289,156 @@ class OpenVLAAdapter(VLAAdapter):
         return self.model.parameters()
 
 
+class CalvinPolicyAdapter(VLAAdapter):
+    """CALVIN-native policy adapter.
+
+    Wraps an official CALVIN policy checkpoint so CE-AIS can use an
+    action-compatible base policy instead of zero-shot OpenVLA actions.
+    """
+
+    def __init__(
+        self,
+        calvin_policy_ckpt: Optional[str] = None,
+        calvin_train_folder: Optional[str] = None,
+        calvin_dataset_path: Optional[str] = None,
+        action_dim: int = 7,
+        chunk_size: int = 1,
+        device: str = "cuda",
+    ):
+        if not calvin_policy_ckpt or not calvin_train_folder:
+            raise ValueError(
+                "CALVIN policy requested but no checkpoint/train folder was provided. "
+                "Pass --calvin-policy-ckpt and --calvin-train-folder."
+            )
+        if not str(device).startswith("cuda"):
+            raise ValueError("CALVIN policy adapter currently requires a CUDA device, e.g. --device cuda:0.")
+
+        self.calvin_policy_ckpt = str(Path(calvin_policy_ckpt))
+        self.calvin_train_folder = str(Path(calvin_train_folder))
+        self.calvin_dataset_path = str(Path(calvin_dataset_path)) if calvin_dataset_path else None
+        self.action_dim = action_dim
+        self.chunk_size = chunk_size
+        self.device = device
+        self.observation_space_keys = None
+        self.transforms = None
+        self.proprio_state = None
+        self.model = self._load_model()
+
+    def _device_id(self) -> int:
+        return int(self.device.split(":", 1)[1]) if ":" in self.device else 0
+
+    def _load_model(self):
+        if self.calvin_dataset_path is None:
+            raise ValueError("CALVIN policy requested but no dataset path was provided. Pass --calvin-dataset-path.")
+        try:
+            from pydoc import locate
+
+            import calvin_agent
+            import hydra
+            from omegaconf import OmegaConf
+        except Exception as exc:
+            raise RuntimeError(
+                "Unable to import official CALVIN policy dependencies. "
+                "Ensure calvin_agent, hydra, and omegaconf are installed/importable before using --vla-type calvin. "
+                f"train_folder={self.calvin_train_folder}, checkpoint={self.calvin_policy_ckpt}"
+            ) from exc
+
+        try:
+            train_cfg_path = Path(self.calvin_train_folder) / ".hydra" / "config.yaml"
+            cfg = OmegaConf.load(train_cfg_path)
+            lang_folder = cfg.datamodule.datasets.lang_dataset.lang_folder
+            calvin_models_dir = Path(calvin_agent.__file__).resolve().parents[1]
+            datasets_conf_dir = calvin_models_dir / "conf" / "datamodule" / "datasets"
+
+            if hydra.core.global_hydra.GlobalHydra.instance().is_initialized():
+                hydra.core.global_hydra.GlobalHydra.instance().clear()
+            with hydra.initialize_config_dir(config_dir=str(datasets_conf_dir), version_base="1.1"):
+                datasets_cfg = hydra.compose(
+                    "vision_lang.yaml", overrides=["lang_dataset.lang_folder=" + str(lang_folder)]
+                )
+            cfg.datamodule.datasets = datasets_cfg
+            cfg.datamodule.root_data_dir = self.calvin_dataset_path
+            data_module = hydra.utils.instantiate(cfg.datamodule, num_workers=0)
+            data_module.prepare_data()
+            data_module.setup()
+            dataset = data_module.val_dataloader().dataset.datasets["lang"]
+            self.observation_space_keys = dataset.observation_space
+            self.transforms = dataset.transforms
+            self.proprio_state = dataset.proprio_state
+
+            model_cls = locate(cfg.model._target_)
+            if model_cls is None:
+                raise RuntimeError(f"Unable to locate CALVIN model class: {cfg.model._target_}")
+            model = model_cls.load_from_checkpoint(self.calvin_policy_ckpt)
+            model.load_lang_embeddings(dataset.abs_datasets_dir / dataset.lang_folder / "embeddings.npy")
+            model.freeze()
+            if cfg.model.action_decoder.get("load_action_bounds", False):
+                model.action_decoder._setup_action_bounds(cfg.datamodule.root_data_dir, None, None, True)
+            model = model.cuda(self._device_id())
+        except Exception as exc:
+            raise RuntimeError(
+                "Failed to load CALVIN policy. "
+                f"train_folder={self.calvin_train_folder}, checkpoint={self.calvin_policy_ckpt}, "
+                f"dataset_path={self.calvin_dataset_path}"
+            ) from exc
+        model.eval()
+        return model
+
+    def _transform_observation(self, raw_obs: dict) -> dict:
+        if self.observation_space_keys is None or self.transforms is None or self.proprio_state is None:
+            raise RuntimeError("CALVIN observation transforms are not initialized.")
+        from calvin_agent.datasets.utils.episode_utils import process_depth, process_rgb, process_state
+
+        device = torch.device(self.device)
+        state_obs = process_state(raw_obs, self.observation_space_keys, self.transforms, self.proprio_state)
+        rgb_obs = process_rgb(raw_obs["rgb_obs"], self.observation_space_keys, self.transforms)
+        depth_obs = process_depth(raw_obs["depth_obs"], self.observation_space_keys, self.transforms)
+        state_obs["robot_obs"] = state_obs["robot_obs"].to(device).unsqueeze(0)
+        rgb_obs.update({"rgb_obs": {k: v.to(device).unsqueeze(0) for k, v in rgb_obs["rgb_obs"].items()}})
+        depth_obs.update({"depth_obs": {k: v.to(device).unsqueeze(0) for k, v in depth_obs["depth_obs"].items()}})
+        return {
+            **rgb_obs,
+            **state_obs,
+            **depth_obs,
+            "robot_obs_raw": torch.from_numpy(raw_obs["robot_obs"]).to(device),
+        }
+
+    @torch.no_grad()
+    def predict(self, observation: dict, instruction: str) -> torch.Tensor:
+        raw_obs = observation.get("raw_calvin_obs")
+        if raw_obs is None:
+            raise ValueError("CALVIN policy requires observation['raw_calvin_obs'] from CALVINWrapper.")
+        model_obs = self._transform_observation(raw_obs)
+        action = self.model.step(model_obs, instruction)
+        action = torch.as_tensor(action, dtype=torch.float32, device=self.device)
+        if action.dim() == 1:
+            action = action.unsqueeze(0)
+        elif action.dim() > 2:
+            action = action[:, 0, :]
+        action = action[:, :self.action_dim]
+        if self.chunk_size > 1:
+            action = action.unsqueeze(1).expand(-1, self.chunk_size, -1).clone()
+        else:
+            action = action.unsqueeze(1)
+        return action
+
+    def reset(self) -> None:
+        if hasattr(self.model, "reset"):
+            self.model.reset()
+
+    def parameters(self):
+        if hasattr(self.model, "parameters"):
+            return self.model.parameters()
+        return iter(())
+
+
 def build_vla_adapter(config: dict) -> VLAAdapter:
     """工厂函数：根据配置构造 VLA adapter。
 
     config 字段：
-        type: "openvla" | "proxy"
+        type: "openvla" | "proxy" | "calvin"
         model_path / dtype / load_in_8bit / load_in_4bit / unnorm_key / device
+        calvin_policy_ckpt / calvin_train_folder / calvin_dataset_path
         action_dim / chunk_size
     """
     vla_type = config.get("type", "proxy")
@@ -314,5 +459,12 @@ def build_vla_adapter(config: dict) -> VLAAdapter:
         )
     elif vla_type == "proxy":
         return ProxyVLAAdapter(seed=config.get("seed", 42), **common)
+    elif vla_type == "calvin":
+        return CalvinPolicyAdapter(
+            calvin_policy_ckpt=config.get("calvin_policy_ckpt"),
+            calvin_train_folder=config.get("calvin_train_folder"),
+            calvin_dataset_path=config.get("calvin_dataset_path"),
+            **common,
+        )
     else:
         raise ValueError(f"Unknown vla type: {vla_type}")

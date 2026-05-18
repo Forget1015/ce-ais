@@ -1,0 +1,17 @@
+{
+  "config": {
+    "n_chains": 0,
+    "chain_length": 5,
+    "max_steps_per_task": 300,
+    "seed": 42,
+    "vla_type": "openvla",
+    "device": "cuda:0",
+    "requested_device": "cuda:0",
+    "cuda_visible_devices": "0",
+    "use_egl": true,
+    "methods": [],
+    "encoder_ckpt": "checkpoints/encoder_epoch0044.pt",
+    "cewm_ckpt": "checkpoints/cewm_epoch0015.pt"
+  },
+  "results": {}
+}
