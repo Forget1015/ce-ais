@@ -97,6 +97,8 @@ class FrozenOpenVLABaseline(BaselineMethod):
             "calvin_policy_ckpt": self.config.get("calvin_policy_ckpt"),
             "calvin_train_folder": self.config.get("calvin_train_folder"),
             "calvin_dataset_path": self.config.get("calvin_dataset_path"),
+            "flower_checkpoint_dir": self.config.get("flower_checkpoint_dir"),
+            "flower_code_path": self.config.get("flower_code_path"),
         }
         self._adapter = build_vla_adapter(adapter_config)
 
@@ -106,6 +108,10 @@ class FrozenOpenVLABaseline(BaselineMethod):
         if self._adapter is None:
             raise RuntimeError("Call setup() before predict()")
         return self._adapter.predict(observation, instruction)
+
+    def reset_task(self) -> None:
+        if self._adapter is not None and hasattr(self._adapter, "reset"):
+            self._adapter.reset()
 
 
 class FrozenCalvinPolicyBaseline(BaselineMethod):
@@ -127,6 +133,8 @@ class FrozenCalvinPolicyBaseline(BaselineMethod):
             "calvin_policy_ckpt": self.config.get("calvin_policy_ckpt"),
             "calvin_train_folder": self.config.get("calvin_train_folder"),
             "calvin_dataset_path": self.config.get("calvin_dataset_path"),
+            "flower_checkpoint_dir": self.config.get("flower_checkpoint_dir"),
+            "flower_code_path": self.config.get("flower_code_path"),
         }
         self._adapter = build_vla_adapter(adapter_config)
 
@@ -174,6 +182,8 @@ class PDFBaseline(BaselineMethod):
             "calvin_policy_ckpt": self.config.get("calvin_policy_ckpt"),
             "calvin_train_folder": self.config.get("calvin_train_folder"),
             "calvin_dataset_path": self.config.get("calvin_dataset_path"),
+            "flower_checkpoint_dir": self.config.get("flower_checkpoint_dir"),
+            "flower_code_path": self.config.get("flower_code_path"),
         }
         self._adapter = build_vla_adapter(adapter_config)
 
@@ -281,6 +291,8 @@ class TTVLABaseline(BaselineMethod):
             "calvin_policy_ckpt": self.config.get("calvin_policy_ckpt"),
             "calvin_train_folder": self.config.get("calvin_train_folder"),
             "calvin_dataset_path": self.config.get("calvin_dataset_path"),
+            "flower_checkpoint_dir": self.config.get("flower_checkpoint_dir"),
+            "flower_code_path": self.config.get("flower_code_path"),
         }
         self._adapter = build_vla_adapter(adapter_config)
 
@@ -413,6 +425,8 @@ class AdaWorldPolicyBaseline(BaselineMethod):
             "calvin_policy_ckpt": self.config.get("calvin_policy_ckpt"),
             "calvin_train_folder": self.config.get("calvin_train_folder"),
             "calvin_dataset_path": self.config.get("calvin_dataset_path"),
+            "flower_checkpoint_dir": self.config.get("flower_checkpoint_dir"),
+            "flower_code_path": self.config.get("flower_code_path"),
         }
         self._adapter = build_vla_adapter(adapter_config)
 
@@ -497,6 +511,7 @@ class AdaWorldPolicyBaseline(BaselineMethod):
 # 基线方法注册表
 BASELINE_REGISTRY: Dict[str, type] = {
     "frozen_openvla": FrozenOpenVLABaseline,
+    "frozen_flower": FrozenOpenVLABaseline,
     "frozen_calvin_policy": FrozenCalvinPolicyBaseline,
     "pdf": PDFBaseline,
     "tt_vla": TTVLABaseline,

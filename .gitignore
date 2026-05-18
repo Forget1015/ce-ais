@@ -3,6 +3,8 @@ data/
 !src/data/
 checkpoints/
 checkpoints_sub/
+external/flower_vla_calvin/calvin_env/
+external/flower_vla_calvin/LIBERO/
 # 虚拟环境
 .venv/
 

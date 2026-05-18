@@ -42,7 +42,7 @@ def parse_args():
     parser.add_argument("--output-dir", type=str,
                         default=os.path.join(PROJECT_ROOT, "results"))
     parser.add_argument("--vla-type", type=str, default="proxy",
-                        choices=["openvla", "proxy", "calvin"])
+                        choices=["openvla", "proxy", "calvin", "flower"])
     parser.add_argument("--no-egl", action="store_true",
                         help="Disable PyBullet EGL plugin and use DIRECT/TinyRenderer")
     parser.add_argument("--device", type=str, default=None,
@@ -61,6 +61,11 @@ def parse_args():
                         help="CALVIN policy training folder containing .hydra/config.yaml")
     parser.add_argument("--calvin-dataset-path", type=str, default=None,
                         help="Dataset path for official CALVIN policy loading. Defaults to --data-dir")
+    parser.add_argument("--flower-checkpoint-dir", type=str,
+                        default=os.path.join(PROJECT_ROOT, "data", "flower_calvin_abc"),
+                        help="FLOWER VLA checkpoint directory containing config.yaml and model.safetensors")
+    parser.add_argument("--flower-code-path", type=str, default=None,
+                        help="External FLOWER VLA code checkout path")
     parser.add_argument("--run-expert-replay-diagnostic", action="store_true",
                         help="Replay validation rel_actions to sanity-check env/oracle/action plumbing")
     parser.add_argument("--expert-replay-episodes", type=int, default=5,
@@ -522,6 +527,8 @@ def main():
         "calvin_policy_ckpt": args.calvin_policy_ckpt,
         "calvin_train_folder": args.calvin_train_folder,
         "calvin_dataset_path": args.calvin_dataset_path or args.data_dir,
+        "flower_checkpoint_dir": args.flower_checkpoint_dir,
+        "flower_code_path": args.flower_code_path,
     }
 
     all_method_results = {}

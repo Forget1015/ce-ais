@@ -13,6 +13,7 @@ import pytest
 from src.dual_stream.vla_adapter import (
     ProxyVLAAdapter,
     OpenVLAAdapter,
+    FlowerVLAAdapter,
     build_vla_adapter,
 )
 
@@ -101,6 +102,22 @@ class TestBuildVLAAdapter:
     def test_build_unknown_raises(self):
         with pytest.raises(ValueError, match="Unknown vla type"):
             build_vla_adapter({"type": "nonexistent", "device": "cpu"})
+
+    def test_build_flower_missing_checkpoint_raises(self, tmp_path):
+        with pytest.raises(RuntimeError, match="FLOWER checkpoint files missing"):
+            build_vla_adapter({
+                "type": "flower",
+                "device": "cpu",
+                "flower_checkpoint_dir": str(tmp_path / "missing_flower"),
+            })
+
+
+class TestFlowerVLAAdapter:
+
+    def test_state_prefix_stripping(self):
+        assert FlowerVLAAdapter._strip_state_prefix("model.backbone.weight") == "backbone.weight"
+        assert FlowerVLAAdapter._strip_state_prefix("module.head.bias") == "head.bias"
+        assert FlowerVLAAdapter._strip_state_prefix("plain.weight") == "plain.weight"
 
 
 class TestOpenVLAAdapter:

@@ -19,10 +19,12 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Optional
+import sys
 
 import numpy as np
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 
 
 class VLAAdapter(ABC):
@@ -289,6 +291,172 @@ class OpenVLAAdapter(VLAAdapter):
         return self.model.parameters()
 
 
+class FlowerVLAAdapter(VLAAdapter):
+    """FLOWER VLA adapter for CALVIN ABC->D checkpoints."""
+
+    def __init__(
+        self,
+        flower_checkpoint_dir: Optional[str] = None,
+        flower_code_path: Optional[str] = None,
+        action_dim: int = 7,
+        chunk_size: int = 1,
+        device: str = "cuda",
+    ):
+        repo_root = Path(__file__).resolve().parents[2]
+        self.checkpoint_dir = Path(flower_checkpoint_dir or repo_root / "data" / "flower_calvin_abc").expanduser()
+        if not self.checkpoint_dir.is_absolute():
+            self.checkpoint_dir = repo_root / self.checkpoint_dir
+        self.flower_code_path = Path(flower_code_path).expanduser() if flower_code_path else None
+        self.action_dim = action_dim
+        self.chunk_size = chunk_size
+        self.device = device
+        self.mean = torch.tensor([0.48145466, 0.4578275, 0.40821073], dtype=torch.float32).view(1, 1, 3, 1, 1)
+        self.std = torch.tensor([0.26862954, 0.26130258, 0.27577711], dtype=torch.float32).view(1, 1, 3, 1, 1)
+        self.model = self._load_model()
+
+    def _load_model(self):
+        config_path = self.checkpoint_dir / "config.yaml"
+        weights_path = self.checkpoint_dir / "model.safetensors"
+        missing = [str(p) for p in (config_path, weights_path) if not p.exists()]
+        if missing:
+            raise RuntimeError(f"FLOWER checkpoint files missing: {missing}")
+
+        if self.flower_code_path is not None:
+            if not self.flower_code_path.exists():
+                raise RuntimeError(f"FLOWER code path does not exist: {self.flower_code_path}")
+            code_path = str(self.flower_code_path)
+            if code_path not in sys.path:
+                sys.path.insert(0, code_path)
+
+        try:
+            import hydra
+            from omegaconf import OmegaConf
+        except Exception as exc:
+            raise RuntimeError(
+                "FLOWER adapter requires the external FLOWER repo dependencies plus safetensors. "
+                "Pass --flower-code-path <flower_vla_calvin_repo> and install its environment."
+            ) from exc
+
+        try:
+            cfg = OmegaConf.load(config_path)
+            if OmegaConf.select(cfg, "model.load_pretrained") is not None:
+                cfg.model.load_pretrained = True
+            if OmegaConf.select(cfg, "model.pretrained_model_path") is not None:
+                cfg.model.pretrained_model_path = str(weights_path)
+            model = hydra.utils.instantiate(cfg.model)
+            self._load_flower_compat_weights(model, weights_path)
+            model.to(self.device)
+            model.eval()
+            for p in model.parameters():
+                p.requires_grad = False
+            return model
+        except Exception as exc:
+            raise RuntimeError(
+                f"Failed to load FLOWER VLA from {self.checkpoint_dir}. "
+                "Verify that --flower-code-path points to the official FLOWER code and matches this checkpoint."
+            ) from exc
+
+    @staticmethod
+    def _strip_state_prefix(key: str) -> str:
+        for prefix in ("model.", "module.", "ema_model.", "_orig_mod."):
+            if key.startswith(prefix):
+                return key[len(prefix):]
+        return key
+
+    @staticmethod
+    def _load_flower_compat_weights(model, weights_path: Path) -> None:
+        if weights_path.suffix != ".safetensors":
+            return
+        try:
+            from safetensors.torch import load_file
+        except Exception:
+            return
+        state_dict = load_file(str(weights_path), device="cpu")
+        remapped = {}
+        key_map = {
+            "vlm.language_final_logits_bias": "vlm.language_model.final_logits_bias",
+            "vlm.language_shared.weight": "vlm.language_model.model.shared.weight",
+        }
+        model_state = model.state_dict()
+        for old_key, new_key in key_map.items():
+            if old_key in state_dict and new_key in model_state and state_dict[old_key].shape == model_state[new_key].shape:
+                remapped[new_key] = state_dict[old_key]
+        if remapped:
+            model.load_state_dict(remapped, strict=False)
+
+    def _image_to_tensor(self, image) -> torch.Tensor:
+        if isinstance(image, np.ndarray):
+            tensor = torch.from_numpy(image)
+        elif isinstance(image, torch.Tensor):
+            tensor = image.detach().cpu()
+        else:
+            raise TypeError(f"Unsupported FLOWER image type: {type(image)!r}")
+        tensor = tensor.float()
+        if tensor.dim() == 3 and tensor.shape[-1] == 3:
+            tensor = tensor.permute(2, 0, 1)
+        if tensor.dim() != 3:
+            raise ValueError(f"Expected image shape [H,W,3] or [3,H,W], got {tuple(tensor.shape)}")
+        if tensor.max() > 1.0:
+            tensor = tensor / 255.0
+        tensor = tensor.unsqueeze(0)
+        tensor = F.interpolate(tensor, size=(224, 224), mode="bilinear", align_corners=False)
+        tensor = tensor.unsqueeze(1).to(self.device)
+        return (tensor - self.mean.to(self.device)) / self.std.to(self.device)
+
+    def _build_obs(self, observation: dict) -> dict:
+        raw_obs = observation.get("raw_calvin_obs")
+        if raw_obs is None:
+            raise ValueError("FLOWER VLA requires observation['raw_calvin_obs'] from CALVINWrapper.")
+        rgb_obs = raw_obs.get("rgb_obs")
+        if not isinstance(rgb_obs, dict):
+            raise ValueError("FLOWER VLA requires raw_calvin_obs['rgb_obs'] with static and gripper cameras.")
+        static = rgb_obs.get("rgb_static")
+        gripper = rgb_obs.get("rgb_gripper")
+        if static is None or gripper is None:
+            raise ValueError("FLOWER VLA requires both rgb_static and rgb_gripper observations.")
+        return {
+            "rgb_obs": {
+                "rgb_static": self._image_to_tensor(static),
+                "rgb_gripper": self._image_to_tensor(gripper),
+            }
+        }
+
+    @torch.no_grad()
+    def predict(self, observation: dict, instruction: str) -> torch.Tensor:
+        model_obs = self._build_obs(observation)
+        goal = {"lang_text": instruction}
+        if not hasattr(self.model, "step"):
+            raise RuntimeError("Loaded FLOWER model does not expose step(obs, goal); check FLOWER code version.")
+        action = self.model.step(model_obs, goal)
+        if isinstance(action, dict):
+            action = action.get("action", action.get("actions"))
+        if isinstance(action, tuple):
+            action = action[0]
+        if action is None:
+            raise RuntimeError("FLOWER model returned no action.")
+        action = torch.as_tensor(action, dtype=torch.float32, device=self.device)
+        if action.dim() == 1:
+            action = action.view(1, 1, -1)
+        elif action.dim() == 2:
+            action = action.unsqueeze(0) if action.shape[-1] == self.action_dim else action.unsqueeze(1)
+        elif action.dim() > 3:
+            action = action.view(action.shape[0], -1, action.shape[-1])
+        action = action[..., :self.action_dim]
+        if action.shape[1] > self.chunk_size:
+            action = action[:, :self.chunk_size, :]
+        elif action.shape[1] < self.chunk_size:
+            pad = action[:, -1:, :].expand(-1, self.chunk_size - action.shape[1], -1)
+            action = torch.cat([action, pad], dim=1)
+        return action
+
+    def reset(self) -> None:
+        if hasattr(self.model, "reset"):
+            self.model.reset()
+
+    def parameters(self):
+        return self.model.parameters()
+
+
 class CalvinPolicyAdapter(VLAAdapter):
     """CALVIN-native policy adapter.
 
@@ -436,9 +604,10 @@ def build_vla_adapter(config: dict) -> VLAAdapter:
     """工厂函数：根据配置构造 VLA adapter。
 
     config 字段：
-        type: "openvla" | "proxy" | "calvin"
+        type: "openvla" | "proxy" | "calvin" | "flower"
         model_path / dtype / load_in_8bit / load_in_4bit / unnorm_key / device
         calvin_policy_ckpt / calvin_train_folder / calvin_dataset_path
+        flower_checkpoint_dir / flower_code_path
         action_dim / chunk_size
     """
     vla_type = config.get("type", "proxy")
@@ -459,6 +628,12 @@ def build_vla_adapter(config: dict) -> VLAAdapter:
         )
     elif vla_type == "proxy":
         return ProxyVLAAdapter(seed=config.get("seed", 42), **common)
+    elif vla_type == "flower":
+        return FlowerVLAAdapter(
+            flower_checkpoint_dir=config.get("flower_checkpoint_dir"),
+            flower_code_path=config.get("flower_code_path"),
+            **common,
+        )
     elif vla_type == "calvin":
         return CalvinPolicyAdapter(
             calvin_policy_ckpt=config.get("calvin_policy_ckpt"),
