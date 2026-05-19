@@ -46,22 +46,33 @@ ce_wm:
 # EFE 引导偏转 (退火朗之万动力学)
 # ============================================================
 steering:
-  n_steps: 5                      # 朗之万迭代步数
-  step_size: 0.01                 # 初始步长 ε_0
+  n_steps: 1                      # 安全默认：先做轻量修正，避免破坏强 VLA 先验
+  step_size: 0.003                # 初始步长 ε_0
   anneal_rate: 0.5                # 退火率 α (ε_k = ε_0 · α^k)
-  noise_scale: 0.001              # 探索噪声强度
-  kl_weight: 10.0                 # KL 散度权重 (1/σ²)
+  noise_scale: 0.0                # 默认关闭随机探索，优先保证 clean non-degradation
+  kl_weight: 50.0                 # 更强地约束动作靠近 VLA 输出
   grad_mode: "finite_diff"        # 梯度模式: finite_diff (快) 或 autograd (精确)
+  enable_trust_region: true       # 限制相对 VLA 动作的最大偏移
+  action_delta_max: 0.05          # 每个动作维度允许的最大偏移
+  enable_accept_reject: true      # 能量没有改善时回退到 VLA 原动作
+  accept_energy_margin: 0.0       # energy_after <= energy_before - margin 才接受
+  diagnostics: true               # 输出干预率、能量变化等诊断
+  mode: "langevin"                # 可选: langevin, rerank
+  candidate_count: 0              # rerank 模式候选数量，0 表示不启用
+  candidate_noise_std: 0.01       # rerank 候选扰动标准差
+  deviation_weight: 10.0          # rerank 中动作偏离惩罚
 
 # ============================================================
 # 双向不确定性门控 (Bilateral Epistemic Uncertainty Gating)
 # ============================================================
 bilateral_gating:
-  lambda_max: 1.0                 # 最大引导强度
+  lambda_max: 0.2                 # 安全默认：限制最大引导强度
   sensitivity: 0.1                # 门控灵敏度 σ_u
   window_size: 50                 # 历史不确定性窗口长度
   uncertainty_method: "mc_dropout" # 可选: mc_dropout, state_covariance
   mc_samples: 5                   # MC-Dropout 采样次数
+  hard_uncertainty_threshold: null # 超过阈值时直接 abstain；null 表示关闭
+  min_lambda: 0.0                 # 小于该强度时直接使用 VLA prior
 
 # ============================================================
 # 训练超参数
@@ -79,6 +90,12 @@ training:
   grad_clip_norm: 1.0             # 防止 CE-WM 能量模型梯度爆炸
   checkpoint_interval: 1         # 每 N 个 epoch 保存检查点
   neg_sample_ratio: 5             # 负样本比例 K
+  energy_reg_weight: 1.0e-4       # 能量尺度正则，防止 margin 爆炸
+  target_margin: 5.0              # 期望能量 margin 上界目标
+  min_margin: 1.0                 # 最小有效能量 margin
+  margin_upper_weight: 1.0e-2     # margin 过大惩罚
+  margin_lower_weight: 1.0        # margin 不足惩罚
+  monitor_action_grad_norm: true  # 记录 CE-WM 参数梯度范数诊断
 
 # ============================================================
 # 评估参数

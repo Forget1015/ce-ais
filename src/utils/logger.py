@@ -198,6 +198,7 @@ class Logger:
         pos_mean: float,
         neg_mean: float,
         margin: float,
+        extra: Optional[Dict[str, Any]] = None,
     ) -> None:
         """记录单 epoch 末的能量分布统计。
 
@@ -215,6 +216,8 @@ class Logger:
             "neg_energy_mean": neg_mean,
             "energy_margin": margin,
         }
+        if extra:
+            record.update(extra)
         self._append_jsonl(self._train_log_path, record)
 
         self._logger.info(
@@ -226,18 +229,23 @@ class Logger:
             self._tb_writer.add_scalar("energy/pos_mean", pos_mean, epoch)
             self._tb_writer.add_scalar("energy/neg_mean", neg_mean, epoch)
             self._tb_writer.add_scalar("energy/margin", margin, epoch)
+            if extra:
+                for key, value in extra.items():
+                    if isinstance(value, (int, float)):
+                        self._tb_writer.add_scalar(f"energy/{key}", value, epoch)
 
         if self._wandb_run is not None:
             try:
                 import wandb as _wandb
-                _wandb.log(
-                    {
-                        "energy/pos_mean": pos_mean,
-                        "energy/neg_mean": neg_mean,
-                        "energy/margin": margin,
-                        "epoch": epoch,
-                    }
-                )
+                payload = {
+                    "energy/pos_mean": pos_mean,
+                    "energy/neg_mean": neg_mean,
+                    "energy/margin": margin,
+                    "epoch": epoch,
+                }
+                if extra:
+                    payload.update({f"energy/{k}": v for k, v in extra.items()})
+                _wandb.log(payload)
             except Exception:
                 pass
 

@@ -34,6 +34,15 @@ class EFESteering(nn.Module):
         self.noise_scale = config.noise_scale
         self.kl_weight = config.kl_weight
         self.grad_mode = getattr(config, "grad_mode", "finite_diff")
+        self.enable_trust_region = getattr(config, "enable_trust_region", True)
+        self.action_delta_max = float(getattr(config, "action_delta_max", 0.05))
+        self.enable_accept_reject = getattr(config, "enable_accept_reject", True)
+        self.accept_energy_margin = float(getattr(config, "accept_energy_margin", 0.0))
+        self.diagnostics = getattr(config, "diagnostics", True)
+        self.mode = getattr(config, "mode", "langevin")
+        self.candidate_count = int(getattr(config, "candidate_count", 0) or 0)
+        self.candidate_noise_std = float(getattr(config, "candidate_noise_std", 0.01))
+        self.deviation_weight = float(getattr(config, "deviation_weight", 10.0))
 
     def steer(
         self,
@@ -53,7 +62,10 @@ class EFESteering(nn.Module):
         Returns:
             a_star: [B, T, d_a] 校正后的动作序列。
         """
-        return run_langevin_dynamics(
+        if self.mode == "rerank":
+            return self._rerank(a_init, z_t, ce_wm)
+
+        a_star = run_langevin_dynamics(
             action_init=a_init,
             z_t=z_t,
             energy_fn=ce_wm,
@@ -65,6 +77,47 @@ class EFESteering(nn.Module):
             gating_lambda=gating_lambda,
             grad_mode=self.grad_mode,
         )
+        return self._apply_trust_region(a_init, a_star)
+
+    def _apply_trust_region(
+        self,
+        a_init: torch.Tensor,
+        a_candidate: torch.Tensor,
+    ) -> torch.Tensor:
+        if not self.enable_trust_region:
+            return a_candidate
+        delta = (a_candidate - a_init).clamp(-self.action_delta_max, self.action_delta_max)
+        return a_init + delta
+
+    def _rerank(
+        self,
+        a_init: torch.Tensor,
+        z_t: torch.Tensor,
+        ce_wm: nn.Module,
+    ) -> torch.Tensor:
+        candidate_count = max(self.candidate_count, 0)
+        if candidate_count == 0:
+            return a_init
+
+        candidates = [a_init]
+        for _ in range(candidate_count):
+            noise = torch.randn_like(a_init) * self.candidate_noise_std
+            candidates.append(self._apply_trust_region(a_init, a_init + noise))
+
+        actions = torch.stack(candidates, dim=1)
+        B, C = actions.shape[:2]
+        flat_actions = actions.view(B * C, *actions.shape[2:])
+        T = flat_actions.shape[1]
+        z_seq = z_t.unsqueeze(1).expand(-1, C, -1).reshape(B * C, -1)
+        z_seq = z_seq.unsqueeze(1).expand(-1, T, -1)
+
+        with torch.no_grad():
+            energy = ce_wm(z_seq, flat_actions).view(B, C)
+            deviation = (actions - a_init.unsqueeze(1)).pow(2).mean(dim=tuple(range(2, actions.dim())))
+            scores = energy + self.deviation_weight * deviation
+            best = scores.argmin(dim=1)
+            batch_idx = torch.arange(B, device=a_init.device)
+            return actions[batch_idx, best]
 
     def forward(
         self,

@@ -32,6 +32,8 @@ class BilateralGating(nn.Module):
         self.lambda_max = config.lambda_max
         self.sensitivity = config.sensitivity  # σ_u
         self.window_size = config.window_size
+        self.hard_uncertainty_threshold = getattr(config, "hard_uncertainty_threshold", None)
+        self.min_lambda = float(getattr(config, "min_lambda", 0.0) or 0.0)
         self.history: deque = deque(maxlen=config.window_size)
 
     def compute_lambda(

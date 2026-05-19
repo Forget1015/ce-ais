@@ -46,6 +46,15 @@ class SteeringConfig:
     noise_scale: float = 0.001
     kl_weight: float = 10.0
     grad_mode: str = "finite_diff"
+    enable_trust_region: bool = True
+    action_delta_max: float = 0.05
+    enable_accept_reject: bool = True
+    accept_energy_margin: float = 0.0
+    diagnostics: bool = True
+    mode: str = "langevin"
+    candidate_count: int = 0
+    candidate_noise_std: float = 0.01
+    deviation_weight: float = 10.0
 
 
 @dataclass
@@ -56,6 +65,8 @@ class BilateralGatingConfig:
     window_size: int = 50
     uncertainty_method: str = "mc_dropout"
     mc_samples: int = 5
+    hard_uncertainty_threshold: Optional[float] = None
+    min_lambda: float = 0.0
 
 
 @dataclass
@@ -63,7 +74,7 @@ class TrainingConfig:
     """训练超参数配置。"""
     encoder_epochs: int = 100
     ce_wm_epochs: int = 200
-    batch_size: int = 256
+    batch_size: int = 64
     encoder_batch_size: Optional[int] = None
     cewm_batch_size: Optional[int] = None
     learning_rate: float = 1e-4
@@ -73,6 +84,12 @@ class TrainingConfig:
     grad_clip_norm: float = 1.0
     checkpoint_interval: int = 10
     neg_sample_ratio: int = 5
+    energy_reg_weight: float = 1e-4
+    target_margin: float = 5.0
+    min_margin: float = 1.0
+    margin_upper_weight: float = 1e-2
+    margin_lower_weight: float = 1.0
+    monitor_action_grad_norm: bool = True
 
 
 @dataclass

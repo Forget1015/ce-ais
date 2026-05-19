@@ -2,7 +2,18 @@
 
 无梯度测试时自适应框架，用于具身智能 VLA 策略的在线校正。
 
-核心思路：冻结 VLA 参数，通过因果能量世界模型 (CE-WM) 在推理时评估候选动作的能量，利用退火朗之万动力学偏转动作轨迹，实现无需微调的 OOD 鲁棒性提升。
+核心思路：冻结 VLA 参数，通过因果能量世界模型 (CE-WM) 在推理时评估候选动作的能量。当前版本将 CE-AIS 从 always-on 动作偏转器升级为**安全/可弃权的动作审查与恢复控制器**：只有当 trust-region 内的候选动作带来更低能量且不确定性可接受时才执行干预，否则回退到冻结 VLA 原始动作。
+
+## Safe CE-AIS 更新要点
+
+- **冻结不变**：VLA、Encoder、CE-WM 在测试时全部 `requires_grad=False`，只搜索动作张量，不更新参数。
+- **Trust region**：`steering.action_delta_max` 限制 CE-AIS 相对 VLA 动作的每维最大偏移，优先保证 clean non-degradation。
+- **Accept/reject**：`energy_after <= energy_before - accept_energy_margin` 才接受 steered action，否则直接执行 VLA prior。
+- **不确定性弃权**：`bilateral_gating.hard_uncertainty_threshold` 可在 CE-WM 不确定性过高时强制 abstain。
+- **诊断输出**：主实验和 OOD JSON 中的 `ce_ais_diagnostics` 会记录 accepted/rejected/abstained/fallback 比率、平均能量、不确定性、门控强度和动作偏移。
+- **CE-WM 校准训练**：NCE loss 现在加入能量尺度正则与目标 margin 约束，避免 margin 爆炸后坍缩到 `ln(1+K)` 随机分类状态。
+
+推荐先使用早期且 margin 稳定的 CE-WM checkpoint（例如已有实验中的 `checkpoints_sub/cewm_epoch0015.pt` 或相邻 checkpoint）做评估；若训练日志出现极大 margin 或 loss 接近 `ln(6)=1.7918`，不要直接把该 checkpoint 当成可靠 steering 场。
 
 ## 项目结构
 
@@ -224,6 +235,26 @@ uv run python scripts/run_paper_experiments.py \
     --encoder-ckpt checkpoints/encoder_epoch0044.pt \
     --cewm-ckpt checkpoints/cewm_epoch0015.pt
 
+# FLOWER VLA 主实验：先用 --n-chains 20 做 smoke；确认无退化后再用 --n-chains 200 出正式表
+HF_HOME=/data0/yejinxuan/hf_cache \
+HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYOPENGL_PLATFORM=egl \
+PYTHONPATH=/data0/yejinxuan/workspace/calvin/calvin_models:/data0/yejinxuan/workspace/calvin/calvin_env:$PYTHONPATH \
+uv run python scripts/run_paper_experiments.py \
+    --data-dir data/task_ABC_D \
+    --vla-type flower \
+    --flower-checkpoint-dir data/flower_calvin_abc \
+    --flower-code-path external/flower_vla_calvin \
+    --methods frozen_flower ce_ais \
+    --sequence-source official \
+    --n-chains 200 \
+    --chain-length 5 \
+    --max-steps 360 \
+    --device cuda:6 \
+    --encoder-ckpt checkpoints/encoder_epoch0044.pt \
+    --cewm-ckpt checkpoints_sub/cewm_epoch0015.pt
+
 # 如果当前机器缺少 pybullet 的 eglRendererPlugin，加 --no-egl 使用 DIRECT/TinyRenderer
 HF_HOME=/data0/yejinxuan/hf_cache \
 HF_HUB_OFFLINE=1 \
@@ -273,16 +304,90 @@ uv run python scripts/plot_results.py
 
 ## 其他评估脚本
 
+下面三个脚本已统一走 `VLAAdapter` 接口。新增模型时，只要在 `build_vla_adapter(config)` 中注册 adapter，并把模型类型加入 `SUPPORTED_VLA_TYPES`，这些评估脚本就能通过 `--vla-type` 切换。
+
 ```bash
-# OOD 鲁棒性评估（物理/视觉摄动）
-PYOPENGL_PLATFORM=egl uv run python scripts/evaluate_ood.py
+# OOD severity sweep：physics / visual / camera × mild / medium / severe
+HF_HOME=/data0/yejinxuan/hf_cache \
+HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYOPENGL_PLATFORM=egl \
+PYTHONUNBUFFERED=1 \
+PYTHONPATH=/data0/yejinxuan/workspace/calvin/calvin_models:/data0/yejinxuan/workspace/calvin/calvin_env:$PYTHONPATH \
+uv run python -u scripts/evaluate_ood.py \
+    --data-dir data/task_ABC_D \
+    --vla-type flower \
+    --flower-checkpoint-dir data/flower_calvin_abc \
+    --flower-code-path external/flower_vla_calvin \
+    --methods frozen_flower ce_ais \
+    --ood-types physics visual camera \
+    --severity-sweep \
+    --severities mild medium severe \
+    --n-episodes 100 \
+    --chain-length 5 \
+    --max-steps 360 \
+    --progress-interval 5 \
+    --device cuda:0 \
+    --encoder-ckpt checkpoints/encoder_epoch0044.pt \
+    --cewm-ckpt checkpoints_sub/cewm_epoch0015.pt 2>&1 | tee /data0/yejinxuan/ce-ais/logs/ood_severity_$(date +%Y%m%d_%H%M%S).log
 
-# 恢复能力评估
-PYOPENGL_PLATFORM=egl uv run python scripts/evaluate_recovery.py
+# 恢复能力评估：在 inject-step 注入 OOD 后观察恢复曲线
+HF_HOME=/data0/yejinxuan/hf_cache \
+HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYOPENGL_PLATFORM=egl \
+PYTHONPATH=/data0/yejinxuan/workspace/calvin/calvin_models:/data0/yejinxuan/workspace/calvin/calvin_env:$PYTHONPATH \
+uv run python scripts/evaluate_recovery.py \
+    --data-dir data/task_ABC_D \
+    --vla-type flower \
+    --flower-checkpoint-dir data/flower_calvin_abc \
+    --flower-code-path external/flower_vla_calvin \
+    --methods frozen_flower ce_ais \
+    --ood-type physics \
+    --n-episodes 100 \
+    --max-steps 120 \
+    --inject-step 60 \
+    --device cuda:6 \
+    --encoder-ckpt checkpoints/encoder_epoch0044.pt \
+    --cewm-ckpt checkpoints_sub/cewm_epoch0015.pt
 
-# 延迟-性能帕累托曲线
-uv run python scripts/evaluate_pareto.py
+# 延迟-性能帕累托曲线：扫描 CE-AIS n_steps
+HF_HOME=/data0/yejinxuan/hf_cache \
+HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYOPENGL_PLATFORM=egl \
+PYTHONPATH=/data0/yejinxuan/workspace/calvin/calvin_models:/data0/yejinxuan/workspace/calvin/calvin_env:$PYTHONPATH \
+uv run python scripts/evaluate_pareto.py \
+    --data-dir data/task_ABC_D \
+    --vla-type flower \
+    --flower-checkpoint-dir data/flower_calvin_abc \
+    --flower-code-path external/flower_vla_calvin \
+    --baseline-methods frozen_flower \
+    --ce-ais-n-steps 1 3 5 \
+    --n-chains 50 \
+    --chain-length 5 \
+    --max-steps 360 \
+    --device cuda:6 \
+    --encoder-ckpt checkpoints/encoder_epoch0044.pt \
+    --cewm-ckpt checkpoints_sub/cewm_epoch0015.pt
 ```
+
+常用 adapter 参数：
+
+| 参数 | 用于 | 说明 |
+|------|------|------|
+| `--vla-type` | 全部 | 选择 `proxy` / `openvla` / `flower` / `calvin` 或后续新增 adapter |
+| `--device` | 全部 | 评估设备；`cuda:N` 直接选择物理 GPU N |
+| `--encoder-ckpt` | CE-AIS | 指定 Encoder checkpoint |
+| `--cewm-ckpt` | CE-AIS | 指定 CE-WM checkpoint |
+| `--flower-checkpoint-dir` | FLOWER | FLOWER checkpoint 目录，包含 `config.yaml` 和 `model.safetensors` |
+| `--flower-code-path` | FLOWER | FLOWER 官方代码 checkout 路径 |
+| `--calvin-policy-ckpt` | CALVIN policy | CALVIN 原生 policy checkpoint |
+| `--calvin-train-folder` | CALVIN policy | 含 `.hydra/config.yaml` 的训练目录 |
+| `--calvin-dataset-path` | CALVIN policy | CALVIN 数据集路径，默认跟随 `--data-dir` |
+| `--no-egl` | 全部 | 关闭 EGL，回退 DIRECT/TinyRenderer |
+
+`frozen_vla`、`frozen_openvla` 和 `frozen_flower` 都是冻结当前 `--vla-type` adapter 的 baseline 名称；推荐新实验用语义更清楚的 `frozen_vla` 或模型专用别名。
 
 ## 关键超参数
 
@@ -295,9 +400,18 @@ uv run python scripts/evaluate_pareto.py
 | `training.amp` | true | 混合精度训练 |
 | `ce_wm.n_layers` | 32 | Mamba-3 层数（32 层 ~122M params） |
 | `ce_wm.d_model` | 640 | 模型隐藏维度 |
-| `steering.n_steps` | 5 | 朗之万迭代步数 |
+| `steering.n_steps` | 1 | 安全默认朗之万迭代步数 |
 | `steering.grad_mode` | finite_diff | 梯度模式：finite_diff（快）或 autograd（精确） |
+| `steering.action_delta_max` | 0.05 | 相对 VLA prior 的每维最大动作偏移 |
+| `steering.enable_accept_reject` | true | 能量未改善时回退 VLA 原动作 |
+| `steering.accept_energy_margin` | 0.0 | 接受干预所需的最小能量下降 |
+| `bilateral_gating.lambda_max` | 0.2 | 安全默认最大引导强度 |
+| `bilateral_gating.hard_uncertainty_threshold` | null | 高不确定性强制 abstain 阈值 |
 | `bilateral_gating.mc_samples` | 5 | MC-Dropout 采样次数 |
+| `training.energy_reg_weight` | 1e-4 | CE-WM 能量尺度正则 |
+| `training.target_margin` | 5.0 | CE-WM 目标能量 margin |
+| `training.margin_upper_weight` | 1e-2 | margin 过大惩罚权重 |
+| `training.margin_lower_weight` | 1.0 | margin 不足惩罚权重 |
 | `data.num_workers` | 24 | DataLoader 工作进程数 |
 | `data.mmap_dir` | /tmp/calvin_mmap | mmap 加速数据目录 |
 
@@ -323,7 +437,9 @@ uv run python scripts/evaluate_pareto.py
                              │
                       [双向门控] → λ(u)
                              │
-                      [退火朗之万偏转] → a*（校正动作）
+                      [Trust-region EFE] → a*
+                             │
+                      [Accept/Reject] → 执行 a* 或回退 a_init
 ```
 
 - **Encoder**: ResNet18 视觉骨干 + 本体感觉融合，InfoNCE 对比预训练

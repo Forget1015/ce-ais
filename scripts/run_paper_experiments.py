@@ -381,6 +381,7 @@ def build_ce_ais_policy(config_dict, vla_config, device, encoder_ckpt=None, cewm
         vla_adapter=vla, encoder=encoder, ce_wm=ce_wm,
         steering=steering, gating=gating,
         mc_samples=gate_cfg.get("mc_samples", 5),
+        compile_ce_wm=str(device).startswith("cuda"),
     )
     return topology
 
@@ -389,6 +390,7 @@ def evaluate_method(method_name, policy_fn, wrapper, eval_specs, data_dir, args,
     """对单个方法运行完整评估。"""
     chain_successes = {i: [] for i in range(1, args.chain_length + 1)}
     all_results = []
+    completed_tasks = []
     latencies = []
 
     for ci, spec in enumerate(eval_specs):
@@ -421,6 +423,7 @@ def evaluate_method(method_name, policy_fn, wrapper, eval_specs, data_dir, args,
 
         all_results.append(result)
         completed = result["completed_tasks"]
+        completed_tasks.append(completed)
         for length in range(1, args.chain_length + 1):
             chain_successes[length].append(completed >= length)
 
@@ -437,6 +440,18 @@ def evaluate_method(method_name, policy_fn, wrapper, eval_specs, data_dir, args,
     results_summary["avg_completed_tasks"] = float(
         np.mean([r["completed_tasks"] for r in all_results]))
     results_summary["avg_latency_ms"] = float(np.mean(latencies)) if latencies else 0.0
+    results_summary["per_chain_completed_tasks"] = completed_tasks
+    results_summary["completed_tasks_distribution"] = {
+        str(i): int(sum(1 for c in completed_tasks if c == i))
+        for i in range(args.chain_length + 1)
+    }
+    for length in range(2, args.chain_length + 1):
+        prev = chain_successes[length - 1]
+        curr = chain_successes[length]
+        denom = sum(prev)
+        results_summary[f"conditional_chain_{length}"] = (
+            sum(1 for p, c in zip(prev, curr) if p and c) / denom if denom else 0.0
+        )
 
     return results_summary
 
@@ -542,6 +557,8 @@ def main():
                 config_dict, vla_config, device, args.encoder_ckpt, args.cewm_ckpt
             )
 
+            topology.reset_diagnostics()
+
             def ce_ais_policy(obs_dict, instruction):
                 obs_on_device = {k: v.to(device) if isinstance(v, torch.Tensor) else v
                                  for k, v in obs_dict.items()}
@@ -551,8 +568,9 @@ def main():
             results = evaluate_method(
                 method_name, ce_ais_policy, wrapper, eval_specs, args.data_dir, args, method_rng,
                 policy_reset_fn=getattr(topology, "reset", None))
+            results["ce_ais_diagnostics"] = topology.get_diagnostics()
 
-        elif method_name == "frozen_openvla":
+        elif method_name in {"frozen_openvla", "frozen_vla", "frozen_flower"}:
             from src.evaluation.baseline_framework import FrozenOpenVLABaseline
             bl = FrozenOpenVLABaseline({**vla_config, "vla_type": args.vla_type})
             bl.setup()

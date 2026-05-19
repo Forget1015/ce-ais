@@ -1,0 +1,41 @@
+{
+  "config": {
+    "n_chains": 1,
+    "chain_length": 1,
+    "max_steps_per_task": 2,
+    "seed": 42,
+    "baseline_methods": [
+      "frozen_vla"
+    ],
+    "ce_ais_n_steps": [
+      1
+    ],
+    "vla_type": "proxy",
+    "device": "cpu",
+    "requested_device": "cpu",
+    "cuda_visible_devices": "4,5,6,7",
+    "egl_visible_devices": null,
+    "use_egl": true,
+    "encoder_ckpt": "checkpoints/encoder_epoch0044.pt",
+    "cewm_ckpt": "checkpoints_sub/cewm_epoch0015.pt",
+    "calvin_policy_ckpt": null,
+    "calvin_train_folder": null,
+    "calvin_dataset_path": "/data0/yejinxuan/ce-ais/data/task_ABC_D",
+    "flower_checkpoint_dir": "/data0/yejinxuan/ce-ais/data/flower_calvin_abc",
+    "flower_code_path": null
+  },
+  "pareto_points": [
+    {
+      "method": "frozen_vla",
+      "n_steps": null,
+      "success_rate": 0.0,
+      "latency_ms": 44.87013816833496
+    },
+    {
+      "method": "ce_ais",
+      "n_steps": 1,
+      "success_rate": 0.0,
+      "latency_ms": 10841.250896453857
+    }
+  ]
+}

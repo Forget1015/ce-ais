@@ -61,7 +61,14 @@ class PretrainPipeline:
         self.infonce_loss = InfoNCELoss(
             temperature=config.encoder.temperature
         )
-        self.nce_loss = NCELoss(temperature=1.0)
+        self.nce_loss = NCELoss(
+            temperature=1.0,
+            energy_reg_weight=getattr(config.training, "energy_reg_weight", 0.0),
+            target_margin=getattr(config.training, "target_margin", 5.0),
+            min_margin=getattr(config.training, "min_margin", 0.0),
+            margin_upper_weight=getattr(config.training, "margin_upper_weight", 0.0),
+            margin_lower_weight=getattr(config.training, "margin_lower_weight", 0.0),
+        )
 
         # 日志与检查点
         self.logger = Logger(
@@ -292,8 +299,13 @@ class PretrainPipeline:
             # 当前 epoch 的能量累加（用于绘制 margin 曲线）
             epoch_pos_sum = 0.0
             epoch_neg_sum = 0.0
+            epoch_pos_sq_sum = 0.0
+            epoch_neg_sq_sum = 0.0
+            epoch_abs_sum = 0.0
             epoch_pos_count = 0
             epoch_neg_count = 0
+            epoch_grad_norm_sum = 0.0
+            epoch_grad_norm_count = 0
 
             pbar = tqdm(
                 dataloader,
@@ -358,7 +370,9 @@ class PretrainPipeline:
                     energy_neg_flat = ce_wm(z_expanded, a_neg_flat)
                     energy_neg = energy_neg_flat.view(B, K_batch)  # [B, K]
 
-                    loss = self.nce_loss(energy_pos, energy_neg)
+                    loss, loss_components = self.nce_loss(
+                        energy_pos, energy_neg, return_components=True
+                    )
 
                 if not torch.isfinite(loss):
                     if self.accelerator.is_main_process:
@@ -372,6 +386,16 @@ class PretrainPipeline:
                     continue
 
                 self.accelerator.backward(loss)
+                grad_norm = 0.0
+                if getattr(self.config.training, "monitor_action_grad_norm", True):
+                    grad_norm_sq = 0.0
+                    for p in ce_wm.parameters():
+                        if p.grad is not None:
+                            param_norm = p.grad.detach().float().norm(2).item()
+                            grad_norm_sq += param_norm * param_norm
+                    grad_norm = grad_norm_sq ** 0.5
+                    epoch_grad_norm_sum += grad_norm
+                    epoch_grad_norm_count += 1
                 if grad_clip_norm > 0:
                     self.accelerator.clip_grad_norm_(ce_wm.parameters(), grad_clip_norm)
                 grads_finite = all(
@@ -395,8 +419,12 @@ class PretrainPipeline:
                 # 累积当前 epoch 的能量统计（用于 margin 曲线）
                 with torch.no_grad():
                     epoch_pos_sum += energy_pos.detach().float().sum().item()
+                    epoch_pos_sq_sum += energy_pos.detach().float().pow(2).sum().item()
                     epoch_pos_count += energy_pos.numel()
                     epoch_neg_sum += energy_neg.detach().float().sum().item()
+                    epoch_neg_sq_sum += energy_neg.detach().float().pow(2).sum().item()
+                    epoch_abs_sum += energy_pos.detach().float().abs().sum().item()
+                    epoch_abs_sum += energy_neg.detach().float().abs().sum().item()
                     epoch_neg_count += energy_neg.numel()
 
                 pbar.set_postfix(loss=f"{loss.item():.4f}", step=global_step)
@@ -413,6 +441,10 @@ class PretrainPipeline:
                         step=global_step,
                         loss=loss.item(),
                         learning_rate=optimizer.param_groups[0]["lr"],
+                        extra={
+                            key: float(value.float().cpu().item())
+                            for key, value in loss_components.items()
+                        } | {"grad_norm": float(grad_norm)},
                     )
 
             avg_loss = epoch_loss / max(n_batches, 1)
@@ -422,13 +454,26 @@ class PretrainPipeline:
             if epoch_pos_count > 0 and epoch_neg_count > 0:
                 pos_mean = epoch_pos_sum / epoch_pos_count
                 neg_mean = epoch_neg_sum / epoch_neg_count
+                pos_var = max(epoch_pos_sq_sum / epoch_pos_count - pos_mean * pos_mean, 0.0)
+                neg_var = max(epoch_neg_sq_sum / epoch_neg_count - neg_mean * neg_mean, 0.0)
+                pos_std = pos_var ** 0.5
+                neg_std = neg_var ** 0.5
                 margin = neg_mean - pos_mean
+                energy_abs_mean = epoch_abs_sum / (epoch_pos_count + epoch_neg_count)
+                grad_norm_mean = (
+                    epoch_grad_norm_sum / epoch_grad_norm_count
+                    if epoch_grad_norm_count else 0.0
+                )
                 energy_history.append(
                     {
                         "epoch": epoch,
                         "pos_mean": pos_mean,
                         "neg_mean": neg_mean,
                         "margin": margin,
+                        "pos_std": pos_std,
+                        "neg_std": neg_std,
+                        "energy_abs_mean": energy_abs_mean,
+                        "grad_norm_mean": grad_norm_mean,
                     }
                 )
                 if self.accelerator.is_main_process:
@@ -437,10 +482,26 @@ class PretrainPipeline:
                         pos_mean=pos_mean,
                         neg_mean=neg_mean,
                         margin=margin,
+                        extra={
+                            "pos_energy_std": pos_std,
+                            "neg_energy_std": neg_std,
+                            "energy_abs_mean": energy_abs_mean,
+                            "grad_norm_mean": grad_norm_mean,
+                            "target_margin": getattr(self.config.training, "target_margin", 5.0),
+                            "min_margin": getattr(self.config.training, "min_margin", 0.0),
+                        },
                     )
+                    target_margin = getattr(self.config.training, "target_margin", 5.0)
+                    min_margin = getattr(self.config.training, "min_margin", 0.0)
+                    warn = ""
+                    if margin > target_margin * 4:
+                        warn = " [warn: margin far above target]"
+                    elif margin < min_margin:
+                        warn = " [warn: margin below minimum]"
                     tqdm.write(
                         f"CE-WM epoch {epoch+1}/{total_epochs} — "
-                        f"loss={avg_loss:.4f}, margin={margin:+.4f}"
+                        f"loss={avg_loss:.4f}, margin={margin:+.4f}, "
+                        f"|E|={energy_abs_mean:.2f}, grad={grad_norm_mean:.2f}{warn}"
                     )
             else:
                 if self.accelerator.is_main_process:

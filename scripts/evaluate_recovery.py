@@ -5,17 +5,12 @@
 生成"CE-AIS 反弹 vs baseline 永久下跌"的恢复曲线。
 
 输出: results/recovery_curve.json
-
-Usage:
-    PYOPENGL_PLATFORM=egl uv run python scripts/evaluate_recovery.py \
-        --data-dir data/task_ABC_D --n-episodes 50
 """
 
 import argparse
 import json
 import os
 import sys
-import time
 from pathlib import Path
 
 import numpy as np
@@ -24,6 +19,15 @@ import torch
 PROJECT_ROOT = str(Path(__file__).resolve().parent.parent)
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
+
+from scripts.eval_common import (
+    add_common_eval_args,
+    build_eval_vla_config,
+    configure_egl,
+    eval_metadata,
+    resolve_eval_device,
+    to_device_obs,
+)
 
 
 def parse_args():
@@ -40,14 +44,13 @@ def parse_args():
                         default=os.path.join(PROJECT_ROOT, "configs", "base.yaml"))
     parser.add_argument("--output-dir", type=str,
                         default=os.path.join(PROJECT_ROOT, "results"))
-    parser.add_argument("--vla-type", type=str, default="proxy",
-                        choices=["openvla", "proxy"])
     parser.add_argument("--methods", type=str, nargs="*",
-                        default=["ce_ais", "frozen_openvla", "pdf"])
+                        default=["ce_ais", "frozen_vla", "pdf"])
     parser.add_argument("--ood-type", type=str, default="physics",
                         choices=["physics", "visual", "camera"])
     parser.add_argument("--window-size", type=int, default=5,
                         help="Rolling window size for smoothing")
+    add_common_eval_args(parser, PROJECT_ROOT)
     return parser.parse_args()
 
 
@@ -67,15 +70,13 @@ OOD_INJECT_MAP = {
 
 
 def run_recovery_episode(policy_fn, wrapper, task_name, inject_step, max_steps,
-                          ood_type, data_dir, rng, val_frame_ids):
-    """单个 episode 的恢复曲线追踪。
-
-    Returns:
-        step_energies: list of (step, task_success_indicator) tuples
-    """
+                         ood_type, data_dir, rng, val_frame_ids, policy_reset_fn=None):
+    """单个 episode 的恢复曲线追踪。"""
     frame_id = rng.choice(val_frame_ids)
     robot_obs, scene_obs = load_frame_state(data_dir, frame_id)
     obs = wrapper.reset(task=task_name, robot_obs=robot_obs, scene_obs=scene_obs)
+    if policy_reset_fn is not None:
+        policy_reset_fn()
 
     step_records = []
     injected = False
@@ -87,7 +88,7 @@ def run_recovery_episode(policy_fn, wrapper, task_name, inject_step, max_steps,
             wrapper.inject_ood(p_type, **inject_args)
             injected = True
 
-        obs_dict = {"rgb": obs.rgb, "depth": obs.depth, "pose": obs.pose}
+        obs_dict = {"rgb": obs.rgb, "depth": obs.depth, "pose": obs.pose, "raw_calvin_obs": obs.raw}
         action = policy_fn(obs_dict, task_name)
         obs, reward, done, info = wrapper.step(action)
 
@@ -113,28 +114,27 @@ def run_recovery_episode(policy_fn, wrapper, task_name, inject_step, max_steps,
 
 def main():
     args = parse_args()
-    os.environ.setdefault("PYOPENGL_PLATFORM", "egl")
     rng = np.random.RandomState(args.seed)
     torch.manual_seed(args.seed)
 
     from src.config.config_manager import ConfigManager
     cm = ConfigManager(config_path=args.config)
     config_dict = cm.config
-    device = config_dict.get("project", {}).get("device", "cuda:0")
-    if not torch.cuda.is_available():
-        device = "cpu"
+    device, device_index, requested_device = resolve_eval_device(args, config_dict)
+    use_egl = configure_egl(args, device_index)
 
     print("=" * 70)
     print("CE-AIS Recovery Curve (U-shaped Rebound) Experiment")
     print(f"OOD injection: {args.ood_type} at step {args.inject_step}")
     print(f"Episodes: {args.n_episodes}, Total steps: {args.max_steps}")
+    print(f"Methods: {args.methods}")
+    print(f"Device: {device} (requested={requested_device}, visible={os.environ.get('CUDA_VISIBLE_DEVICES')})")
+    print(f"EGL: {'disabled' if not use_egl else 'enabled'} (EGL_VISIBLE_DEVICES={os.environ.get('EGL_VISIBLE_DEVICES')})")
     print("=" * 70)
 
     from src.evaluation.calvin_integration import CALVINWrapper
 
-    vla_config = {"type": args.vla_type, "device": device,
-                  "action_dim": 7, "chunk_size": 1}
-
+    vla_config = build_eval_vla_config(args, device)
     all_method_curves = {}
 
     for method_name in args.methods:
@@ -142,9 +142,12 @@ def main():
         method_rng = np.random.RandomState(args.seed)
 
         env_config = {
-            "use_real_env": True, "scene": "calvin_scene_D",
-            "cameras": "static_and_gripper", "use_egl": True,
-            "seed": args.seed, "max_chain_length": 5,
+            "use_real_env": True,
+            "scene": "calvin_scene_D",
+            "cameras": "static_and_gripper",
+            "use_egl": use_egl,
+            "seed": args.seed,
+            "max_chain_length": 5,
         }
         wrapper = CALVINWrapper(config=env_config)
 
@@ -156,15 +159,19 @@ def main():
         if not tasks:
             tasks = ["pick_up_object"]
 
+        bl = None
         if method_name == "ce_ais":
             from scripts.run_paper_experiments import build_ce_ais_policy
-            topology = build_ce_ais_policy(config_dict, vla_config, device)
+            topology = build_ce_ais_policy(
+                config_dict, vla_config, device, args.encoder_ckpt, args.cewm_ckpt
+            )
 
             def policy_fn(obs_dict, instruction):
-                obs_on_device = {k: v.to(device) if isinstance(v, torch.Tensor) else v
-                                 for k, v in obs_dict.items()}
+                obs_on_device = to_device_obs(obs_dict, device)
                 action, _ = topology.safe_step(obs_on_device, str(instruction))
                 return action.squeeze(1).cpu()
+
+            policy_reset_fn = getattr(topology, "reset", None)
         else:
             from src.evaluation.baseline_framework import BASELINE_REGISTRY
             bl_cls = BASELINE_REGISTRY[method_name]
@@ -172,33 +179,31 @@ def main():
             bl.setup()
 
             def policy_fn(obs_dict, instruction, _bl=bl):
-                obs_on_device = {k: v.to(device) if isinstance(v, torch.Tensor) else v
-                                 for k, v in obs_dict.items()}
+                obs_on_device = to_device_obs(obs_dict, device)
                 return _bl.predict(obs_on_device, str(instruction)).squeeze(1).cpu()
 
-        # 收集每步的成功率
+            policy_reset_fn = getattr(bl, "reset_task", None)
+
         all_step_success = [[] for _ in range(args.max_steps)]
 
-        for ep in range(args.n_episodes):
+        for _ in range(args.n_episodes):
             task_name = method_rng.choice(tasks)
             records = run_recovery_episode(
                 policy_fn, wrapper, task_name, args.inject_step,
                 args.max_steps, args.ood_type, args.data_dir,
-                method_rng, val_frame_ids)
+                method_rng, val_frame_ids, policy_reset_fn=policy_reset_fn)
 
             for rec in records:
                 s = rec["step"]
                 if s < args.max_steps:
                     all_step_success[s].append(1.0 if rec["reward"] > 0 else 0.0)
 
-        # 计算逐步成功率 + 滑动平均
         step_rates = []
         for s in range(args.max_steps):
             vals = all_step_success[s]
             rate = np.mean(vals) if vals else 0.0
             step_rates.append(rate)
 
-        # 滑动窗口平滑
         w = args.window_size
         smoothed = []
         for i in range(len(step_rates)):
@@ -217,11 +222,10 @@ def main():
         print(f"  Post-injection avg: {post_avg:.3f}")
         print(f"  Recovery delta: {post_avg - pre_avg:+.3f}")
 
-        if method_name != "ce_ais" and hasattr(bl, "teardown"):
+        if bl is not None and hasattr(bl, "teardown"):
             bl.teardown()
         wrapper.close()
 
-    # 保存结果
     os.makedirs(args.output_dir, exist_ok=True)
     output = {
         "config": {
@@ -231,6 +235,8 @@ def main():
             "n_episodes": args.n_episodes,
             "seed": args.seed,
             "window_size": args.window_size,
+            "methods": args.methods,
+            **eval_metadata(args, device, requested_device, use_egl),
         },
         "curves": all_method_curves,
     }

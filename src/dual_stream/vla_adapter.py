@@ -27,6 +27,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
+SUPPORTED_VLA_TYPES = ("proxy", "openvla", "flower", "calvin")
+
+
 class VLAAdapter(ABC):
     """统一的 VLA 基座模型接口。
 
@@ -642,4 +645,4 @@ def build_vla_adapter(config: dict) -> VLAAdapter:
             **common,
         )
     else:
-        raise ValueError(f"Unknown vla type: {vla_type}")
+        raise ValueError(f"Unknown vla type: {vla_type}. Expected one of {SUPPORTED_VLA_TYPES}")

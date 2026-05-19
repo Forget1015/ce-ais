@@ -70,15 +70,31 @@ class NCELoss(nn.Module):
     loss   = CrossEntropy(logits, label)
     """
 
-    def __init__(self, temperature: float = 1.0):
+    def __init__(
+        self,
+        temperature: float = 1.0,
+        energy_reg_weight: float = 0.0,
+        target_margin: float = 5.0,
+        min_margin: float = 0.0,
+        margin_upper_weight: float = 0.0,
+        margin_lower_weight: float = 0.0,
+    ):
         super().__init__()
         if temperature <= 0:
             raise ValueError(f"Temperature must be positive, got {temperature}")
         self.temperature = temperature
+        self.energy_reg_weight = energy_reg_weight
+        self.target_margin = target_margin
+        self.min_margin = min_margin
+        self.margin_upper_weight = margin_upper_weight
+        self.margin_lower_weight = margin_lower_weight
 
     def forward(
-        self, energy_pos: torch.Tensor, energy_neg: torch.Tensor
-    ) -> torch.Tensor:
+        self,
+        energy_pos: torch.Tensor,
+        energy_neg: torch.Tensor,
+        return_components: bool = False,
+    ):
         """
         计算 NCE 损失。
 
@@ -89,14 +105,36 @@ class NCELoss(nn.Module):
         Returns:
             loss: 标量损失值
         """
-        # 拼接: [B, 1+K]，正样本在第 0 列
         logits = torch.cat(
             [-energy_pos.unsqueeze(1), -energy_neg], dim=1
         ) / self.temperature
-
-        # 标签全为 0（正样本在第一个位置）
         labels = torch.zeros(
             logits.size(0), dtype=torch.long, device=logits.device
         )
 
-        return F.cross_entropy(logits, labels)
+        nce_loss = F.cross_entropy(logits, labels)
+        margin = energy_neg.mean() - energy_pos.mean()
+        energy_reg = energy_pos.pow(2).mean() + energy_neg.pow(2).mean()
+        margin_upper = F.relu(margin - self.target_margin).pow(2)
+        margin_lower = F.relu(self.min_margin - margin).pow(2)
+        loss = (
+            nce_loss
+            + self.energy_reg_weight * energy_reg
+            + self.margin_upper_weight * margin_upper
+            + self.margin_lower_weight * margin_lower
+        )
+
+        if not return_components:
+            return loss
+
+        return loss, {
+            "loss_nce": nce_loss.detach(),
+            "loss_energy_reg": (self.energy_reg_weight * energy_reg).detach(),
+            "loss_margin_upper": (self.margin_upper_weight * margin_upper).detach(),
+            "loss_margin_lower": (self.margin_lower_weight * margin_lower).detach(),
+            "energy_margin_batch": margin.detach(),
+            "energy_abs_mean_batch": torch.cat([
+                energy_pos.detach().abs().reshape(-1),
+                energy_neg.detach().abs().reshape(-1),
+            ]).mean(),
+        }

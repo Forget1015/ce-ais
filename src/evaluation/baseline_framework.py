@@ -511,6 +511,7 @@ class AdaWorldPolicyBaseline(BaselineMethod):
 # 基线方法注册表
 BASELINE_REGISTRY: Dict[str, type] = {
     "frozen_openvla": FrozenOpenVLABaseline,
+    "frozen_vla": FrozenOpenVLABaseline,
     "frozen_flower": FrozenOpenVLABaseline,
     "frozen_calvin_policy": FrozenCalvinPolicyBaseline,
     "pdf": PDFBaseline,

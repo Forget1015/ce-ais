@@ -345,6 +345,7 @@ class CALVINWrapper:
         initial_scene_obs: Optional[np.ndarray] = None,
         instructions: Optional[List[str]] = None,
         policy_reset_fn: Optional[Callable[[], None]] = None,
+        post_reset_fn: Optional[Callable[[], None]] = None,
     ) -> Dict[str, Any]:
         """运行 ABC→D 多任务链式评估。
 
@@ -358,6 +359,7 @@ class CALVINWrapper:
             initial_scene_obs: 可选初始场景状态。
             instructions: 与 task_chain 对齐的自然语言指令。
             policy_reset_fn: 可选的子任务 reset hook。
+            post_reset_fn: 可选的环境 reset 后 hook。
 
         Returns:
             评估结果字典。
@@ -371,6 +373,8 @@ class CALVINWrapper:
             robot_obs=initial_robot_obs,
             scene_obs=initial_scene_obs,
         )
+        if post_reset_fn is not None:
+            post_reset_fn()
 
         for i, task_name in enumerate(task_chain[:chain_length]):
             instruction = instructions[i] if instructions and i < len(instructions) else task_name

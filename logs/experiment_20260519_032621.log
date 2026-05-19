@@ -1,0 +1,24 @@
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/_internal/defaults_list.py:251: UserWarning: In 'config_data_collection': Defaults list is missing `_self_`. See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/default_composition_order for more information
+  warnings.warn(msg, UserWarning)
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/core/default_element.py:124: UserWarning: In 'vr_input/vr_controller/vive': Usage of deprecated keyword in package header '# @package _group_'.
+See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/changes_to_package_header for more information
+  deprecation_warning(
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+pybullet build time: Oct 21 2025 10:07:17
+/data0/yejinxuan/workspace/calvin/calvin_env/calvin_env/envs/play_table_env.py:292: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  @hydra.main(config_path="../../conf", config_name="config_data_collection")
+EGL device choice: 0 of 17 (from EGL_VISIBLE_DEVICES)
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/lightning_lite/__init__.py:29: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  __import__("pkg_resources").declare_namespace(__name__)
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/_internal/defaults_list.py:251: UserWarning: In 'config_data_collection': Defaults list is missing `_self_`. See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/default_composition_order for more information
+  warnings.warn(msg, UserWarning)
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/core/default_element.py:124: UserWarning: In 'vr_input/vr_controller/vive': Usage of deprecated keyword in package header '# @package _group_'.
+See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/changes_to_package_header for more information
+  deprecation_warning(
+EGL device choice: 0 of 17 (from EGL_VISIBLE_DEVICES)
