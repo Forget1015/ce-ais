@@ -1,0 +1,72 @@
+data:
+  calvin_dir: data/task_ABC_D
+  mmap_dir: data/calvin_mmap
+  num_workers: 8
+project:
+  name: ce-ais
+  seed: 42
+  device: cuda:5
+encoder:
+  backbone_type: resnet18
+  pose_dim: 7
+  visual_dim: 512
+  latent_dim: 128
+  temperature: 0.07
+  image_size:
+  - 200
+  - 200
+ce_wm:
+  d_model: 640
+  d_state: 64
+  n_layers: 32
+  expand_factor: 3
+  mimo_groups: 4
+  action_dim: 7
+  latent_dim: 128
+  dropout: 0.1
+  headdim: 64
+steering:
+  n_steps: 5
+  step_size: 0.01
+  anneal_rate: 0.5
+  noise_scale: 0.001
+  kl_weight: 10.0
+  grad_mode: finite_diff
+bilateral_gating:
+  lambda_max: 1.0
+  sensitivity: 0.1
+  window_size: 50
+  uncertainty_method: mc_dropout
+  mc_samples: 5
+training:
+  encoder_epochs: 30
+  ce_wm_epochs: 200
+  batch_size: 256
+  encoder_batch_size: 768
+  cewm_batch_size: 256
+  learning_rate: 0.0001
+  weight_decay: 1.0e-05
+  amp: true
+  mixed_precision: bf16
+  grad_clip_norm: 1.0
+  checkpoint_interval: 1
+  neg_sample_ratio: 5
+evaluation:
+  protocol: ABC_to_D
+  max_chain_length: 5
+  ood_perturbations:
+    physics:
+      mass_scale:
+      - 0.5
+      - 2.0
+      friction_scale:
+      - 0.3
+      - 1.5
+    visual:
+      brightness_jitter: 0.5
+      gaussian_noise_std: 0.1
+      camera_pose_offset: 0.05
+logging:
+  tensorboard: true
+  wandb: false
+  log_interval: 10

@@ -9,7 +9,7 @@ external/flower_vla_calvin/LIBERO/
 .venv/
 
 # 日志文件
-logs/
+
 
 # 缓存和临时文件
 .pytest_cache/
