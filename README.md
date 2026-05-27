@@ -268,6 +268,37 @@ uv run python scripts/run_paper_experiments.py \
     --cewm-ckpt checkpoints/cewm_epoch0015.pt
 ```
 
+```bash
+CUDA_VISIBLE_DEVICES=4,5,6,7 \
+PYTHONUNBUFFERED=1 \
+HF_HOME=/data0/yejinxuan/hf_cache \
+HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+uv run accelerate launch \
+  --multi_gpu \
+  --num_processes=4 \
+  scripts/pretrain.py \
+  --config configs/base.yaml \
+  --stage cewm \
+  --resume
+  --encoder-ckpt checkpoints/encoder_epoch0044.pt \
+  --checkpoint-dir checkpoints_calibrated_cewm \
+  --log-dir logs/calibrated_cewm_multigpu \
+  --override \
+  training.ce_wm_epochs=100 \
+  training.cewm_batch_size=256 \
+  training.learning_rate=1.0e-4 \
+  training.energy_reg_weight=1.0e-4 \
+  training.target_margin=5.0 \
+  training.min_margin=1.0 \
+  training.margin_upper_weight=1.0e-2 \
+  training.margin_lower_weight=1.0 \
+  training.monitor_action_grad_norm=true \
+  training.checkpoint_interval=1 \
+  data.num_workers=8 \
+2>&1 | tee logs/calibrated_cewm_multigpu_10epoch.log
+```
+
 本机 OpenVLA cache 位于 `/data0/yejinxuan/hf_cache/hub/models--openvla--openvla-7b`，包含 `processor_config.json`、`model.safetensors.index.json` 和 3 个 `model-*.safetensors` 分片；设置 `HF_HOME=/data0/yejinxuan/hf_cache` 后，`openvla/openvla-7b` 会从该 cache 读取。若需要重新下载或更新模型，去掉 `HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1` 并确保代理/网络可用。
 
 主实验默认 `--sequence-source official`，会按 CALVIN 官方长程评估方式生成可达任务链，并把 task key 映射为自然语言指令。旧的随机任务链可用 `--sequence-source random` 复现，但它会随机组合任务和初始状态，通常不适合报告成功率。

@@ -1,0 +1,243 @@
+
+(base) enco@ubuntu:/data0/yejinxuan/ce-ais$ HF_HOME=/data0/yejinxuan/hf_cache \
+HF_HUB_OFFLINE=1 \
+TRANSFORMERS_OFFLINE=1 \
+PYOPENGL_PLATFORM=egl \
+PYTHONUNBUFFERED=1 \
+PYTHONPATH=/data0/yejinxuan/workspace/calvin/calvin_models:/data0/yejinxuan/workspace/calvin/calvin_env:$PYTHONPATH \
+uv run python -u scripts/evaluate_ood.py \
+  --config configs/safe_balanced.yaml \
+  --data-dir data/task_ABC_D \
+  --vla-type flower \
+  --flower-checkpoint-dir data/flower_calvin_abc \
+  --flower-code-path external/flower_vla_calvin \
+  --methods frozen_flower ce_ais \
+  --ood-types visual \
+  --severity-sweep \
+  --severities mild severe \
+  --n-episodes 50 \
+  --chain-length 5 \
+  --max-steps 360 \
+  --progress-interval 5 \
+  --device cuda:7 \
+  --encoder-ckpt checkpoints/encoder_epoch0044.pt \
+  --cewm-ckpt checkpoints_calibrated_cewm/cewm_epoch0030.pt \
+  --output-dir results/ood_balanced_cewm30_visual_50 \
+2>&1 | tee logs/ood_balanced_cewm30_visual_50.log
+======================================================================
+CE-AIS OOD Perturbation Experiments
+OOD Types: ['visual']
+Severity sweep: True (['mild', 'severe'])
+Episodes per type: 50
+Methods: ['frozen_flower', 'ce_ais']
+Device: cuda:7 (requested=cuda:7, visible=None)
+EGL: enabled (EGL_VISIBLE_DEVICES=7)
+======================================================================
+
+============================================================
+OOD Scenario: visual/mild — 视觉轻度干扰 (brightness=0.8, noise=0.02)
+============================================================
+
+  [frozen_flower] Evaluating under visual/mild OOD...
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/_internal/defaults_list.py:251: UserWarning: In 'config_data_collection': Defaults list is missing `_self_`. See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/default_composition_order for more information
+  warnings.warn(msg, UserWarning)
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/core/default_element.py:124: UserWarning: In 'vr_input/vr_controller/vive': Usage of deprecated keyword in package header '# @package _group_'.
+See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/changes_to_package_header for more information
+  deprecation_warning(
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+pybullet build time: Oct 21 2025 10:07:17
+/data0/yejinxuan/workspace/calvin/calvin_env/calvin_env/envs/play_table_env.py:292: UserWarning:
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  @hydra.main(config_path="../../conf", config_name="config_data_collection")
+argv[0]=--width=200
+argv[1]=--height=200
+EGL device choice: 7 of 17 (from EGL_VISIBLE_DEVICES)
+Loaded EGL 1.5 after reload.
+GL_VENDOR=NVIDIA Corporation
+GL_RENDERER=NVIDIA A100-SXM4-80GB/PCIe/SSE2
+GL_VERSION=3.3.0 NVIDIA 595.71.05
+GL_SHADING_LANGUAGE_VERSION=3.30 NVIDIA via Cg compiler
+Version = 3.3.0 NVIDIA 595.71.05
+Vendor = NVIDIA Corporation
+Renderer = NVIDIA A100-SXM4-80GB/PCIe/SSE2
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/lightning_lite/__init__.py:29: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this packag
+e or pin to Setuptools<81.
+  __import__("pkg_resources").declare_namespace(__name__)
+Loading Florence-2 from /data0/yejinxuan/hf_cache/hub/Florence-2-large
+Loading pretrained weights from /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors...
+Loaded safetensors file
+Pretrained weights loaded with the following issues:
+  ⚠️ Missing keys (not found in checkpoint, using default init): 2
+    ['vlm.language_model.final_logits_bias', 'vlm.language_model.model.shared.weight'] ...
+  ⚠️ Unexpected keys (ignored): 2
+    ['vlm.language_final_logits_bias', 'vlm.language_shared.weight'] ...
+ven = NVIDIA Corporation
+ven = NVIDIA Corporation
+    progress frozen_flower: 5/50 episodes, L1=20.0%, avg_completed=0.60
+    progress frozen_flower: 10/50 episodes, L1=30.0%, avg_completed=0.50
+    progress frozen_flower: 15/50 episodes, L1=26.7%, avg_completed=0.40
+    progress frozen_flower: 20/50 episodes, L1=30.0%, avg_completed=0.40
+    progress frozen_flower: 25/50 episodes, L1=28.0%, avg_completed=0.40
+    progress frozen_flower: 30/50 episodes, L1=30.0%, avg_completed=0.47
+    progress frozen_flower: 35/50 episodes, L1=37.1%, avg_completed=0.57
+    progress frozen_flower: 40/50 episodes, L1=37.5%, avg_completed=0.57
+    progress frozen_flower: 45/50 episodes, L1=37.8%, avg_completed=0.56
+    progress frozen_flower: 50/50 episodes, L1=36.0%, avg_completed=0.52
+    L1=36.0%, avg_completed=0.52
+disconnecting id 0 from server
+Destroy EGL OpenGL window.
+disconnecting id -1 from server
+
+  [ce_ais] Evaluating under visual/mild OOD...
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/_internal/defaults_list.py:251: UserWarning: In 'config_data_collection': Defaults list is missing `_self_`. See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/default_composition_order for more information
+  warnings.warn(msg, UserWarning)
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/core/default_element.py:124: UserWarning: In 'vr_input/vr_controller/vive': Usage of deprecated keyword in package header '# @package _group_'.
+See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/changes_to_package_header for more information
+  deprecation_warning(
+argv[0]=--width=200
+argv[1]=--height=200
+EGL device choice: 7 of 17 (from EGL_VISIBLE_DEVICES)
+Loaded EGL 1.5 after reload.
+GL_VENDOR=NVIDIA Corporation
+GL_RENDERER=NVIDIA A100-SXM4-80GB/PCIe/SSE2
+GL_VERSION=3.3.0 NVIDIA 595.71.05
+GL_SHADING_LANGUAGE_VERSION=3.30 NVIDIA via Cg compiler
+Version = 3.3.0 NVIDIA 595.71.05
+Vendor = NVIDIA Corporation
+Renderer = NVIDIA A100-SXM4-80GB/PCIe/SSE2
+Loading Florence-2 from /data0/yejinxuan/hf_cache/hub/Florence-2-large
+Loading pretrained weights from /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors...
+Loaded safetensors file
+Pretrained weights loaded with the following issues:
+  ⚠️ Missing keys (not found in checkpoint, using default init): 2
+    ['vlm.language_model.final_logits_bias', 'vlm.language_model.model.shared.weight'] ...
+  ⚠️ Unexpected keys (ignored): 2
+    ['vlm.language_final_logits_bias', 'vlm.language_shared.weight'] ...
+  Loaded encoder checkpoint: /data0/yejinxuan/ce-ais/checkpoints/encoder_epoch0044.pt
+  Loaded CE-WM checkpoint: /data0/yejinxuan/ce-ais/checkpoints_calibrated_cewm/cewm_epoch0030.pt
+ven = NVIDIA Corporation
+ven = NVIDIA Corporation
+    progress ce_ais: 5/50 episodes, L1=20.0%, avg_completed=0.60
+    progress ce_ais: 10/50 episodes, L1=50.0%, avg_completed=0.80
+    progress ce_ais: 15/50 episodes, L1=40.0%, avg_completed=0.60
+    progress ce_ais: 20/50 episodes, L1=40.0%, avg_completed=0.55
+    progress ce_ais: 25/50 episodes, L1=36.0%, avg_completed=0.52
+    progress ce_ais: 30/50 episodes, L1=36.7%, avg_completed=0.50
+    progress ce_ais: 35/50 episodes, L1=42.9%, avg_completed=0.66
+    progress ce_ais: 40/50 episodes, L1=42.5%, avg_completed=0.65
+    progress ce_ais: 45/50 episodes, L1=42.2%, avg_completed=0.62
+    progress ce_ais: 50/50 episodes, L1=40.0%, avg_completed=0.58
+    L1=40.0%, avg_completed=0.58
+disconnecting id 0 from server
+Destroy EGL OpenGL window.
+disconnecting id -1 from server
+
+============================================================
+OOD Scenario: visual/severe — 视觉灾难 (brightness=0.5, noise=0.1)
+============================================================
+
+  [frozen_flower] Evaluating under visual/severe OOD...
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/_internal/defaults_list.py:251: UserWarning: In 'config_data_collection': Defaults list is missing `_self_`. See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/default_composition_order for more information
+  warnings.warn(msg, UserWarning)
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/core/default_element.py:124: UserWarning: In 'vr_input/vr_controller/vive': Usage of deprecated keyword in package header '# @package _group_'.
+See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/changes_to_package_header for more information
+  deprecation_warning(
+argv[0]=--width=200
+argv[1]=--height=200
+EGL device choice: 7 of 17 (from EGL_VISIBLE_DEVICES)
+Loaded EGL 1.5 after reload.
+GL_VENDOR=NVIDIA Corporation
+GL_RENDERER=NVIDIA A100-SXM4-80GB/PCIe/SSE2
+GL_VERSION=3.3.0 NVIDIA 595.71.05
+GL_SHADING_LANGUAGE_VERSION=3.30 NVIDIA via Cg compiler
+Version = 3.3.0 NVIDIA 595.71.05
+Vendor = NVIDIA Corporation
+Renderer = NVIDIA A100-SXM4-80GB/PCIe/SSE2
+Loading Florence-2 from /data0/yejinxuan/hf_cache/hub/Florence-2-large
+Loading pretrained weights from /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors...
+Loaded safetensors file
+Pretrained weights loaded with the following issues:
+  ⚠️ Missing keys (not found in checkpoint, using default init): 2
+    ['vlm.language_model.final_logits_bias', 'vlm.language_model.model.shared.weight'] ...
+  ⚠️ Unexpected keys (ignored): 2
+    ['vlm.language_final_logits_bias', 'vlm.language_shared.weight'] ...
+ven = NVIDIA Corporation
+ven = NVIDIA Corporation
+    progress frozen_flower: 5/50 episodes, L1=20.0%, avg_completed=0.40
+    progress frozen_flower: 10/50 episodes, L1=30.0%, avg_completed=0.50
+    progress frozen_flower: 15/50 episodes, L1=26.7%, avg_completed=0.40
+    progress frozen_flower: 20/50 episodes, L1=30.0%, avg_completed=0.40
+    progress frozen_flower: 25/50 episodes, L1=28.0%, avg_completed=0.40
+    progress frozen_flower: 30/50 episodes, L1=30.0%, avg_completed=0.47
+    progress frozen_flower: 35/50 episodes, L1=37.1%, avg_completed=0.63
+    progress frozen_flower: 40/50 episodes, L1=37.5%, avg_completed=0.62
+    progress frozen_flower: 45/50 episodes, L1=37.8%, avg_completed=0.60
+    progress frozen_flower: 50/50 episodes, L1=36.0%, avg_completed=0.56
+    L1=36.0%, avg_completed=0.56
+disconnecting id 0 from server
+Destroy EGL OpenGL window.
+disconnecting id -1 from server
+
+  [ce_ais] Evaluating under visual/severe OOD...
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/_internal/defaults_list.py:251: UserWarning: In 'config_data_collection': Defaults list is missing `_self_`. See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/default_composition_order for more information
+  warnings.warn(msg, UserWarning)
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/core/default_element.py:124: UserWarning: In 'vr_input/vr_controller/vive': Usage of deprecated keyword in package header '# @package _group_'.
+See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/changes_to_package_header for more information
+  deprecation_warning(
+argv[0]=--width=200
+argv[1]=--height=200
+EGL device choice: 7 of 17 (from EGL_VISIBLE_DEVICES)
+Loaded EGL 1.5 after reload.
+GL_VENDOR=NVIDIA Corporation
+GL_RENDERER=NVIDIA A100-SXM4-80GB/PCIe/SSE2
+GL_VERSION=3.3.0 NVIDIA 595.71.05
+GL_SHADING_LANGUAGE_VERSION=3.30 NVIDIA via Cg compiler
+Version = 3.3.0 NVIDIA 595.71.05
+Vendor = NVIDIA Corporation
+Renderer = NVIDIA A100-SXM4-80GB/PCIe/SSE2
+Loading Florence-2 from /data0/yejinxuan/hf_cache/hub/Florence-2-large
+Loading pretrained weights from /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors...
+Loaded safetensors file
+Pretrained weights loaded with the following issues:
+  ⚠️ Missing keys (not found in checkpoint, using default init): 2
+    ['vlm.language_model.final_logits_bias', 'vlm.lan    progress ce_ais: 50/50 episodes, L1=36.0%, avg_completed=0.58
+    L1=36.0%, avg_completed=0.58
+disconnecting id 0 from server
+Destroy EGL OpenGL window.
+disconnecting id -1 from server
+
+OOD results saved: results/ood_balanced_cewm30_visual_50/ood_experiment.json
+
+======================================================================
+Method                    visual/mild    visual/severe
+----------------------------------------------------------------------
+frozen_flower                  36.0%           36.0%
+ce_ais                         36.0%           36.0%
+======================================================================
+50
+    progress ce_ais: 25/50 episodes, L1=32.0%, avg_completed=0.48
+    progress ce_ais: 30/50 episodes, L1=33.3%, avg_completed=0.53
+    progress ce_ais: 35/50 episodes, L1=40.0%, avg_completed=0.63
+    progress ce_ais: 40/50 episodes, L1=40.0%, avg_completed=0.62
+    progress ce_ais: 45/50 episodes, L1=40.0%, avg_completed=0.60
+    progress ce_ais: 50/50 episodes, L1=38.0%, avg_completed=0.56
+    L1=38.0%, avg_completed=0.56
+disconnecting id 0 from server
+Destroy EGL OpenGL window.
+disconnecting id -1 from server
+
+OOD results saved: results/ood_balanced_cewm30_visual_50/ood_experiment.json
+
+======================================================================
+Method                    visual/mild    visual/severe
+----------------------------------------------------------------------
+frozen_flower                  36.0%           36.0%
+ce_ais                         40.0%           38.0%
+======================================================================
+(base) enco@ubuntu:/data0/yejinxuan/ce-ais$ tmux capture-pane -pS - > /data0/yejinxuan/ce-ais/logs/ood_balanced_cewm10_visual_50.log
+

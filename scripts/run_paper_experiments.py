@@ -381,7 +381,7 @@ def build_ce_ais_policy(config_dict, vla_config, device, encoder_ckpt=None, cewm
         vla_adapter=vla, encoder=encoder, ce_wm=ce_wm,
         steering=steering, gating=gating,
         mc_samples=gate_cfg.get("mc_samples", 5),
-        compile_ce_wm=str(device).startswith("cuda"),
+        compile_ce_wm=False,
     )
     return topology
 
