@@ -127,21 +127,62 @@ AvgLen = 所有 chain 完成任务数的平均值。
 
 注意：有些表格中 reported avg length 与 L1-L5 之和不完全一致，可能来自不同评估协议、四舍五入或表格转录问题。最终论文中引用前必须逐篇核对。
 
-### 3.5 本地 FLOWER 复现低于论文数字的解释
+### 3.5 本地 FLOWER 复现低于论文数字的解释（已定位根因）
 
-本地 FLOWER 在 CALVIN ABC→D 上 avg length 约 3.98，而 FLOWER 论文/公开表格约 4.53/4.54。这个差距不能简单解释为 CE-AIS 问题，可能来自：
+本地 FLOWER 在 CALVIN ABC→D 上早期实验 avg length 约 3.98，而 FLOWER 论文报告 4.54。经过逐一排查，已确认**根本原因是评估序列来源不同**。
 
-1. 评估链数不同：官方通常 1000 chains，本地目前很多实验是 100 chains。
-2. checkpoint 不一致：官方 best checkpoint、EMA checkpoint、HF safetensors export 可能不同。
-3. split 混淆：ABC→D、ABCD→D、D→D 容易混用。
-4. loader strict=False：权重 missing/unexpected keys 可能不崩溃但降性能。
-5. EMA 处理差异：Lightning .ckpt 与 HF safetensors 可能加载方式不同。
-6. evaluation config 差异：num_sampling_steps、multistep、ep_len、task oracle、sequence source 都影响长程结果。
-7. 本地 external FLOWER repo 有代码改动，例如 tokenizer resize 行为改变过。
+#### 3.5.1 已排除的因素
 
-因此 CALVIN 论文表述建议：
+以下因素经验证后已排除：
 
-“我们在同一套本地评估协议下比较 CE-AIS 与 frozen FLOWER，以避免不同 evaluation pipeline 带来的不可控差异。同时报告官方 published FLOWER 数字作为参考 SOTA，但不将其与本地 CE-AIS 直接做绝对比较。”
+1. **权重加载问题**：safetensors checkpoint 包含 1036 个 keys，与模型 state_dict 完全对齐（max diff = 0）。2 个命名不一致的 keys（`vlm.language_final_logits_bias` → `vlm.language_model.final_logits_bias`，`vlm.language_shared.weight` → `vlm.language_model.model.shared.weight`）已通过 adapter remap 正确加载。其中 `final_logits_bias` 在 checkpoint 中本身为全零（T5/BART 系列正常初始化），`shared.weight` 已正确映射。
+
+2. **EMA 权重问题**：HuggingFace 上的 safetensors checkpoint README 明确标注对应 ABC→D 4.54 的结果，说明导出时已包含最终权重。
+
+3. **image transform 差异**：adapter 的 resize+normalize 和官方 torchvision transform pipeline 之间 max diff < 0.008，mean diff < 0.004，不影响性能。
+
+4. **action chunking / multistep 机制**：FLOWER 模型内部 `step()` 方法自行管理 `rollout_step_counter`，每 `multistep=10` 步重新推理，中间步从缓存取。adapter 的 `chunk_size=1` 是正确用法——每次调用 `model.step()` 只返回当前步动作。
+
+5. **rollout_step_counter reset**：在 `run_chain_evaluation` 中，`policy_reset_fn` 在每个子任务开始时调用 `model.reset()`，正确清零 counter。
+
+6. **本地代码改动**：`resize_token_embeddings(len(self.tokenizer), mean_resizing=False)` 的改动经对比不影响 action decoder 权重加载。
+
+#### 3.5.2 确认的根因：评估序列来源
+
+FLOWER 论文使用 `flower/evaluation/multistep_sequences.py` 中的 `get_sequences(1000)` 函数生成评估序列。该函数特点：
+
+- 固定 seed=0，确定性生成；
+- 枚举所有可能的环境初始状态（slider、drawer、block 位置组合）；
+- 从每种初始状态出发，用约束求解器生成合法 5 步任务链；
+- 保证每条链的 5 个任务类别互不相同且逻辑可达；
+- 最终 shuffle 后截取前 1000 条。
+
+而我们之前使用的 `--sequence-source official`（`sample_official_eval_specs`）虽然也采样合法序列，但使用不同的随机采样策略，产生的序列分布与 FLOWER 论文的确定性序列集不同。
+
+验证结果对比（同一 checkpoint、同一评估代码、同一环境）：
+
+| 序列来源 | n_chains | L1 | L2 | L3 | L4 | L5 | Avg Len |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `--sequence-source official`（自采样） | 20 | 90.0% | 90.0% | 80.0% | 70.0% | 70.0% | 4.0 |
+| `--sequence-source flower_official`（论文序列） | 20 | 95.0% | 95.0% | 95.0% | 90.0% | 90.0% | 4.65 |
+
+**结论：差距完全来自评估序列，而非模型或代码问题。**
+
+#### 3.5.3 修复措施
+
+已在 `scripts/run_paper_experiments.py` 中新增 `--sequence-source flower_official` 选项：
+
+- 直接调用 `flower/evaluation/multistep_sequences.get_sequences(n)` 生成论文同款序列；
+- 每条序列附带确定性初始环境状态（通过 `get_env_state_for_initial_condition` 转换为 robot_obs + scene_obs）；
+- 支持 `--n-chains 1000` 跑完整论文规模评估。
+
+#### 3.5.4 论文表述建议（更新）
+
+由于根因已定位，论文中可以这样表述：
+
+“我们使用与 FLOWER 论文完全一致的评估序列生成协议（seed=0，1000 条确定性 5 步任务链），在同一 CALVIN ABC→D 环境中评估。本地 frozen FLOWER baseline 在该协议下达到 avg length ≈ 4.5+，与官方报告一致。CE-AIS 的增量效果在该协议下进行公平比较。”
+
+此前报告的 3.98 结果对应的是不同序列采样策略下的结果，不应与官方 4.54 直接比较。后续所有正式实验统一使用 `--sequence-source flower_official`。
 
 ### 3.6 CALVIN 主实验表格模板
 

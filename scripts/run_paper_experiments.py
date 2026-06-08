@@ -34,6 +34,8 @@ def parse_args():
     parser.add_argument("--data-dir", type=str,
                         default=os.path.join(PROJECT_ROOT, "data", "task_ABC_D"))
     parser.add_argument("--n-chains", type=int, default=200)
+    parser.add_argument("--chain-offset", type=int, default=0,
+                        help="Skip first N chains from the sequence list (for parallel evaluation)")
     parser.add_argument("--chain-length", type=int, default=5)
     parser.add_argument("--max-steps", type=int, default=300)
     parser.add_argument("--seed", type=int, default=42)
@@ -42,7 +44,7 @@ def parse_args():
     parser.add_argument("--output-dir", type=str,
                         default=os.path.join(PROJECT_ROOT, "results"))
     parser.add_argument("--vla-type", type=str, default="proxy",
-                        choices=["openvla", "proxy", "calvin", "flower"])
+                        choices=["openvla", "proxy", "calvin", "flower", "robovlms"])
     parser.add_argument("--no-egl", action="store_true",
                         help="Disable PyBullet EGL plugin and use DIRECT/TinyRenderer")
     parser.add_argument("--device", type=str, default=None,
@@ -53,8 +55,8 @@ def parse_args():
                         help="CE-WM checkpoint path. Defaults to latest checkpoints/cewm_epoch*.pt")
     parser.add_argument("--progress-steps", type=int, default=25,
                         help="Print per-task progress every N env steps; use 0 to print only task boundaries")
-    parser.add_argument("--sequence-source", type=str, default="official", choices=["official", "random"],
-                        help="Use official CALVIN reachable sequences or random task chains")
+    parser.add_argument("--sequence-source", type=str, default="official", choices=["official", "random", "flower_official"],
+                        help="Use official CALVIN reachable sequences, random task chains, or FLOWER paper's exact 1000 sequences")
     parser.add_argument("--calvin-policy-ckpt", type=str, default=None,
                         help="CALVIN-native policy checkpoint for --vla-type calvin")
     parser.add_argument("--calvin-train-folder", type=str, default=None,
@@ -66,6 +68,12 @@ def parse_args():
                         help="FLOWER VLA checkpoint directory containing config.yaml and model.safetensors")
     parser.add_argument("--flower-code-path", type=str, default=None,
                         help="External FLOWER VLA code checkout path")
+    parser.add_argument("--robovlms-checkpoint-dir", type=str,
+                        default=os.path.join(PROJECT_ROOT, "data", "robovlms"),
+                        help="RoboVLMs checkpoint directory containing configs/ and checkpoints/")
+    parser.add_argument("--robovlms-code-path", type=str,
+                        default=os.path.join(PROJECT_ROOT, "external", "RoboVLMs"),
+                        help="External RoboVLMs code checkout path")
     parser.add_argument("--run-expert-replay-diagnostic", action="store_true",
                         help="Replay validation rel_actions to sanity-check env/oracle/action plumbing")
     parser.add_argument("--expert-replay-episodes", type=int, default=5,
@@ -235,7 +243,29 @@ def sample_official_eval_specs(n_chains, chain_length, rng):
     return specs
 
 
-def sample_task_chains(available_tasks, n_chains, chain_length, rng):
+def load_flower_official_eval_specs(n_chains, chain_length, offset=0):
+    """Load the exact evaluation sequences used in the FLOWER paper (seed=0, deterministic)."""
+    import sys
+    flower_path = os.path.join(PROJECT_ROOT, "external", "flower_vla_calvin")
+    if flower_path not in sys.path:
+        sys.path.insert(0, flower_path)
+    from flower.evaluation.multistep_sequences import get_sequences
+
+    language_map = load_calvin_language_map()
+    raw_seqs = get_sequences(num_sequences=max(n_chains + offset, 1000))
+
+    specs = []
+    for initial_state, task_tuple in raw_seqs[offset:offset + n_chains]:
+        tasks = list(task_tuple)[:chain_length]
+        robot_obs, scene_obs = get_env_state_for_initial_condition(initial_state)
+        specs.append({
+            "initial_state": initial_state,
+            "robot_obs": robot_obs,
+            "scene_obs": scene_obs,
+            "tasks": tasks,
+            "instructions": [language_map.get(t, t.replace("_", " ")) for t in tasks],
+        })
+    return specs
     chains = []
     task_list = list(available_tasks)
     for _ in range(n_chains):
@@ -460,11 +490,7 @@ def main():
     args = parse_args()
     os.environ.setdefault("PYOPENGL_PLATFORM", "egl")
     if args.device and str(args.device).startswith("cuda") and os.environ.get("CUDA_VISIBLE_DEVICES"):
-        hidden = os.environ.pop("CUDA_VISIBLE_DEVICES")
-        print(
-            f"[INFO] Ignoring CUDA_VISIBLE_DEVICES={hidden}; "
-            f"--device {args.device} selects the physical GPU index."
-        )
+        os.environ.pop("CUDA_VISIBLE_DEVICES")
     rng = np.random.RandomState(args.seed)
     torch.manual_seed(args.seed)
 
@@ -520,6 +546,8 @@ def main():
 
     if args.sequence_source == "official":
         eval_specs = sample_official_eval_specs(args.n_chains, args.chain_length, rng)
+    elif args.sequence_source == "flower_official":
+        eval_specs = load_flower_official_eval_specs(args.n_chains, args.chain_length, offset=args.chain_offset)
     else:
         eval_specs = make_random_eval_specs(wrapper.available_tasks, args.n_chains, args.chain_length, rng)
     print(f"  Sequence source: {args.sequence_source}")
@@ -544,6 +572,8 @@ def main():
         "calvin_dataset_path": args.calvin_dataset_path or args.data_dir,
         "flower_checkpoint_dir": args.flower_checkpoint_dir,
         "flower_code_path": args.flower_code_path,
+        "robovlms_checkpoint_dir": args.robovlms_checkpoint_dir,
+        "robovlms_code_path": args.robovlms_code_path,
     }
 
     all_method_results = {}
@@ -570,7 +600,7 @@ def main():
                 policy_reset_fn=getattr(topology, "reset", None))
             results["ce_ais_diagnostics"] = topology.get_diagnostics()
 
-        elif method_name in {"frozen_openvla", "frozen_vla", "frozen_flower"}:
+        elif method_name in {"frozen_openvla", "frozen_vla", "frozen_flower", "frozen_robovlms"}:
             from src.evaluation.baseline_framework import FrozenOpenVLABaseline
             bl = FrozenOpenVLABaseline({**vla_config, "vla_type": args.vla_type})
             bl.setup()

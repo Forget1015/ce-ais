@@ -19,6 +19,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Optional
+import os
 import sys
 
 import numpy as np
@@ -27,7 +28,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-SUPPORTED_VLA_TYPES = ("proxy", "openvla", "flower", "calvin")
+SUPPORTED_VLA_TYPES = ("proxy", "openvla", "flower", "calvin", "robovlms")
 
 
 class VLAAdapter(ABC):
@@ -603,7 +604,94 @@ class CalvinPolicyAdapter(VLAAdapter):
         return iter(())
 
 
-def build_vla_adapter(config: dict) -> VLAAdapter:
+class RoboVLMsAdapter(VLAAdapter):
+    """RoboVLMs (Kosmos-PH) adapter for CALVIN ABC→D."""
+
+    def __init__(
+        self,
+        robovlms_checkpoint_dir: Optional[str] = None,
+        robovlms_code_path: Optional[str] = None,
+        action_dim: int = 7,
+        chunk_size: int = 1,
+        device: str = "cuda",
+    ):
+        repo_root = Path(__file__).resolve().parents[2]
+        self.checkpoint_dir = Path(robovlms_checkpoint_dir or repo_root / "data" / "robovlms").expanduser()
+        self.code_path = Path(robovlms_code_path or repo_root / "external" / "RoboVLMs").expanduser()
+        self.action_dim = action_dim
+        self.chunk_size = chunk_size
+        self.device = device
+        self._custom_model = self._load_model()
+
+    def _load_model(self):
+        import json as _json
+        config_path = self.checkpoint_dir / "configs" / "kosmos_ph_calvin_abc.json"
+        ckpt_path = self.checkpoint_dir / "checkpoints" / "kosmos_ph_calvin_abc.pt"
+        if not config_path.exists():
+            raise RuntimeError(f"RoboVLMs config not found: {config_path}")
+        if not ckpt_path.exists():
+            raise RuntimeError(f"RoboVLMs checkpoint not found: {ckpt_path}")
+
+        code_path_str = str(self.code_path)
+        if code_path_str not in sys.path:
+            sys.path.insert(0, code_path_str)
+
+        configs = _json.loads(config_path.read_text())
+        hf_cache = os.environ.get("HF_HOME", str(Path.home() / ".cache" / "huggingface"))
+        kosmos_local = Path(hf_cache) / "hub" / "kosmos-2-patch14-224"
+        if kosmos_local.exists():
+            configs["model_path"] = str(kosmos_local)
+            configs["vlm"]["pretrained_model_name_or_path"] = str(kosmos_local)
+            configs["tokenizer"]["pretrained_model_name_or_path"] = str(kosmos_local)
+        else:
+            configs["model_path"] = "microsoft/kosmos-2-patch14-224"
+            configs["vlm"]["pretrained_model_name_or_path"] = "microsoft/kosmos-2-patch14-224"
+            configs["tokenizer"]["pretrained_model_name_or_path"] = "microsoft/kosmos-2-patch14-224"
+
+        try:
+            from eval.calvin.model_wrapper import CustomModel
+        except ImportError:
+            raise RuntimeError(
+                "RoboVLMs eval code not importable. "
+                f"Ensure {self.code_path} is the RoboVLMs repo root."
+            )
+
+        model = CustomModel(
+            ckpt_path=str(ckpt_path),
+            configs=configs,
+            device=self.device,
+        )
+        return model
+
+    @torch.no_grad()
+    def predict(self, observation: dict, instruction: str) -> torch.Tensor:
+        raw_obs = observation.get("raw_calvin_obs")
+        if raw_obs is None:
+            raise ValueError("RoboVLMs requires observation['raw_calvin_obs'].")
+        rgb_obs = raw_obs.get("rgb_obs")
+        if not isinstance(rgb_obs, dict):
+            raise ValueError("RoboVLMs requires raw_calvin_obs['rgb_obs'].")
+
+        obs = {"rgb_obs": rgb_obs}
+        if "robot_obs" in raw_obs:
+            obs["robot_obs"] = raw_obs["robot_obs"]
+
+        action = self._custom_model.step(obs, instruction)
+
+        if isinstance(action, np.ndarray):
+            action = torch.from_numpy(action)
+        action = action.float().to(self.device)
+        if action.dim() == 1:
+            action = action.view(1, 1, -1)
+        elif action.dim() == 2:
+            action = action.unsqueeze(0)
+        return action[..., :self.action_dim]
+
+    def reset(self) -> None:
+        self._custom_model.reset()
+
+    def parameters(self):
+        return self._custom_model.policy.parameters()
     """工厂函数：根据配置构造 VLA adapter。
 
     config 字段：
@@ -642,6 +730,12 @@ def build_vla_adapter(config: dict) -> VLAAdapter:
             calvin_policy_ckpt=config.get("calvin_policy_ckpt"),
             calvin_train_folder=config.get("calvin_train_folder"),
             calvin_dataset_path=config.get("calvin_dataset_path"),
+            **common,
+        )
+    elif vla_type == "robovlms":
+        return RoboVLMsAdapter(
+            robovlms_checkpoint_dir=config.get("robovlms_checkpoint_dir"),
+            robovlms_code_path=config.get("robovlms_code_path"),
             **common,
         )
     else:

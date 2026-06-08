@@ -1,22 +1,21 @@
 {
   "config": {
-    "n_chains": 200,
+    "n_chains": 20,
     "chain_length": 5,
     "max_steps_per_task": 360,
     "seed": 42,
     "vla_type": "flower",
-    "device": "cuda:6",
-    "requested_device": "cuda:6",
+    "device": "cuda:0",
+    "requested_device": "cuda:0",
     "cuda_visible_devices": null,
-    "egl_visible_devices": "6",
+    "egl_visible_devices": "0",
     "use_egl": true,
     "methods": [
-      "frozen_flower",
-      "ce_ais"
+      "frozen_flower"
     ],
-    "sequence_source": "official",
+    "sequence_source": "flower_official",
     "encoder_ckpt": "checkpoints/encoder_epoch0044.pt",
-    "cewm_ckpt": "checkpoints_sub/cewm_epoch0015.pt",
+    "cewm_ckpt": "checkpoints_calibrated_cewm/cewm_epoch0033.pt",
     "calvin_policy_ckpt": null,
     "calvin_train_folder": null,
     "calvin_dataset_path": "data/task_ABC_D"
@@ -24,21 +23,46 @@
   "results": {
     "frozen_flower": {
       "chain_1": 0.95,
-      "chain_2": 0.92,
-      "chain_3": 0.87,
-      "chain_4": 0.795,
-      "chain_5": 0.71,
-      "avg_completed_tasks": 4.245,
-      "avg_latency_ms": 24.5613539663799
-    },
-    "ce_ais": {
-      "chain_1": 0.94,
-      "chain_2": 0.905,
-      "chain_3": 0.84,
-      "chain_4": 0.8,
-      "chain_5": 0.735,
-      "avg_completed_tasks": 4.22,
-      "avg_latency_ms": 167.16149460628
+      "chain_2": 0.95,
+      "chain_3": 0.95,
+      "chain_4": 0.9,
+      "chain_5": 0.9,
+      "avg_completed_tasks": 4.65,
+      "avg_latency_ms": 24.20156225484579,
+      "per_chain_completed_tasks": [
+        5,
+        3,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        0,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5,
+        5
+      ],
+      "completed_tasks_distribution": {
+        "0": 1,
+        "1": 0,
+        "2": 0,
+        "3": 1,
+        "4": 0,
+        "5": 18
+      },
+      "conditional_chain_2": 1.0,
+      "conditional_chain_3": 1.0,
+      "conditional_chain_4": 0.9473684210526315,
+      "conditional_chain_5": 1.0
     }
   },
   "diagnostics": {}
