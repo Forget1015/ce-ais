@@ -1,0 +1,257 @@
+annotations:
+  rotate_red_block_right:
+  - take the red block and rotate it to the right
+  rotate_red_block_left:
+  - take the red block and rotate it to the left
+  rotate_blue_block_right:
+  - take the blue block and rotate it to the right
+  rotate_blue_block_left:
+  - take the blue block and rotate it to the left
+  rotate_pink_block_right:
+  - take the pink block and rotate it to the right
+  rotate_pink_block_left:
+  - take the pink block and rotate it to the left
+  push_red_block_right:
+  - go push the red block right
+  push_red_block_left:
+  - go push the red block left
+  push_blue_block_right:
+  - go push the blue block right
+  push_blue_block_left:
+  - go push the blue block left
+  push_pink_block_right:
+  - go push the pink block right
+  push_pink_block_left:
+  - go push the pink block left
+  move_slider_left:
+  - push the sliding door to the left side
+  move_slider_right:
+  - push the sliding door to the right side
+  open_drawer:
+  - pull the handle to open the drawer
+  close_drawer:
+  - push the handle to close the drawer
+  lift_red_block_table:
+  - grasp and lift the red block
+  lift_blue_block_table:
+  - grasp and lift the blue block
+  lift_pink_block_table:
+  - grasp and lift the pink block
+  lift_red_block_slider:
+  - lift the red block from the sliding cabinet
+  lift_blue_block_slider:
+  - lift the blue block from the sliding cabinet
+  lift_pink_block_slider:
+  - lift the pink block from the sliding cabinet
+  lift_red_block_drawer:
+  - Take the red block from the drawer
+  lift_blue_block_drawer:
+  - Take the blue block from the drawer
+  lift_pink_block_drawer:
+  - Take the pink block from the drawer
+  place_in_slider:
+  - store the grasped block in the sliding cabinet
+  place_in_drawer:
+  - store the grasped block in the drawer
+  push_into_drawer:
+  - slide the block that it falls into the drawer
+  stack_block:
+  - stack the grasped block
+  unstack_block:
+  - remove the stacked block
+  turn_on_lightbulb:
+  - use the switch to turn on the light bulb
+  turn_off_lightbulb:
+  - use the switch to turn off the light bulb
+  turn_on_led:
+  - press the button to turn on the led light
+  turn_off_led:
+  - press the button to turn off the led light
+tasks:
+  _target_: calvin_env.envs.tasks.Tasks
+  tasks:
+    rotate_red_block_right:
+    - rotate_object
+    - block_red
+    - -60
+    rotate_red_block_left:
+    - rotate_object
+    - block_red
+    - 60
+    rotate_blue_block_right:
+    - rotate_object
+    - block_blue
+    - -60
+    rotate_blue_block_left:
+    - rotate_object
+    - block_blue
+    - 60
+    rotate_pink_block_right:
+    - rotate_object
+    - block_pink
+    - -60
+    rotate_pink_block_left:
+    - rotate_object
+    - block_pink
+    - 60
+    push_red_block_right:
+    - push_object
+    - block_red
+    - 0.1
+    - 0
+    push_red_block_left:
+    - push_object
+    - block_red
+    - -0.1
+    - 0
+    push_blue_block_right:
+    - push_object
+    - block_blue
+    - 0.1
+    - 0
+    push_blue_block_left:
+    - push_object
+    - block_blue
+    - -0.1
+    - 0
+    push_pink_block_right:
+    - push_object
+    - block_pink
+    - 0.1
+    - 0
+    push_pink_block_left:
+    - push_object
+    - block_pink
+    - -0.1
+    - 0
+    move_slider_left:
+    - move_door_rel
+    - base__slide
+    - 0.15
+    move_slider_right:
+    - move_door_rel
+    - base__slide
+    - -0.15
+    open_drawer:
+    - move_door_rel
+    - base__drawer
+    - 0.12
+    close_drawer:
+    - move_door_rel
+    - base__drawer
+    - -0.12
+    lift_red_block_table:
+    - lift_object
+    - block_red
+    - 0.05
+    - table
+    - base_link
+    lift_red_block_slider:
+    - lift_object
+    - block_red
+    - 0.03
+    - table
+    - plank_link
+    lift_red_block_drawer:
+    - lift_object
+    - block_red
+    - 0.05
+    - table
+    - drawer_link
+    lift_blue_block_table:
+    - lift_object
+    - block_blue
+    - 0.05
+    - table
+    - base_link
+    lift_blue_block_slider:
+    - lift_object
+    - block_blue
+    - 0.03
+    - table
+    - plank_link
+    lift_blue_block_drawer:
+    - lift_object
+    - block_blue
+    - 0.05
+    - table
+    - drawer_link
+    lift_pink_block_table:
+    - lift_object
+    - block_pink
+    - 0.05
+    - table
+    - base_link
+    lift_pink_block_slider:
+    - lift_object
+    - block_pink
+    - 0.03
+    - table
+    - plank_link
+    lift_pink_block_drawer:
+    - lift_object
+    - block_pink
+    - 0.05
+    - table
+    - drawer_link
+    place_in_slider:
+    - place_object
+    - table
+    - plank_link
+    place_in_drawer:
+    - place_object
+    - table
+    - drawer_link
+    stack_block:
+    - stack_objects
+    unstack_block:
+    - unstack_objects
+    turn_on_lightbulb:
+    - toggle_light
+    - lightbulb
+    - 0
+    - 1
+    turn_off_lightbulb:
+    - toggle_light
+    - lightbulb
+    - 1
+    - 0
+    turn_on_led:
+    - toggle_light
+    - led
+    - 0
+    - 1
+    turn_off_led:
+    - toggle_light
+    - led
+    - 1
+    - 0
+    push_into_drawer:
+    - push_object_into
+    - - block_red
+      - block_blue
+      - block_pink
+    - table
+    - base_link
+    - table
+    - drawer_link
+eval_cfg_overwrite:
+  datamodule:
+    datasets:
+      lang_dataset:
+        lang_folder: lang_annotations
+  model:
+    num_sampling_steps: ${num_sampling_steps}
+train_folder: /data0/yejinxuan/ce-ais/data/flower_calvin_abc/.hydra/config.yaml
+checkpoint: /data0/yejinxuan/ce-ais/data/flower_calvin_abc/flower_abc.ckpt
+device: 0
+log_dir: /data0/yejinxuan/ce-ais/results/flower_official_eval
+dataset_path: /data0/yejinxuan/ce-ais/data/task_ABC_D
+num_videos: 0
+debug: false
+log_wandb: false
+wandb_entity: bennoq
+num_sequences: 1000
+ep_len: 360
+num_sampling_steps: 4
+multistep: 10

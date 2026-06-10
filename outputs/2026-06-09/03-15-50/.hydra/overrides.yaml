@@ -1,0 +1,9 @@
+- train_folder=/data0/yejinxuan/ce-ais/data/flower_calvin_abc/.hydra/config.yaml
+- checkpoint=/data0/yejinxuan/ce-ais/data/flower_calvin_abc/flower_abc.ckpt
+- dataset_path=/data0/yejinxuan/ce-ais/data/task_ABC_D
+- device=0
+- num_sequences=1000
+- num_videos=0
+- debug=False
+- log_wandb=False
+- log_dir=/data0/yejinxuan/ce-ais/results/flower_official_eval

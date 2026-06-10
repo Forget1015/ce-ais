@@ -388,22 +388,20 @@ class FlowerVLAAdapter(VLAAdapter):
         if remapped:
             model.load_state_dict(remapped, strict=False)
 
-    def _image_to_tensor(self, image) -> torch.Tensor:
+    def _image_to_tensor(self, image, pad: int = 10) -> torch.Tensor:
         if isinstance(image, np.ndarray):
             tensor = torch.from_numpy(image)
         elif isinstance(image, torch.Tensor):
             tensor = image.detach().cpu()
         else:
             raise TypeError(f"Unsupported FLOWER image type: {type(image)!r}")
-        tensor = tensor.float()
         if tensor.dim() == 3 and tensor.shape[-1] == 3:
             tensor = tensor.permute(2, 0, 1)
         if tensor.dim() != 3:
             raise ValueError(f"Expected image shape [H,W,3] or [3,H,W], got {tuple(tensor.shape)}")
-        if tensor.max() > 1.0:
-            tensor = tensor / 255.0
-        tensor = tensor.unsqueeze(0)
-        tensor = F.interpolate(tensor, size=(224, 224), mode="bilinear", align_corners=False)
+        tensor = tensor.byte().unsqueeze(0)
+        tensor = F.interpolate(tensor.float(), size=(224, 224), mode="bilinear", align_corners=False)
+        tensor = tensor.float().div(255)
         tensor = tensor.unsqueeze(1).to(self.device)
         return (tensor - self.mean.to(self.device)) / self.std.to(self.device)
 
@@ -420,8 +418,8 @@ class FlowerVLAAdapter(VLAAdapter):
             raise ValueError("FLOWER VLA requires both rgb_static and rgb_gripper observations.")
         return {
             "rgb_obs": {
-                "rgb_static": self._image_to_tensor(static),
-                "rgb_gripper": self._image_to_tensor(gripper),
+                "rgb_static": self._image_to_tensor(static, pad=10),
+                "rgb_gripper": self._image_to_tensor(gripper, pad=4),
             }
         }
 
@@ -648,13 +646,32 @@ class RoboVLMsAdapter(VLAAdapter):
             configs["vlm"]["pretrained_model_name_or_path"] = "microsoft/kosmos-2-patch14-224"
             configs["tokenizer"]["pretrained_model_name_or_path"] = "microsoft/kosmos-2-patch14-224"
 
+        # Patch transformers kosmos2 with RoboVLMs' custom version
+        import importlib
+        import transformers
+        patch_src = self.code_path / "tools" / "modeling_kosmos2.py"
+        if patch_src.exists():
+            import shutil
+            dst = Path(transformers.__path__[0]) / "models" / "kosmos2" / "modeling_kosmos2.py"
+            shutil.copy2(str(patch_src), str(dst))
+            if "transformers.models.kosmos2.modeling_kosmos2" in sys.modules:
+                del sys.modules["transformers.models.kosmos2.modeling_kosmos2"]
+            from transformers.models.kosmos2 import modeling_kosmos2 as _k2mod
+            if hasattr(_k2mod, "Kosmos2ForConditionalGeneration"):
+                transformers.Kosmos2ForConditionalGeneration = _k2mod.Kosmos2ForConditionalGeneration
+
         try:
-            from eval.calvin.model_wrapper import CustomModel
-        except ImportError:
+            import importlib.util
+            wrapper_path = self.code_path / "eval" / "calvin" / "model_wrapper.py"
+            spec = importlib.util.spec_from_file_location("model_wrapper", str(wrapper_path))
+            model_wrapper_mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(model_wrapper_mod)
+            CustomModel = model_wrapper_mod.CustomModel
+        except Exception as exc:
             raise RuntimeError(
                 "RoboVLMs eval code not importable. "
                 f"Ensure {self.code_path} is the RoboVLMs repo root."
-            )
+            ) from exc
 
         model = CustomModel(
             ckpt_path=str(ckpt_path),
@@ -692,6 +709,9 @@ class RoboVLMsAdapter(VLAAdapter):
 
     def parameters(self):
         return self._custom_model.policy.parameters()
+
+
+def build_vla_adapter(config: dict) -> VLAAdapter:
     """工厂函数：根据配置构造 VLA adapter。
 
     config 字段：

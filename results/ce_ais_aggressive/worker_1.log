@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/data0/yejinxuan/ce-ais/scripts/run_paper_experiments.py", line 684, in <module>
+    main()
+  File "/data0/yejinxuan/ce-ais/scripts/run_paper_experiments.py", line 498, in main
+    cm = ConfigManager(config_path=args.config)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data0/yejinxuan/ce-ais/src/config/config_manager.py", line 151, in __init__
+    self.config = self._load_with_inheritance(config_path)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data0/yejinxuan/ce-ais/src/config/config_manager.py", line 176, in _load_with_inheritance
+    base = self._load_with_inheritance(inherit_path)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data0/yejinxuan/ce-ais/src/config/config_manager.py", line 168, in _load_with_inheritance
+    with open(path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data0/yejinxuan/ce-ais/configs/configs/base.yaml'

@@ -1,0 +1,24 @@
+# CE-AIS 激进调参配置 — 解除保守约束
+# 继承 base.yaml，覆盖 steering 和 gating 参数
+
+inherit_from: "base.yaml"
+
+steering:
+  n_steps: 5                      # 5步 Langevin（原 1 步太少）
+  step_size: 0.02                 # 初始步长（原 0.003 太小）
+  anneal_rate: 0.7                # 慢退火（原 0.5）
+  noise_scale: 0.003              # 小量随机探索
+  kl_weight: 1.0                  # 大幅降低 KL 锚定（原 50.0）
+  action_delta_max: 0.15          # 放宽 trust region（原 0.05）
+  enable_accept_reject: false     # 关闭能量判定，先看 steering 效果
+  accept_energy_margin: 0.0
+  diagnostics: true
+  mode: "langevin"
+
+bilateral_gating:
+  lambda_max: 0.8                 # 放开 gating 上限（原 0.2）
+  sensitivity: 0.3                # 放宽 Gaussian gate（原 0.1）
+  window_size: 50
+  mc_samples: 5
+  hard_uncertainty_threshold: null
+  min_lambda: 0.0

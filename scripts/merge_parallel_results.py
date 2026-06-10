@@ -23,7 +23,8 @@ def main():
         with open(worker_file) as f:
             data = json.load(f)
 
-        for method_name, method_data in data.get("methods", {}).items():
+        methods_data = data.get("methods") or data.get("results", {})
+        for method_name, method_data in methods_data.items():
             if method_name not in all_method_results:
                 all_method_results[method_name] = {
                     "per_chain_completed_tasks": [],

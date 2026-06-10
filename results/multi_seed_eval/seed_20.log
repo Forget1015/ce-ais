@@ -1,0 +1,467 @@
+======================================================================
+CE-AIS Paper Main Experiments
+Methods: ['frozen_flower']
+Chains: 1000 x 5
+Device: cuda:7 (requested=cuda:7, visible=None)
+EGL: enabled (EGL_VISIBLE_DEVICES=7)
+======================================================================
+
+[1] Initializing CALVIN environment...
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/_internal/defaults_list.py:251: UserWarning: In 'config_data_collection': Defaults list is missing `_self_`. See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/default_composition_order for more information
+  warnings.warn(msg, UserWarning)
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/core/default_element.py:124: UserWarning: In 'vr_input/vr_controller/vive': Usage of deprecated keyword in package header '# @package _group_'.
+See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/changes_to_package_header for more information
+  deprecation_warning(
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+pybullet build time: Oct 21 2025 10:07:17
+/data0/yejinxuan/workspace/calvin/calvin_env/calvin_env/envs/play_table_env.py:289: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  @hydra.main(config_path="../../conf", config_name="config_data_collection")
+argv[0]=--width=200
+argv[1]=--height=200
+EGL device choice: 7 of 17 (from EGL_VISIBLE_DEVICES)
+Loaded EGL 1.5 after reload.
+GL_VENDOR=NVIDIA Corporation
+GL_RENDERER=NVIDIA A100-SXM4-80GB/PCIe/SSE2
+GL_VERSION=3.3.0 NVIDIA 595.71.05
+GL_SHADING_LANGUAGE_VERSION=3.30 NVIDIA via Cg compiler
+Version = 3.3.0 NVIDIA 595.71.05
+Vendor = NVIDIA Corporation
+Renderer = NVIDIA A100-SXM4-80GB/PCIe/SSE2
+  Available tasks: 34
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/lightning_lite/__init__.py:29: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  __import__("pkg_resources").declare_namespace(__name__)
+  Sequence source: flower_official
+
+[Eval] Running: frozen_flower
+Loading Florence-2 from /data0/yejinxuan/hf_cache/hub/Florence-2-large
+Loading pretrained weights from /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors...
+Loaded safetensors file
+Pretrained weights loaded with the following issues:
+  ⚠️ Missing keys (not found in checkpoint, using default init): 2
+    ['vlm.language_model.final_logits_bias', 'vlm.language_model.model.shared.weight'] ...
+  ⚠️ Unexpected keys (ignored): 2
+    ['vlm.language_final_logits_bias', 'vlm.language_shared.weight'] ...
+    [frozen_flower] chain 1/1000 start: ['rotate_blue_block_right', 'move_slider_right', 'lift_red_block_slider', 'place_in_slider', 'turn_off_lightbulb']
+    [frozen_flower] chain 1/1000 instructions: ['take the blue block and rotate it to the right', 'push the sliding door to the right side', 'lift the red block from the sliding cabinet', 'store the grasped block in the sliding cabinet', 'use the switch to turn off the light bulb']
+ven = NVIDIA Corporation
+ven = NVIDIA Corporation
+    [frozen_flower] chain 1/1000 task 1/5 start: rotate_blue_block_right | instruction: take the blue block and rotate it to the right
+    [frozen_flower] chain 1/1000 task 1/5 step 1/360: running policy
+    [frozen_flower] chain 1/1000 task 1/5 step 1/360: policy 1.75s, stepping env
+    [frozen_flower] chain 1/1000 task 1/5 step 25/360: running policy
+    [frozen_flower] chain 1/1000 task 1/5 step 25/360: policy 0.45s, stepping env
+    [frozen_flower] chain 1/1000 task 1/5 step 50/360: running policy
+    [frozen_flower] chain 1/1000 task 1/5 step 50/360: policy 0.44s, stepping env
+    [frozen_flower] chain 1/1000 task 1/5 step 75/360: running policy
+    [frozen_flower] chain 1/1000 task 1/5 step 75/360: policy 0.33s, stepping env
+    [frozen_flower] chain 1/1000 task 1/5 success at step 83
+    [frozen_flower] chain 1/1000 task 1/5 success: 83 steps, 35.2s
+    [frozen_flower] chain 1/1000 task 2/5 start: move_slider_right | instruction: push the sliding door to the right side
+    [frozen_flower] chain 1/1000 task 2/5 step 1/360: running policy
+    [frozen_flower] chain 1/1000 task 2/5 step 1/360: policy 0.70s, stepping env
+    [frozen_flower] chain 1/1000 task 2/5 step 25/360: running policy
+    [frozen_flower] chain 1/1000 task 2/5 step 25/360: policy 0.32s, stepping env
+    [frozen_flower] chain 1/1000 task 2/5 step 50/360: running policy
+    [frozen_flower] chain 1/1000 task 2/5 step 50/360: policy 0.34s, stepping env
+    [frozen_flower] chain 1/1000 task 2/5 step 75/360: running policy
+    [frozen_flower] chain 1/1000 task 2/5 step 75/360: policy 0.48s, stepping env
+    [frozen_flower] chain 1/1000 task 2/5 success at step 83
+    [frozen_flower] chain 1/1000 task 2/5 success: 83 steps, 40.8s
+    [frozen_flower] chain 1/1000 task 3/5 start: lift_red_block_slider | instruction: lift the red block from the sliding cabinet
+    [frozen_flower] chain 1/1000 task 3/5 step 1/360: running policy
+    [frozen_flower] chain 1/1000 task 3/5 step 1/360: policy 0.66s, stepping env
+    [frozen_flower] chain 1/1000 task 3/5 step 25/360: running policy
+    [frozen_flower] chain 1/1000 task 3/5 step 25/360: policy 0.30s, stepping env
+    [frozen_flower] chain 1/1000 task 3/5 step 50/360: running policy
+    [frozen_flower] chain 1/1000 task 3/5 step 50/360: policy 0.33s, stepping env
+    [frozen_flower] chain 1/1000 task 3/5 step 75/360: running policy
+    [frozen_flower] chain 1/1000 task 3/5 step 75/360: policy 0.49s, stepping env
+    [frozen_flower] chain 1/1000 task 3/5 success at step 82
+    [frozen_flower] chain 1/1000 task 3/5 success: 82 steps, 36.0s
+    [frozen_flower] chain 1/1000 task 4/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [frozen_flower] chain 1/1000 task 4/5 step 1/360: running policy
+    [frozen_flower] chain 1/1000 task 4/5 step 1/360: policy 0.60s, stepping env
+    [frozen_flower] chain 1/1000 task 4/5 success at step 10
+    [frozen_flower] chain 1/1000 task 4/5 success: 10 steps, 3.0s
+    [frozen_flower] chain 1/1000 task 5/5 start: turn_off_lightbulb | instruction: use the switch to turn off the light bulb
+    [frozen_flower] chain 1/1000 task 5/5 step 1/360: running policy
+    [frozen_flower] chain 1/1000 task 5/5 step 1/360: policy 0.89s, stepping env
+    [frozen_flower] chain 1/1000 task 5/5 step 25/360: running policy
+    [frozen_flower] chain 1/1000 task 5/5 step 25/360: policy 0.30s, stepping env
+    [frozen_flower] chain 1/1000 task 5/5 step 50/360: running policy
+    [frozen_flower] chain 1/1000 task 5/5 step 50/360: policy 0.25s, stepping env
+    [frozen_flower] chain 1/1000 task 5/5 success at step 73
+    [frozen_flower] chain 1/1000 task 5/5 success: 73 steps, 27.7s
+    [frozen_flower] chain 2/1000 start: ['turn_off_led', 'push_into_drawer', 'lift_blue_block_drawer', 'place_in_slider', 'close_drawer']
+    [frozen_flower] chain 2/1000 instructions: ['press the button to turn off the led light', 'slide the block that it falls into the drawer', 'Take the blue block from the drawer', 'store the grasped block in the sliding cabinet', 'push the handle to close the drawer']
+    [frozen_flower] chain 2/1000 task 1/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [frozen_flower] chain 2/1000 task 1/5 step 1/360: running policy
+    [frozen_flower] chain 2/1000 task 1/5 step 1/360: policy 0.57s, stepping env
+    [frozen_flower] chain 2/1000 task 1/5 step 25/360: running policy
+    [frozen_flower] chain 2/1000 task 1/5 step 25/360: policy 0.14s, stepping env
+    [frozen_flower] chain 2/1000 task 1/5 success at step 34
+    [frozen_flower] chain 2/1000 task 1/5 success: 34 steps, 11.1s
+    [frozen_flower] chain 2/1000 task 2/5 start: push_into_drawer | instruction: slide the block that it falls into the drawer
+    [frozen_flower] chain 2/1000 task 2/5 step 1/360: running policy
+    [frozen_flower] chain 2/1000 task 2/5 step 1/360: policy 0.55s, stepping env
+    [frozen_flower] chain 2/1000 task 2/5 step 25/360: running policy
+    [frozen_flower] chain 2/1000 task 2/5 step 25/360: policy 0.29s, stepping env
+    [frozen_flower] chain 2/1000 task 2/5 step 50/360: running policy
+    [frozen_flower] chain 2/1000 task 2/5 step 50/360: policy 0.11s, stepping env
+    [frozen_flower] chain 2/1000 task 2/5 step 75/360: running policy
+    [frozen_flower] chain 2/1000 task 2/5 step 75/360: policy 0.28s, stepping env
+    [frozen_flower] chain 2/1000 task 2/5 success at step 78
+    [frozen_flower] chain 2/1000 task 2/5 success: 78 steps, 24.8s
+    [frozen_flower] chain 2/1000 task 3/5 start: lift_blue_block_drawer | instruction: Take the blue block from the drawer
+    [frozen_flower] chain 2/1000 task 3/5 step 1/360: running policy
+    [frozen_flower] chain 2/1000 task 3/5 step 1/360: policy 0.63s, stepping env
+    [frozen_flower] chain 2/1000 task 3/5 step 25/360: running policy
+    [frozen_flower] chain 2/1000 task 3/5 step 25/360: policy 0.29s, stepping env
+    [frozen_flower] chain 2/1000 task 3/5 success at step 42
+    [frozen_flower] chain 2/1000 task 3/5 success: 42 steps, 17.0s
+    [frozen_flower] chain 2/1000 task 4/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [frozen_flower] chain 2/1000 task 4/5 step 1/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 1/360: policy 0.70s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 25/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 25/360: policy 0.44s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 50/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 50/360: policy 0.30s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 75/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 75/360: policy 0.25s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 100/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 100/360: policy 0.28s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 125/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 125/360: policy 0.54s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 150/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 150/360: policy 0.21s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 175/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 175/360: policy 0.22s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 200/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 200/360: policy 0.26s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 225/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 225/360: policy 0.22s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 250/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 250/360: policy 0.36s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 275/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 275/360: policy 0.20s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 300/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 300/360: policy 0.26s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 325/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 325/360: policy 0.24s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 step 350/360: running policy
+    [frozen_flower] chain 2/1000 task 4/5 step 350/360: policy 0.19s, stepping env
+    [frozen_flower] chain 2/1000 task 4/5 failed: 360 steps, 122.3s
+    [frozen_flower] chain 3/1000 start: ['lift_pink_block_slider', 'place_in_slider', 'open_drawer', 'rotate_red_block_right', 'lift_red_block_table']
+    [frozen_flower] chain 3/1000 instructions: ['lift the pink block from the sliding cabinet', 'store the grasped block in the sliding cabinet', 'pull the handle to open the drawer', 'take the red block and rotate it to the right', 'grasp and lift the red block']
+    [frozen_flower] chain 3/1000 task 1/5 start: lift_pink_block_slider | instruction: lift the pink block from the sliding cabinet
+    [frozen_flower] chain 3/1000 task 1/5 step 1/360: running policy
+    [frozen_flower] chain 3/1000 task 1/5 step 1/360: policy 0.88s, stepping env
+    [frozen_flower] chain 3/1000 task 1/5 step 25/360: running policy
+    [frozen_flower] chain 3/1000 task 1/5 step 25/360: policy 0.23s, stepping env
+    [frozen_flower] chain 3/1000 task 1/5 step 50/360: running policy
+    [frozen_flower] chain 3/1000 task 1/5 step 50/360: policy 0.23s, stepping env
+    [frozen_flower] chain 3/1000 task 1/5 success at step 67
+    [frozen_flower] chain 3/1000 task 1/5 success: 67 steps, 20.9s
+    [frozen_flower] chain 3/1000 task 2/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [frozen_flower] chain 3/1000 task 2/5 step 1/360: running policy
+    [frozen_flower] chain 3/1000 task 2/5 step 1/360: policy 0.53s, stepping env
+    [frozen_flower] chain 3/1000 task 2/5 success at step 6
+    [frozen_flower] chain 3/1000 task 2/5 success: 6 steps, 1.9s
+    [frozen_flower] chain 3/1000 task 3/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [frozen_flower] chain 3/1000 task 3/5 step 1/360: running policy
+    [frozen_flower] chain 3/1000 task 3/5 step 1/360: policy 0.66s, stepping env
+    [frozen_flower] chain 3/1000 task 3/5 step 25/360: running policy
+    [frozen_flower] chain 3/1000 task 3/5 step 25/360: policy 0.25s, stepping env
+    [frozen_flower] chain 3/1000 task 3/5 step 50/360: running policy
+    [frozen_flower] chain 3/1000 task 3/5 step 50/360: policy 0.24s, stepping env
+    [frozen_flower] chain 3/1000 task 3/5 step 75/360: running policy
+    [frozen_flower] chain 3/1000 task 3/5 step 75/360: policy 0.24s, stepping env
+    [frozen_flower] chain 3/1000 task 3/5 success at step 79
+    [frozen_flower] chain 3/1000 task 3/5 success: 79 steps, 24.2s
+    [frozen_flower] chain 3/1000 task 4/5 start: rotate_red_block_right | instruction: take the red block and rotate it to the right
+    [frozen_flower] chain 3/1000 task 4/5 step 1/360: running policy
+    [frozen_flower] chain 3/1000 task 4/5 step 1/360: policy 0.67s, stepping env
+    [frozen_flower] chain 3/1000 task 4/5 step 25/360: running policy
+    [frozen_flower] chain 3/1000 task 4/5 step 25/360: policy 0.30s, stepping env
+    [frozen_flower] chain 3/1000 task 4/5 step 50/360: running policy
+    [frozen_flower] chain 3/1000 task 4/5 step 50/360: policy 0.24s, stepping env
+    [frozen_flower] chain 3/1000 task 4/5 step 75/360: running policy
+    [frozen_flower] chain 3/1000 task 4/5 step 75/360: policy 0.27s, stepping env
+    [frozen_flower] chain 3/1000 task 4/5 step 100/360: running policy
+    [frozen_flower] chain 3/1000 task 4/5 step 100/360: policy 0.29s, stepping env
+    [frozen_flower] chain 3/1000 task 4/5 success at step 114
+    [frozen_flower] chain 3/1000 task 4/5 success: 114 steps, 37.3s
+    [frozen_flower] chain 3/1000 task 5/5 start: lift_red_block_table | instruction: grasp and lift the red block
+    [frozen_flower] chain 3/1000 task 5/5 step 1/360: running policy
+    [frozen_flower] chain 3/1000 task 5/5 step 1/360: policy 0.68s, stepping env
+    [frozen_flower] chain 3/1000 task 5/5 step 25/360: running policy
+    [frozen_flower] chain 3/1000 task 5/5 step 25/360: policy 0.28s, stepping env
+    [frozen_flower] chain 3/1000 task 5/5 step 50/360: running policy
+    [frozen_flower] chain 3/1000 task 5/5 step 50/360: policy 0.30s, stepping env
+    [frozen_flower] chain 3/1000 task 5/5 step 75/360: running policy
+    [frozen_flower] chain 3/1000 task 5/5 step 75/360: policy 0.21s, stepping env
+    [frozen_flower] chain 3/1000 task 5/5 success at step 93
+    [frozen_flower] chain 3/1000 task 5/5 success: 93 steps, 28.3s
+    [frozen_flower] chain 4/1000 start: ['rotate_blue_block_right', 'lift_pink_block_table', 'place_in_slider', 'move_slider_left', 'open_drawer']
+    [frozen_flower] chain 4/1000 instructions: ['take the blue block and rotate it to the right', 'grasp and lift the pink block', 'store the grasped block in the sliding cabinet', 'push the sliding door to the left side', 'pull the handle to open the drawer']
+    [frozen_flower] chain 4/1000 task 1/5 start: rotate_blue_block_right | instruction: take the blue block and rotate it to the right
+    [frozen_flower] chain 4/1000 task 1/5 step 1/360: running policy
+    [frozen_flower] chain 4/1000 task 1/5 step 1/360: policy 0.82s, stepping env
+    [frozen_flower] chain 4/1000 task 1/5 step 25/360: running policy
+    [frozen_flower] chain 4/1000 task 1/5 step 25/360: policy 0.23s, stepping env
+    [frozen_flower] chain 4/1000 task 1/5 step 50/360: running policy
+    [frozen_flower] chain 4/1000 task 1/5 step 50/360: policy 0.21s, stepping env
+    [frozen_flower] chain 4/1000 task 1/5 step 75/360: running policy
+    [frozen_flower] chain 4/1000 task 1/5 step 75/360: policy 0.28s, stepping env
+    [frozen_flower] chain 4/1000 task 1/5 success at step 93
+    [frozen_flower] chain 4/1000 task 1/5 success: 93 steps, 27.3s
+    [frozen_flower] chain 4/1000 task 2/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [frozen_flower] chain 4/1000 task 2/5 step 1/360: running policy
+    [frozen_flower] chain 4/1000 task 2/5 step 1/360: policy 0.66s, stepping env
+    [frozen_flower] chain 4/1000 task 2/5 step 25/360: running policy
+    [frozen_flower] chain 4/1000 task 2/5 step 25/360: policy 0.26s, stepping env
+    [frozen_flower] chain 4/1000 task 2/5 step 50/360: running policy
+    [frozen_flower] chain 4/1000 task 2/5 step 50/360: policy 0.26s, stepping env
+    [frozen_flower] chain 4/1000 task 2/5 success at step 72
+    [frozen_flower] chain 4/1000 task 2/5 success: 72 steps, 21.4s
+    [frozen_flower] chain 4/1000 task 3/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [frozen_flower] chain 4/1000 task 3/5 step 1/360: running policy
+    [frozen_flower] chain 4/1000 task 3/5 step 1/360: policy 0.58s, stepping env
+    [frozen_flower] chain 4/1000 task 3/5 step 25/360: running policy
+    [frozen_flower] chain 4/1000 task 3/5 step 25/360: policy 0.26s, stepping env
+    [frozen_flower] chain 4/1000 task 3/5 success at step 42
+    [frozen_flower] chain 4/1000 task 3/5 success: 42 steps, 14.4s
+    [frozen_flower] chain 4/1000 task 4/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [frozen_flower] chain 4/1000 task 4/5 step 1/360: running policy
+    [frozen_flower] chain 4/1000 task 4/5 step 1/360: policy 0.72s, stepping env
+    [frozen_flower] chain 4/1000 task 4/5 step 25/360: running policy
+    [frozen_flower] chain 4/1000 task 4/5 step 25/360: policy 0.23s, stepping env
+    [frozen_flower] chain 4/1000 task 4/5 step 50/360: running policy
+    [frozen_flower] chain 4/1000 task 4/5 step 50/360: policy 0.86s, stepping env
+    [frozen_flower] chain 4/1000 task 4/5 success at step 74
+    [frozen_flower] chain 4/1000 task 4/5 success: 74 steps, 60.8s
+    [frozen_flower] chain 4/1000 task 5/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [frozen_flower] chain 4/1000 task 5/5 step 1/360: running policy
+    [frozen_flower] chain 4/1000 task 5/5 step 1/360: policy 1.91s, stepping env
+    [frozen_flower] chain 4/1000 task 5/5 step 25/360: running policy
+    [frozen_flower] chain 4/1000 task 5/5 step 25/360: policy 0.35s, stepping env
+    [frozen_flower] chain 4/1000 task 5/5 step 50/360: running policy
+    [frozen_flower] chain 4/1000 task 5/5 step 50/360: policy 0.29s, stepping env
+    [frozen_flower] chain 4/1000 task 5/5 step 75/360: running policy
+    [frozen_flower] chain 4/1000 task 5/5 step 75/360: policy 0.30s, stepping env
+    [frozen_flower] chain 4/1000 task 5/5 success at step 75
+    [frozen_flower] chain 4/1000 task 5/5 success: 75 steps, 39.3s
+    [frozen_flower] chain 5/1000 start: ['open_drawer', 'lift_pink_block_table', 'place_in_slider', 'turn_on_lightbulb', 'rotate_blue_block_left']
+    [frozen_flower] chain 5/1000 instructions: ['pull the handle to open the drawer', 'grasp and lift the pink block', 'store the grasped block in the sliding cabinet', 'use the switch to turn on the light bulb', 'take the blue block and rotate it to the left']
+    [frozen_flower] chain 5/1000 task 1/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [frozen_flower] chain 5/1000 task 1/5 step 1/360: running policy
+    [frozen_flower] chain 5/1000 task 1/5 step 1/360: policy 0.82s, stepping env
+    [frozen_flower] chain 5/1000 task 1/5 step 25/360: running policy
+    [frozen_flower] chain 5/1000 task 1/5 step 25/360: policy 0.28s, stepping env
+    [frozen_flower] chain 5/1000 task 1/5 step 50/360: running policy
+    [frozen_flower] chain 5/1000 task 1/5 step 50/360: policy 0.27s, stepping env
+    [frozen_flower] chain 5/1000 task 1/5 success at step 52
+    [frozen_flower] chain 5/1000 task 1/5 success: 52 steps, 20.9s
+    [frozen_flower] chain 5/1000 task 2/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [frozen_flower] chain 5/1000 task 2/5 step 1/360: running policy
+    [frozen_flower] chain 5/1000 task 2/5 step 1/360: policy 0.75s, stepping env
+    [frozen_flower] chain 5/1000 task 2/5 step 25/360: running policy
+    [frozen_flower] chain 5/1000 task 2/5 step 25/360: policy 0.30s, stepping env
+    [frozen_flower] chain 5/1000 task 2/5 step 50/360: running policy
+    [frozen_flower] chain 5/1000 task 2/5 step 50/360: policy 0.32s, stepping env
+    [frozen_flower] chain 5/1000 task 2/5 success at step 70
+    [frozen_flower] chain 5/1000 task 2/5 success: 70 steps, 24.4s
+    [frozen_flower] chain 5/1000 task 3/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [frozen_flower] chain 5/1000 task 3/5 step 1/360: running policy
+    [frozen_flower] chain 5/1000 task 3/5 step 1/360: policy 0.59s, stepping env
+    [frozen_flower] chain 5/1000 task 3/5 step 25/360: running policy
+    [frozen_flower] chain 5/1000 task 3/5 step 25/360: policy 0.24s, stepping env
+    [frozen_flower] chain 5/1000 task 3/5 step 50/360: running policy
+    [frozen_flower] chain 5/1000 task 3/5 step 50/360: policy 0.24s, stepping env
+    [frozen_flower] chain 5/1000 task 3/5 step 75/360: running policy
+    [frozen_flower] chain 5/1000 task 3/5 step 75/360: policy 0.24s, stepping env
+    [frozen_flower] chain 5/1000 task 3/5 step 100/360: running policy
+    [frozen_flower] chain 5/1000 task 3/5 step 100/360: policy 0.30s, stepping env
+    [frozen_flower] chain 5/1000 task 3/5 step 125/360: running policy
+    [frozen_flower] chain 5/1000 task 3/5 step 125/360: policy 0.29s, stepping env
+    [frozen_flower] chain 5/1000 task 3/5 step 150/360: running policy
+    [frozen_flower] chain 5/1000 task 3/5 step 150/360: policy 0.33s, stepping env
+    [frozen_flower] chain 5/1000 task 3/5 step 175/360: running policy
+    [frozen_flower] chain 5/1000 task 3/5 step 175/360: policy 0.28s, stepping env
+    [frozen_flower] chain 5/1000 task 3/5 step 200/360: running policy
+    [frozen_flower] chain 5/1000 task 3/5 step 200/360: policy 0.27s, stepping env
+    [frozen_flower] chain 5/1000 task 3/5 step 225/360: running policy
+    [frozen_flower] chain 5/1000 task 3/5 step 225/360: policy 0.26s, stepping env
+    [frozen_flower] chain 5/1000 task 3/5 success at step 229
+    [frozen_flower] chain 5/1000 task 3/5 success: 229 steps, 82.5s
+    [frozen_flower] chain 5/1000 task 4/5 start: turn_on_lightbulb | instruction: use the switch to turn on the light bulb
+    [frozen_flower] chain 5/1000 task 4/5 step 1/360: running policy
+    [frozen_flower] chain 5/1000 task 4/5 step 1/360: policy 0.75s, stepping env
+    [frozen_flower] chain 5/1000 task 4/5 step 25/360: running policy
+    [frozen_flower] chain 5/1000 task 4/5 step 25/360: policy 0.23s, stepping env
+    [frozen_flower] chain 5/1000 task 4/5 step 50/360: running policy
+    [frozen_flower] chain 5/1000 task 4/5 step 50/360: policy 0.32s, stepping env
+    [frozen_flower] chain 5/1000 task 4/5 success at step 67
+    [frozen_flower] chain 5/1000 task 4/5 success: 67 steps, 22.7s
+    [frozen_flower] chain 5/1000 task 5/5 start: rotate_blue_block_left | instruction: take the blue block and rotate it to the left
+    [frozen_flower] chain 5/1000 task 5/5 step 1/360: running policy
+    [frozen_flower] chain 5/1000 task 5/5 step 1/360: policy 0.80s, stepping env
+    [frozen_flower] chain 5/1000 task 5/5 step 25/360: running policy
+    [frozen_flower] chain 5/1000 task 5/5 step 25/360: policy 0.33s, stepping env
+    [frozen_flower] chain 5/1000 task 5/5 step 50/360: running policy
+    [frozen_flower] chain 5/1000 task 5/5 step 50/360: policy 0.25s, stepping env
+    [frozen_flower] chain 5/1000 task 5/5 success at step 66
+    [frozen_flower] chain 5/1000 task 5/5 success: 66 steps, 25.6s
+    [frozen_flower] chain 6/1000 start: ['push_blue_block_left', 'close_drawer', 'lift_red_block_slider', 'place_in_slider', 'turn_off_lightbulb']
+    [frozen_flower] chain 6/1000 instructions: ['go push the blue block left', 'push the handle to close the drawer', 'lift the red block from the sliding cabinet', 'store the grasped block in the sliding cabinet', 'use the switch to turn off the light bulb']
+    [frozen_flower] chain 6/1000 task 1/5 start: push_blue_block_left | instruction: go push the blue block left
+    [frozen_flower] chain 6/1000 task 1/5 step 1/360: running policy
+    [frozen_flower] chain 6/1000 task 1/5 step 1/360: policy 0.85s, stepping env
+    [frozen_flower] chain 6/1000 task 1/5 step 25/360: running policy
+    [frozen_flower] chain 6/1000 task 1/5 step 25/360: policy 0.26s, stepping env
+    [frozen_flower] chain 6/1000 task 1/5 step 50/360: running policy
+    [frozen_flower] chain 6/1000 task 1/5 step 50/360: policy 0.35s, stepping env
+    [frozen_flower] chain 6/1000 task 1/5 success at step 64
+    [frozen_flower] chain 6/1000 task 1/5 success: 64 steps, 25.7s
+    [frozen_flower] chain 6/1000 task 2/5 start: close_drawer | instruction: push the handle to close the drawer
+    [frozen_flower] chain 6/1000 task 2/5 step 1/360: running policy
+    [frozen_flower] chain 6/1000 task 2/5 step 1/360: policy 0.71s, stepping env
+    [frozen_flower] chain 6/1000 task 2/5 step 25/360: running policy
+    [frozen_flower] chain 6/1000 task 2/5 step 25/360: policy 0.24s, stepping env
+    [frozen_flower] chain 6/1000 task 2/5 step 50/360: running policy
+    [frozen_flower] chain 6/1000 task 2/5 step 50/360: policy 0.25s, stepping env
+    [frozen_flower] chain 6/1000 task 2/5 step 75/360: running policy
+    [frozen_flower] chain 6/1000 task 2/5 step 75/360: policy 0.21s, stepping env
+    [frozen_flower] chain 6/1000 task 2/5 success at step 81
+    [frozen_flower] chain 6/1000 task 2/5 success: 81 steps, 30.6s
+    [frozen_flower] chain 6/1000 task 3/5 start: lift_red_block_slider | instruction: lift the red block from the sliding cabinet
+    [frozen_flower] chain 6/1000 task 3/5 step 1/360: running policy
+    [frozen_flower] chain 6/1000 task 3/5 step 1/360: policy 1.04s, stepping env
+    [frozen_flower] chain 6/1000 task 3/5 step 25/360: running policy
+    [frozen_flower] chain 6/1000 task 3/5 step 25/360: policy 0.29s, stepping env
+    [frozen_flower] chain 6/1000 task 3/5 step 50/360: running policy
+    [frozen_flower] chain 6/1000 task 3/5 step 50/360: policy 0.37s, stepping env
+    [frozen_flower] chain 6/1000 task 3/5 step 75/360: running policy
+    [frozen_flower] chain 6/1000 task 3/5 step 75/360: policy 0.31s, stepping env
+    [frozen_flower] chain 6/1000 task 3/5 success at step 84
+    [frozen_flower] chain 6/1000 task 3/5 success: 84 steps, 32.3s
+    [frozen_flower] chain 6/1000 task 4/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [frozen_flower] chain 6/1000 task 4/5 step 1/360: running policy
+    [frozen_flower] chain 6/1000 task 4/5 step 1/360: policy 0.67s, stepping env
+    [frozen_flower] chain 6/1000 task 4/5 success at step 9
+    [frozen_flower] chain 6/1000 task 4/5 success: 9 steps, 3.5s
+    [frozen_flower] chain 6/1000 task 5/5 start: turn_off_lightbulb | instruction: use the switch to turn off the light bulb
+    [frozen_flower] chain 6/1000 task 5/5 step 1/360: running policy
+    [frozen_flower] chain 6/1000 task 5/5 step 1/360: policy 0.98s, stepping env
+    [frozen_flower] chain 6/1000 task 5/5 step 25/360: running policy
+    [frozen_flower] chain 6/1000 task 5/5 step 25/360: policy 0.22s, stepping env
+    [frozen_flower] chain 6/1000 task 5/5 step 50/360: running policy
+    [frozen_flower] chain 6/1000 task 5/5 step 50/360: policy 0.23s, stepping env
+    [frozen_flower] chain 6/1000 task 5/5 success at step 50
+    [frozen_flower] chain 6/1000 task 5/5 success: 50 steps, 20.1s
+    [frozen_flower] chain 7/1000 start: ['open_drawer', 'rotate_red_block_right', 'turn_on_led', 'lift_pink_block_table', 'stack_block']
+    [frozen_flower] chain 7/1000 instructions: ['pull the handle to open the drawer', 'take the red block and rotate it to the right', 'press the button to turn on the led light', 'grasp and lift the pink block', 'stack the grasped block']
+    [frozen_flower] chain 7/1000 task 1/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [frozen_flower] chain 7/1000 task 1/5 step 1/360: running policy
+    [frozen_flower] chain 7/1000 task 1/5 step 1/360: policy 0.91s, stepping env
+    [frozen_flower] chain 7/1000 task 1/5 step 25/360: running policy
+    [frozen_flower] chain 7/1000 task 1/5 step 25/360: policy 0.39s, stepping env
+    [frozen_flower] chain 7/1000 task 1/5 success at step 49
+    [frozen_flower] chain 7/1000 task 1/5 success: 49 steps, 19.1s
+    [frozen_flower] chain 7/1000 task 2/5 start: rotate_red_block_right | instruction: take the red block and rotate it to the right
+    [frozen_flower] chain 7/1000 task 2/5 step 1/360: running policy
+    [frozen_flower] chain 7/1000 task 2/5 step 1/360: policy 0.97s, stepping env
+    [frozen_flower] chain 7/1000 task 2/5 step 25/360: running policy
+    [frozen_flower] chain 7/1000 task 2/5 step 25/360: policy 0.34s, stepping env
+    [frozen_flower] chain 7/1000 task 2/5 step 50/360: running policy
+    [frozen_flower] chain 7/1000 task 2/5 step 50/360: policy 0.37s, stepping env
+    [frozen_flower] chain 7/1000 task 2/5 step 75/360: running policy
+    [frozen_flower] chain 7/1000 task 2/5 step 75/360: policy 0.22s, stepping env
+    [frozen_flower] chain 7/1000 task 2/5 step 100/360: running policy
+    [frozen_flower] chain 7/1000 task 2/5 step 100/360: policy 0.27s, stepping env
+    [frozen_flower] chain 7/1000 task 2/5 success at step 103
+    [frozen_flower] chain 7/1000 task 2/5 success: 103 steps, 41.3s
+    [frozen_flower] chain 7/1000 task 3/5 start: turn_on_led | instruction: press the button to turn on the led light
+    [frozen_flower] chain 7/1000 task 3/5 step 1/360: running policy
+    [frozen_flower] chain 7/1000 task 3/5 step 1/360: policy 1.13s, stepping env
+    [frozen_flower] chain 7/1000 task 3/5 step 25/360: running policy
+    [frozen_flower] chain 7/1000 task 3/5 step 25/360: policy 0.28s, stepping env
+    [frozen_flower] chain 7/1000 task 3/5 step 50/360: running policy
+    [frozen_flower] chain 7/1000 task 3/5 step 50/360: policy 0.37s, stepping env
+    [frozen_flower] chain 7/1000 task 3/5 success at step 51
+    [frozen_flower] chain 7/1000 task 3/5 success: 51 steps, 20.8s
+    [frozen_flower] chain 7/1000 task 4/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [frozen_flower] chain 7/1000 task 4/5 step 1/360: running policy
+    [frozen_flower] chain 7/1000 task 4/5 step 1/360: policy 0.85s, stepping env
+    [frozen_flower] chain 7/1000 task 4/5 step 25/360: running policy
+    [frozen_flower] chain 7/1000 task 4/5 step 25/360: policy 0.32s, stepping env
+    [frozen_flower] chain 7/1000 task 4/5 step 50/360: running policy
+    [frozen_flower] chain 7/1000 task 4/5 step 50/360: policy 0.40s, stepping env
+    [frozen_flower] chain 7/1000 task 4/5 success at step 50
+    [frozen_flower] chain 7/1000 task 4/5 success: 50 steps, 20.5s
+    [frozen_flower] chain 7/1000 task 5/5 start: stack_block | instruction: stack the grasped block
+    [frozen_flower] chain 7/1000 task 5/5 step 1/360: running policy
+    [frozen_flower] chain 7/1000 task 5/5 step 1/360: policy 0.95s, stepping env
+    [frozen_flower] chain 7/1000 task 5/5 step 25/360: running policy
+    [frozen_flower] chain 7/1000 task 5/5 step 25/360: policy 0.35s, stepping env
+    [frozen_flower] chain 7/1000 task 5/5 step 50/360: running policy
+    [frozen_flower] chain 7/1000 task 5/5 step 50/360: policy 0.29s, stepping env
+    [frozen_flower] chain 7/1000 task 5/5 step 75/360: running policy
+    [frozen_flower] chain 7/1000 task 5/5 step 75/360: policy 0.36s, stepping env
+    [frozen_flower] chain 7/1000 task 5/5 step 100/360: running policy
+    [frozen_flower] chain 7/1000 task 5/5 step 100/360: policy 0.34s, stepping env
+    [frozen_flower] chain 7/1000 task 5/5 step 125/360: running policy
+    [frozen_flower] chain 7/1000 task 5/5 step 125/360: policy 0.33s, stepping env
+    [frozen_flower] chain 7/1000 task 5/5 success at step 147
+    [frozen_flower] chain 7/1000 task 5/5 success: 147 steps, 58.2s
+    [frozen_flower] chain 8/1000 start: ['push_pink_block_right', 'lift_pink_block_table', 'place_in_slider', 'push_into_drawer', 'close_drawer']
+    [frozen_flower] chain 8/1000 instructions: ['go push the pink block right', 'grasp and lift the pink block', 'store the grasped block in the sliding cabinet', 'slide the block that it falls into the drawer', 'push the handle to close the drawer']
+    [frozen_flower] chain 8/1000 task 1/5 start: push_pink_block_right | instruction: go push the pink block right
+    [frozen_flower] chain 8/1000 task 1/5 step 1/360: running policy
+    [frozen_flower] chain 8/1000 task 1/5 step 1/360: policy 0.83s, stepping env
+    [frozen_flower] chain 8/1000 task 1/5 step 25/360: running policy
+    [frozen_flower] chain 8/1000 task 1/5 step 25/360: policy 0.22s, stepping env
+    [frozen_flower] chain 8/1000 task 1/5 step 50/360: running policy
+    [frozen_flower] chain 8/1000 task 1/5 step 50/360: policy 0.33s, stepping env
+    [frozen_flower] chain 8/1000 task 1/5 step 75/360: running policy
+    [frozen_flower] chain 8/1000 task 1/5 step 75/360: policy 0.26s, stepping env
+    [frozen_flower] chain 8/1000 task 1/5 step 100/360: running policy
+    [frozen_flower] chain 8/1000 task 1/5 step 100/360: policy 0.22s, stepping env
+    [frozen_flower] chain 8/1000 task 1/5 success at step 124
+    [frozen_flower] chain 8/1000 task 1/5 success: 124 steps, 44.4s
+    [frozen_flower] chain 8/1000 task 2/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [frozen_flower] chain 8/1000 task 2/5 step 1/360: running policy
+    [frozen_flower] chain 8/1000 task 2/5 step 1/360: policy 0.84s, stepping env
+    [frozen_flower] chain 8/1000 task 2/5 step 25/360: running policy
+    [frozen_flower] chain 8/1000 task 2/5 step 25/360: policy 0.25s, stepping env
+    [frozen_flower] chain 8/1000 task 2/5 step 50/360: running policy
+    [frozen_flower] chain 8/1000 task 2/5 step 50/360: policy 0.29s, stepping env
+    [frozen_flower] chain 8/1000 task 2/5 step 75/360: running policy
+    [frozen_flower] chain 8/1000 task 2/5 step 75/360: policy 0.17s, stepping env
+    [frozen_flower] chain 8/1000 task 2/5 success at step 96
+    [frozen_flower] chain 8/1000 task 2/5 success: 96 steps, 28.1s
+    [frozen_flower] chain 8/1000 task 3/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [frozen_flower] chain 8/1000 task 3/5 step 1/360: running policy
+    [frozen_flower] chain 8/1000 task 3/5 step 1/360: policy 0.66s, stepping env
+    [frozen_flower] chain 8/1000 task 3/5 step 25/360: running policy
+    [frozen_flower] chain 8/1000 task 3/5 step 25/360: policy 0.24s, stepping env
+    [frozen_flower] chain 8/1000 task 3/5 step 50/360: running policy
+    [frozen_flower] chain 8/1000 task 3/5 step 50/360: policy 0.25s, stepping env
+    [frozen_flower] chain 8/1000 task 3/5 step 75/360: running policy
+    [frozen_flower] chain 8/1000 task 3/5 step 75/360: policy 0.19s, stepping env
+    [frozen_flower] chain 8/1000 task 3/5 step 100/360: running policy
+    [frozen_flower] chain 8/1000 task 3/5 step 100/360: policy 0.24s, stepping env
+    [frozen_flower] chain 8/1000 task 3/5 step 125/360: running policy
+    [frozen_flower] chain 8/1000 task 3/5 step 125/360: policy 0.18s, stepping env
+    [frozen_flower] chain 8/1000 task 3/5 step 150/360: running policy
+    [frozen_flower] chain 8/1000 task 3/5 step 150/360: policy 0.28s, stepping env
+    [frozen_flower] chain 8/1000 task 3/5 step 175/360: running policy
+    [frozen_flower] chain 8/1000 task 3/5 step 175/360: policy 0.19s, stepping env
+    [frozen_flower] chain 8/1000 task 3/5 step 200/360: running policy
+    [frozen_flower] chain 8/1000 task 3/5 step 200/360: policy 0.17s, stepping env

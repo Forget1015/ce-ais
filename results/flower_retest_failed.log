@@ -1,0 +1,69 @@
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/lightning_lite/__init__.py:29: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  __import__("pkg_resources").declare_namespace(__name__)
+Global seed set to 0
+Loading Florence-2 from /data0/yejinxuan/hf_cache/hub/Florence-2-large
+Loading pretrained weights from /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors...
+Loaded safetensors file
+Pretrained weights loaded with the following issues:
+  ⚠️ Missing keys (not found in checkpoint, using default init): 2
+    ['vlm.language_model.final_logits_bias', 'vlm.language_model.model.shared.weight'] ...
+  ⚠️ Unexpected keys (ignored): 2
+    ['vlm.language_final_logits_bias', 'vlm.language_shared.weight'] ...
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/_internal/defaults_list.py:251: UserWarning: In 'config_data_collection': Defaults list is missing `_self_`. See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/default_composition_order for more information
+  warnings.warn(msg, UserWarning)
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/hydra/core/default_element.py:124: UserWarning: In 'vr_input/vr_controller/vive': Usage of deprecated keyword in package header '# @package _group_'.
+See https://hydra.cc/docs/1.2/upgrades/1.0_to_1.1/changes_to_package_header for more information
+  deprecation_warning(
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+pybullet build time: Oct 21 2025 10:07:17
+/data0/yejinxuan/workspace/calvin/calvin_env/calvin_env/envs/play_table_env.py:289: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  @hydra.main(config_path="../../conf", config_name="config_data_collection")
+argv[0]=--width=200
+argv[1]=--height=200
+EGL device choice: -1 of 17.
+Loaded EGL 1.5 after reload.
+GL_VENDOR=NVIDIA Corporation
+GL_RENDERER=NVIDIA A100-SXM4-80GB/PCIe/SSE2
+GL_VERSION=3.3.0 NVIDIA 595.71.05
+GL_SHADING_LANGUAGE_VERSION=3.30 NVIDIA via Cg compiler
+Version = 3.3.0 NVIDIA 595.71.05
+Vendor = NVIDIA Corporation
+Renderer = NVIDIA A100-SXM4-80GB/PCIe/SSE2
+ven = NVIDIA Corporation
+ven = NVIDIA Corporation
+Chain 10: push_red_block_left -> OK
+Chain 100: rotate_red_block_right -> OK
+Chain 113: push_red_block_right -> OK
+Chain 255: rotate_red_block_right -> OK
+Chain 306: lift_red_block_slider -> OK
+Chain 431: push_blue_block_right -> OK
+Chain 488: rotate_red_block_right -> OK
+Chain 522: rotate_blue_block_right -> OK
+Chain 533: push_blue_block_right -> OK
+Chain 536: push_red_block_right -> OK
+Chain 589: push_red_block_right -> OK
+Chain 619: push_red_block_right -> OK
+Chain 627: push_blue_block_right -> OK
+Chain 630: push_blue_block_left -> OK
+Chain 646: rotate_red_block_left -> OK
+Chain 693: rotate_red_block_right -> OK
+Chain 700: rotate_red_block_left -> OK
+Chain 749: push_blue_block_right -> OK
+Chain 763: rotate_red_block_right -> OK
+Chain 785: push_red_block_left -> OK
+Chain 792: lift_blue_block_slider -> OK
+Chain 894: push_blue_block_right -> OK
+Chain 951: lift_blue_block_slider -> OK
+Chain 994: push_red_block_left -> OK
+
+Previously failed: 24
+Now succeeded: 24/24
+Estimated new L1: 100.0%
+disconnecting id 0 from server
+Destroy EGL OpenGL window.
