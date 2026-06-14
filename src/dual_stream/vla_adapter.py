@@ -26,6 +26,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import torchvision
 
 
 SUPPORTED_VLA_TYPES = ("proxy", "openvla", "flower", "calvin", "robovlms")
@@ -399,10 +400,12 @@ class FlowerVLAAdapter(VLAAdapter):
             tensor = tensor.permute(2, 0, 1)
         if tensor.dim() != 3:
             raise ValueError(f"Expected image shape [H,W,3] or [3,H,W], got {tuple(tensor.shape)}")
-        tensor = tensor.byte().unsqueeze(0)
-        tensor = F.interpolate(tensor.float(), size=(224, 224), mode="bilinear", align_corners=False)
-        tensor = tensor.float().div(255)
-        tensor = tensor.unsqueeze(1).to(self.device)
+        tensor = tensor.byte().unsqueeze(0)  # [1, 3, H, W] uint8
+        tensor = torchvision.transforms.functional.resize(
+            tensor, size=[224, 224], antialias=True
+        )  # [1, 3, 224, 224] uint8 — matches official torchvision.transforms.Resize
+        tensor = tensor.float().div(255)  # ScaleImageTensor
+        tensor = tensor.unsqueeze(1).to(self.device)  # [1, 1, 3, 224, 224]
         return (tensor - self.mean.to(self.device)) / self.std.to(self.device)
 
     def _build_obs(self, observation: dict) -> dict:

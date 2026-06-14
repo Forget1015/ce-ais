@@ -37,7 +37,7 @@ def parse_args():
     parser.add_argument("--n-episodes", type=int, default=50,
                         help="Episodes per OOD type")
     parser.add_argument("--chain-length", type=int, default=5)
-    parser.add_argument("--max-steps", type=int, default=300)
+    parser.add_argument("--max-steps", type=int, default=360)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--config", type=str,
                         default=os.path.join(PROJECT_ROOT, "configs", "base.yaml"))

@@ -39,7 +39,7 @@ def parse_args() -> argparse.Namespace:
                         default=os.path.join(project_root, "data", "task_ABC_D"))
     parser.add_argument("--n-chains", type=int, default=50)
     parser.add_argument("--chain-length", type=int, default=5)
-    parser.add_argument("--max-steps", type=int, default=300)
+    parser.add_argument("--max-steps", type=int, default=360)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--vla-type", type=str, default="proxy",
                         choices=["openvla", "proxy"])

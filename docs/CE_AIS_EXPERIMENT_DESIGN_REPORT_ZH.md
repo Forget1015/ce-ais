@@ -184,6 +184,111 @@ FLOWER 论文使用 `flower/evaluation/multistep_sequences.py` 中的 `get_seque
 
 此前报告的 3.98 结果对应的是不同序列采样策略下的结果，不应与官方 4.54 直接比较。后续所有正式实验统一使用 `--sequence-source flower_official`。
 
+#### 3.5.5 评估环境封装修复（2026-06-12 确认）
+
+**问题**：即使使用 `flower_official` 序列，本地 frozen FLOWER 的 L1 仍只有 ~97.5%（官方 99.3%，本地复现 99.6%）。差距来自 CE-AIS 自己封装的 `CALVINWrapper`（`src/evaluation/calvin_integration.py`）与官方 `HulcWrapper`（`flower/wrappers/hulc_wrapper.py`）之间的行为差异。
+
+**验证实验**：在完全相同的机器、Python 环境、权重和评估序列下：
+- 用 CE-AIS 的 `CALVINWrapper` → L1 = 97.5%（25/1000 失败）
+- 用官方 `HulcWrapper` + `model.step` → **L1 = 99.7%**（3/1000 失败）
+
+**根因**：`CALVINWrapper` 在观测预处理链路上与官方 `HulcWrapper` 存在微妙差异（transforms 应用方式、观测格式转换等），导致模型接收到的输入与训练时分布略有偏移。
+
+**修复措施**：`scripts/run_paper_experiments.py` 已改为当 `--vla-type flower --sequence-source flower_official` 时，直接使用官方 `HulcWrapper`（通过 `external/flower_vla_calvin` 中已验证的代码）初始化环境和执行 rollout，不再经过 `CALVINWrapper`。具体改动：
+
+1. 新增 `_init_flower_official_env()` 函数：调用官方 `get_default_mode_and_env` 加载模型和 HulcWrapper 环境；
+2. 新增 `evaluate_method_flower_official()` 函数：复现官方 rollout 逻辑（`env.get_obs()` → `model.step(obs, goal)` → `env.step(action)` → task oracle 判定）；
+3. `frozen_flower` 方法直接调用 `flower_model.step()`，与官方评估完全一致；
+4. `ce_ais` 方法在官方环境上运行，topology 从 HulcWrapper 格式观测中适配输入；
+5. 非 flower 的 VLA 类型（如 openvla、robovlms）仍走原有 `CALVINWrapper` 路径。
+
+**更新后的 baseline 数字**（frozen FLOWER, 1000 chains, flower_official 序列）：
+
+| 评估环境 | L1 | 失败链数 |
+|---|---|---|
+| 官方 HulcWrapper（本次修复后） | **99.7%** | 3 |
+| 论文报告 | 99.3% | ~7 |
+| 旧 CALVINWrapper（已废弃） | 97.5% | 25 |
+
+后续所有 FLOWER 相关实验均使用官方环境路径，确保 baseline 与论文对齐。
+
+#### 3.5.6 完整 1000 chains（L1-L5）复现的额外修复（2026-06-13 确认）
+
+§3.5.5 把 `run_paper_experiments.py` 切到官方 HulcWrapper 路径后，**只跑 L1 子任务**时仍出现 L1≈97.7%（远低于 §3.5.5 直接用桥接脚本 `eval_flower_official_logic.py` 验证的 99.7%）。逐项排查后定位 4 个额外的隐藏差异，全部修复后跑出与论文完全一致的 **Avg Len = 4.54**。
+
+##### A. `--device` 选项无声覆盖了 `CUDA_VISIBLE_DEVICES`
+
+`main()` 入口的下面这段代码会在用户传了 `--device cuda:N` 时**删掉 `CUDA_VISIBLE_DEVICES`**：
+
+```python
+if args.device and str(args.device).startswith("cuda") and os.environ.get("CUDA_VISIBLE_DEVICES"):
+    os.environ.pop("CUDA_VISIBLE_DEVICES")
+```
+
+后果：用户 `CUDA_VISIBLE_DEVICES=6 python ... --device cuda:0` 期望跑物理 GPU6，实际跑了物理 GPU0；同时 `EGL_VISIBLE_DEVICES` 也跟着错位，导致 PyBullet 渲染来自跟模型不同的 GPU，渲染数值会有微小差异。修复：删除这段 pop 逻辑，尊重用户设置的 `CUDA_VISIBLE_DEVICES`。
+
+##### B. 评估期间的全局 `torch.manual_seed(args.seed)` 改变了 FLOWER flow sampling 噪声
+
+`run_paper_experiments.py` 默认 `--seed 42`，会调用 `torch.manual_seed(42)`。但官方 FLOWER eval（`eval_calvin.yaml` + `eval_shard.py`）固定用 `seed_everything(0)`。差异会传递到 FLOWER 的 rectified-flow 推理：`sample_actions()` 起点 `noise = torch.randn(...)`，不同种子会产出不同噪声、不同动作轨迹，最终少量 chain 落入失败路径。
+
+修复：删除 `torch.manual_seed(args.seed)`；改用 `seed_everything(0, workers=True)`，并保留 `rng = np.random.RandomState(args.seed)` 仅用于非 flower_official 的序列采样。
+
+##### C. `_init_flower_official_env` 与 `load_flower_official_eval_specs` 之间消耗了 random numbers
+
+`seed_everything(0)` 之后还要经过模型加载（含 `resize_token_embeddings(..., mean_resizing=True)` 会消耗 `torch.randn`）和 `get_sequences(1000)` 等步骤，进入第一条 chain 时 random state 已经不在 seed=0 的起点。FLOWER 的 step 推理对 random state 敏感，导致前若干 chain 就出现 2 个失败。
+
+修复：在进入 `for method_name in args.methods:` 评估循环前**再次** `seed_everything(0, workers=True)`，把 torch/numpy/python random state 拉回到与官方桥接脚本一致的起点。
+
+##### D. ⚠️ 真正的根因——自写的 `get_env_state_for_initial_condition` 与官方实现行为不同
+
+这是最隐蔽也是影响最大的一处。`scripts/run_paper_experiments.py` 第 155 行自己定义了一份 `get_env_state_for_initial_condition`，`load_flower_official_eval_specs` 第 269 行用的是这份本地函数，而**不是** `flower.evaluation.utils` 里的官方版本。两者有两个关键差异：
+
+1. **deterministic seed 的 hash 方式不同**
+   - 本地：`seed = zlib.crc32(str(tuple(initial_condition.values())).encode("utf-8"))`
+   - 官方：`seed = hasher(str(initial_condition.values()))`，其中 `hasher` 是 `pyhash.fnv1_32()` 实例
+   - 同一 `initial_condition` 经过两种 hash 得到完全不同的 seed → `np.random.shuffle(block_table)` 和 `np.random.uniform(rot_z_range)` 取值不同 → 桌面块的位置和朝向不一样。
+
+2. **红/蓝/粉三色块的位置分配逻辑不同**
+   - 本地用一个循环 + 简化逻辑：`block_table[1 if color == "pink_block" else 0]`
+   - 官方按红→蓝→粉顺序分别处理，blue_block 还要看 red_block 是否在 table（决定走 `block_table[0]` 还是 `block_table[1]`），pink_block 总是用 `block_table[1]`
+
+后果：本地脚本生成的 `scene_obs` 与官方评估在前述确定性 1000 条链上的**初始场景**不一致——同样的语言指令面对的物体姿态不同，FLOWER 在某些条件下抓取失败的频率显著升高，整体 L1 从 99.7% 掉到 ~97.7%。
+
+修复：让 `load_flower_official_eval_specs` 直接调用官方实现：
+
+```python
+from flower.evaluation.utils import get_env_state_for_initial_condition as _official_get_env_state
+...
+robot_obs, scene_obs = _official_get_env_state(initial_state)
+```
+
+本地那份函数保留给非 flower_official 的 `sample_official_eval_specs` 使用，互不影响。
+
+##### 修复后的最终结果
+
+`scripts/run_paper_experiments.py` 跑 frozen_flower, 1000 chains, chain_length=5, max_steps=360, GPU6, `seed_everything(0)`：
+
+| 指标 | 论文 (FLOWER ABC→D) | 本次复现 |
+|---|---|---|
+| L1 | 99.3% | **99.8%** |
+| L2 | 95.9% | 97.2% |
+| L3 | 90.5% | 92.3% |
+| L4 | 84.8% | 86.3% |
+| L5 | 77.5% | 78.8% |
+| **Avg Len** | **4.54** | **4.54** |
+| Latency | – | 102.5 ms |
+
+完全对齐论文报告。后续所有 FLOWER baseline / CE-AIS 实验都在这条已验证的评估链路上运行。
+
+##### 检查清单（迁移机器或新建评估脚本时复核）
+
+1. ✅ `--vla-type flower --sequence-source flower_official` 走 `_init_flower_official_env` + `evaluate_method_flower_official`，不经过 `CALVINWrapper`；
+2. ✅ `main()` 入口不要 pop `CUDA_VISIBLE_DEVICES`；
+3. ✅ 入口和评估循环前各调一次 `seed_everything(0, workers=True)`，禁止额外的 `torch.manual_seed(args.seed)` 覆盖；
+4. ✅ `load_flower_official_eval_specs` 必须 `from flower.evaluation.utils import get_env_state_for_initial_condition`，不要使用脚本里本地定义的同名函数；
+5. ✅ `PYTHONPATH` 把 `external/flower_vla_calvin/calvin_env` 和 `external/flower_vla_calvin` 放在前面，确保用复现版（`play_table_env.py` 第 72 行已注释 `get_git_commit_hash` 那行）；
+6. ✅ `ep_len = args.max_steps = 360`，`num_sampling_steps=4`，`multistep=10`，与官方 `eval_calvin.yaml` 一致。
+
 ### 3.6 CALVIN 主实验表格模板
 
 #### Table C1: CALVIN clean long-horizon performance
@@ -191,10 +296,9 @@ FLOWER 论文使用 `flower/evaluation/multistep_sequences.py` 中的 `get_seque
 | Method | Split | Chains | L1 | L2 | L3 | L4 | L5 | Avg Len | Latency ms | Notes |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | Official FLOWER reported | ABC→D | 1000 | 99.3 | 95.9 | 90.5 | 84.8 | 77.5 | 4.54 | - | paper/reference only |
-| Local frozen FLOWER | ABC→D | 100 | 90.0 | 84.0 | 79.0 | 73.0 | 72.0 | 3.98 | 41.4 | local protocol |
-| Local FLOWER + CE-AIS | ABC→D | 100 | 92.0 | 87.0 | 80.0 | 74.0 | 71.0 | 4.04 | 244.1 | local protocol |
-| Local FLOWER + CE-AIS fast | ABC→D | TBD | | | | | | | | optimized latency |
-| OpenVLA fine-tuned | ABC→D | TBD | | | | | | | | if feasible |
+| Local frozen FLOWER (official env) | ABC→D | 1000 | **99.8** | **97.2** | **92.3** | **86.3** | **78.8** | **4.54** | 102.5 | §3.5.5 + §3.5.6 全部修复后 |
+| Local FLOWER + CE-AIS (official env) | ABC→D | 1000 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | HulcWrapper, §3.5.5 |
+| ~~Local frozen FLOWER (old wrapper)~~ | ~~ABC→D~~ | ~~1000~~ | ~~97.5~~ | ~~91.8~~ | ~~85.5~~ | ~~79.7~~ | ~~73.6~~ | ~~4.28~~ | ~~41~~ | ~~已废弃，CALVINWrapper 有误差~~ |
 | OpenVLA fine-tuned + CE-AIS | ABC→D | TBD | | | | | | | | if feasible |
 | π0/π0.5 fine-tuned | ABC→D | TBD | | | | | | | | if feasible |
 | π0/π0.5 + CE-AIS | ABC→D | TBD | | | | | | | | if feasible |

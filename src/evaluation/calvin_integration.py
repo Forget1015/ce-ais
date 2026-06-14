@@ -146,24 +146,29 @@ class CALVINWrapper:
             self._init_real_env()
 
     def _init_real_env(self):
-        """初始化真实 CALVIN 仿真环境。"""
+        """初始化真实 CALVIN 仿真环境（和官方 FLOWER eval 完全一致）。"""
         os.environ.setdefault("PYOPENGL_PLATFORM", "egl")
 
-        scene = self.config.get("scene", "calvin_scene_D")
-        cameras = self.config.get("cameras", "static_and_gripper")
-        data_path = self.config.get("data_path", "data")
-        seed = self.config.get("seed", 0)
+        data_dir = self.config.get("data_dir", "data/task_ABC_D")
         use_egl = self.config.get("use_egl", True)
 
-        logger.info("Initializing CALVIN env: scene=%s, cameras=%s, egl=%s", scene, cameras, use_egl)
-        self._env, cfg = _create_calvin_env(
-            scene=scene, cameras=cameras, data_path=data_path,
-            use_egl=use_egl, seed=seed,
-        )
+        from calvin_env.envs.play_table_env import get_env
+        obs_space = {
+            'rgb_obs': ['rgb_static', 'rgb_gripper'],
+            'depth_obs': [],
+            'state_obs': ['robot_obs'],
+            'actions': ['rel_actions'],
+            'language': ['language'],
+        }
+        dataset_path = os.path.join(data_dir, "validation")
+        logger.info("Initializing CALVIN env from dataset config: %s", dataset_path)
+        self._env = get_env(dataset_path, obs_space=obs_space, show_gui=False)
 
-        # 初始化任务检测 oracle
+        # 初始化任务检测 oracle（从 dataset 的 merged_config 加载）
         import hydra as _hydra
-        tasks_cfg = cfg.get("tasks", None)
+        from omegaconf import OmegaConf
+        merged_cfg = OmegaConf.load(os.path.join(dataset_path, ".hydra", "merged_config.yaml"))
+        tasks_cfg = merged_cfg.get("tasks", None)
         if tasks_cfg is not None:
             self._tasks = _hydra.utils.instantiate(tasks_cfg)
             logger.info("Task oracle loaded: %d tasks", self._tasks.num_tasks)
@@ -209,7 +214,7 @@ class CALVINWrapper:
         if self._env is not None:
             action_np = action.detach().cpu().numpy().flatten()[:7].copy()
             # CALVIN 要求 gripper action 为 -1 (close) 或 1 (open)
-            action_np[-1] = 1.0 if action_np[-1] >= 0 else -1.0
+            action_np[-1] = 1.0 if action_np[-1] > 0 else -1.0
             raw_obs, _, done, info = self._env.step(action_np)
             obs = self._wrap_observation(raw_obs)
 

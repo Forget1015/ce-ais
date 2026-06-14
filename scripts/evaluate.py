@@ -41,7 +41,7 @@ def parse_args():
                         help="Number of task chains to evaluate")
     parser.add_argument("--chain-length", type=int, default=5,
                         help="Tasks per chain")
-    parser.add_argument("--max-steps", type=int, default=300,
+    parser.add_argument("--max-steps", type=int, default=360,
                         help="Max steps per task")
     parser.add_argument("--seed", type=int, default=42)
 

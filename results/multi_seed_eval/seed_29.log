@@ -2,8 +2,8 @@
 CE-AIS Paper Main Experiments
 Methods: ['frozen_flower']
 Chains: 1000 x 5
-Device: cuda:7 (requested=cuda:7, visible=None)
-EGL: enabled (EGL_VISIBLE_DEVICES=7)
+Device: cuda:6 (requested=cuda:6, visible=None)
+EGL: enabled (EGL_VISIBLE_DEVICES=6)
 ======================================================================
 
 [1] Initializing CALVIN environment...
@@ -24,7 +24,7 @@ Will assume defaults for version 1.1
   @hydra.main(config_path="../../conf", config_name="config_data_collection")
 argv[0]=--width=200
 argv[1]=--height=200
-EGL device choice: 7 of 17 (from EGL_VISIBLE_DEVICES)
+EGL device choice: 6 of 17 (from EGL_VISIBLE_DEVICES)
 Loaded EGL 1.5 after reload.
 GL_VENDOR=NVIDIA Corporation
 GL_RENDERER=NVIDIA A100-SXM4-80GB/PCIe/SSE2
@@ -36,68 +36,3 @@ Renderer = NVIDIA A100-SXM4-80GB/PCIe/SSE2
   Available tasks: 34
 /data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/lightning_lite/__init__.py:29: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
   __import__("pkg_resources").declare_namespace(__name__)
-  Sequence source: flower_official
-
-[Eval] Running: frozen_flower
-Loading Florence-2 from /data0/yejinxuan/hf_cache/hub/Florence-2-large
-Loading pretrained weights from /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors...
-Loaded safetensors file
-Pretrained weights loaded with the following issues:
-  ⚠️ Missing keys (not found in checkpoint, using default init): 2
-    ['vlm.language_model.final_logits_bias', 'vlm.language_model.model.shared.weight'] ...
-  ⚠️ Unexpected keys (ignored): 2
-    ['vlm.language_final_logits_bias', 'vlm.language_shared.weight'] ...
-    [frozen_flower] chain 1/1000 start: ['rotate_blue_block_right', 'move_slider_right', 'lift_red_block_slider', 'place_in_slider', 'turn_off_lightbulb']
-    [frozen_flower] chain 1/1000 instructions: ['take the blue block and rotate it to the right', 'push the sliding door to the right side', 'lift the red block from the sliding cabinet', 'store the grasped block in the sliding cabinet', 'use the switch to turn off the light bulb']
-ven = NVIDIA Corporation
-ven = NVIDIA Corporation
-    [frozen_flower] chain 1/1000 task 1/5 start: rotate_blue_block_right | instruction: take the blue block and rotate it to the right
-    [frozen_flower] chain 1/1000 task 1/5 step 1/360: running policy
-    [frozen_flower] chain 1/1000 task 1/5 step 1/360: policy 3.16s, stepping env
-    [frozen_flower] chain 1/1000 task 1/5 step 25/360: running policy
-    [frozen_flower] chain 1/1000 task 1/5 step 25/360: policy 0.93s, stepping env
-    [frozen_flower] chain 1/1000 task 1/5 step 50/360: running policy
-    [frozen_flower] chain 1/1000 task 1/5 step 50/360: policy 0.77s, stepping env
-    [frozen_flower] chain 1/1000 task 1/5 step 75/360: running policy
-    [frozen_flower] chain 1/1000 task 1/5 step 75/360: policy 0.77s, stepping env
-    [frozen_flower] chain 1/1000 task 1/5 success at step 94
-    [frozen_flower] chain 1/1000 task 1/5 success: 94 steps, 96.0s
-    [frozen_flower] chain 1/1000 task 2/5 start: move_slider_right | instruction: push the sliding door to the right side
-    [frozen_flower] chain 1/1000 task 2/5 step 1/360: running policy
-    [frozen_flower] chain 1/1000 task 2/5 step 1/360: policy 2.06s, stepping env
-    [frozen_flower] chain 1/1000 task 2/5 step 25/360: running policy
-    [frozen_flower] chain 1/1000 task 2/5 step 25/360: policy 1.20s, stepping env
-    [frozen_flower] chain 1/1000 task 2/5 step 50/360: running policy
-    [frozen_flower] chain 1/1000 task 2/5 step 50/360: policy 1.07s, stepping env
-    [frozen_flower] chain 1/1000 task 2/5 step 75/360: running policy
-    [frozen_flower] chain 1/1000 task 2/5 step 75/360: policy 0.98s, stepping env
-    [frozen_flower] chain 1/1000 task 2/5 success at step 78
-    [frozen_flower] chain 1/1000 task 2/5 success: 78 steps, 85.0s
-    [frozen_flower] chain 1/1000 task 3/5 start: lift_red_block_slider | instruction: lift the red block from the sliding cabinet
-    [frozen_flower] chain 1/1000 task 3/5 step 1/360: running policy
-    [frozen_flower] chain 1/1000 task 3/5 step 1/360: policy 2.11s, stepping env
-    [frozen_flower] chain 1/1000 task 3/5 step 25/360: running policy
-    [frozen_flower] chain 1/1000 task 3/5 step 25/360: policy 1.04s, stepping env
-    [frozen_flower] chain 1/1000 task 3/5 step 50/360: running policy
-    [frozen_flower] chain 1/1000 task 3/5 step 50/360: policy 1.05s, stepping env
-    [frozen_flower] chain 1/1000 task 3/5 success at step 73
-    [frozen_flower] chain 1/1000 task 3/5 success: 73 steps, 81.3s
-    [frozen_flower] chain 1/1000 task 4/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
-    [frozen_flower] chain 1/1000 task 4/5 step 1/360: running policy
-    [frozen_flower] chain 1/1000 task 4/5 step 1/360: policy 1.63s, stepping env
-    [frozen_flower] chain 1/1000 task 4/5 success at step 11
-    [frozen_flower] chain 1/1000 task 4/5 success: 11 steps, 12.6s
-    [frozen_flower] chain 1/1000 task 5/5 start: turn_off_lightbulb | instruction: use the switch to turn off the light bulb
-    [frozen_flower] chain 1/1000 task 5/5 step 1/360: running policy
-    [frozen_flower] chain 1/1000 task 5/5 step 1/360: policy 1.74s, stepping env
-    [frozen_flower] chain 1/1000 task 5/5 step 25/360: running policy
-    [frozen_flower] chain 1/1000 task 5/5 step 25/360: policy 0.85s, stepping env
-    [frozen_flower] chain 1/1000 task 5/5 step 50/360: running policy
-    [frozen_flower] chain 1/1000 task 5/5 step 50/360: policy 0.82s, stepping env
-    [frozen_flower] chain 1/1000 task 5/5 success at step 74
-    [frozen_flower] chain 1/1000 task 5/5 success: 74 steps, 81.6s
-    [frozen_flower] chain 2/1000 start: ['turn_off_led', 'push_into_drawer', 'lift_blue_block_drawer', 'place_in_slider', 'close_drawer']
-    [frozen_flower] chain 2/1000 instructions: ['press the button to turn off the led light', 'slide the block that it falls into the drawer', 'Take the blue block from the drawer', 'store the grasped block in the sliding cabinet', 'push the handle to close the drawer']
-    [frozen_flower] chain 2/1000 task 1/5 start: turn_off_led | instruction: press the button to turn off the led light
-    [frozen_flower] chain 2/1000 task 1/5 step 1/360: running policy
-    [frozen_flower] chain 2/1000 task 1/5 step 1/360: policy 2.12s, stepping env

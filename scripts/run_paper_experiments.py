@@ -37,7 +37,7 @@ def parse_args():
     parser.add_argument("--chain-offset", type=int, default=0,
                         help="Skip first N chains from the sequence list (for parallel evaluation)")
     parser.add_argument("--chain-length", type=int, default=5)
-    parser.add_argument("--max-steps", type=int, default=300)
+    parser.add_argument("--max-steps", type=int, default=360)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--config", type=str,
                         default=os.path.join(PROJECT_ROOT, "configs", "base.yaml"))
@@ -99,13 +99,22 @@ def load_frame_state(data_dir: str, frame_id: int):
 
 
 def _calvin_root() -> Path:
+    """返回 calvin 代码根目录（包含 calvin_models/conf/annotations 等）。"""
+    # 优先用 external/flower_vla_calvin 中的 annotations
+    flower_root = Path(PROJECT_ROOT) / "external" / "flower_vla_calvin"
+    if (flower_root / "conf" / "annotations" / "new_playtable_validation.yaml").exists():
+        return flower_root
+    # fallback: 从 calvin_env 包位置推断
     import calvin_env
     return Path(calvin_env.__file__).resolve().parents[2]
 
 
 def load_calvin_language_map() -> dict:
     import yaml
-    ann_path = _calvin_root() / "calvin_models" / "conf" / "annotations" / "new_playtable_validation.yaml"
+    root = _calvin_root()
+    ann_path = root / "conf" / "annotations" / "new_playtable_validation.yaml"
+    if not ann_path.exists():
+        ann_path = root / "calvin_models" / "conf" / "annotations" / "new_playtable_validation.yaml"
     annotations = yaml.safe_load(ann_path.read_text())
     return {task: texts[0] for task, texts in annotations.items()}
 
@@ -250,6 +259,7 @@ def load_flower_official_eval_specs(n_chains, chain_length, offset=0):
     if flower_path not in sys.path:
         sys.path.insert(0, flower_path)
     from flower.evaluation.multistep_sequences import get_sequences
+    from flower.evaluation.utils import get_env_state_for_initial_condition as _official_get_env_state
 
     language_map = load_calvin_language_map()
     raw_seqs = get_sequences(num_sequences=max(n_chains + offset, 1000))
@@ -257,7 +267,7 @@ def load_flower_official_eval_specs(n_chains, chain_length, offset=0):
     specs = []
     for initial_state, task_tuple in raw_seqs[offset:offset + n_chains]:
         tasks = list(task_tuple)[:chain_length]
-        robot_obs, scene_obs = get_env_state_for_initial_condition(initial_state)
+        robot_obs, scene_obs = _official_get_env_state(initial_state)
         specs.append({
             "initial_state": initial_state,
             "robot_obs": robot_obs,
@@ -416,6 +426,122 @@ def build_ce_ais_policy(config_dict, vla_config, device, encoder_ckpt=None, cewm
     return topology
 
 
+def _init_flower_official_env(args, device):
+    """用官方 HulcWrapper 初始化 FLOWER 评估环境（已验证 L1=99.7%）。"""
+    from flower.evaluation.utils import get_default_mode_and_env
+    from omegaconf import OmegaConf
+
+    FLOWER_CODE = Path(PROJECT_ROOT) / "external" / "flower_vla_calvin"
+    dataset_path = str(Path(PROJECT_ROOT) / args.data_dir)
+    checkpoint_dir = Path(PROJECT_ROOT) / args.flower_checkpoint_dir
+
+    eval_cfg_overwrite = {
+        "use_extracted_rel_actions": False,
+        "datamodule": {"datasets": {"lang_dataset": {"lang_folder": "lang_annotations"}}},
+        "model": {"num_sampling_steps": 4},
+    }
+    device_id = int(device.split(":", 1)[1]) if ":" in str(device) else 0
+    model, env, _, _ = get_default_mode_and_env(
+        str(checkpoint_dir), dataset_path, str(checkpoint_dir / "model.safetensors"),
+        env=None, lang_embeddings=None,
+        eval_cfg_overwrite=eval_cfg_overwrite, device_id=device_id,
+    )
+    model.num_sampling_steps = 4
+    model.multistep = 10
+    model.eval()
+
+    import hydra
+    task_cfg = OmegaConf.load(FLOWER_CODE / "conf" / "callbacks" / "rollout_lh" / "tasks" / "new_playtable_tasks.yaml")
+    task_oracle = hydra.utils.instantiate(task_cfg)
+    val_annotations = OmegaConf.load(FLOWER_CODE / "conf" / "annotations" / "new_playtable_validation.yaml")
+
+    return model, env, task_oracle, val_annotations
+
+
+def evaluate_method_flower_official(method_name, policy_fn, env, task_oracle, val_annotations,
+                                    eval_specs, args, policy_reset_fn=None):
+    """用官方 HulcWrapper rollout 逻辑评估（与官方结果一致）。
+
+    policy_fn: (obs_dict, instruction) -> action_tensor
+        obs_dict 包含 HulcWrapper 格式的观测 + raw_calvin_obs 兼容字段。
+        如果 policy_fn 为 None，直接用 model.step 做 frozen baseline。
+    """
+    from flower.evaluation.utils import get_env_state_for_initial_condition
+
+    ep_len = args.max_steps
+    chain_successes = {i: [] for i in range(1, args.chain_length + 1)}
+    all_results = []
+    completed_tasks = []
+    latencies = []
+
+    for ci, spec in enumerate(eval_specs):
+        chain = spec["tasks"][:args.chain_length]
+        instructions = spec.get("instructions", [t.replace("_", " ") for t in chain])
+        robot_obs = spec.get("robot_obs")
+        scene_obs = spec.get("scene_obs")
+
+        print(f"    [{method_name}] chain {ci + 1}/{len(eval_specs)} start: {chain}", flush=True)
+
+        env.reset(robot_obs=robot_obs, scene_obs=scene_obs)
+
+        success_counter = 0
+        task_results = []
+        t_start = time.time()
+
+        for ti, task_name in enumerate(chain):
+            instruction = instructions[ti] if ti < len(instructions) else task_name.replace("_", " ")
+            obs = env.get_obs()
+            if policy_reset_fn is not None:
+                policy_reset_fn()
+            start_info = env.get_info()
+
+            task_success = False
+            task_steps = 0
+            for step in range(ep_len):
+                action = policy_fn(obs, instruction)
+                obs, _, _, current_info = env.step(action)
+                task_steps += 1
+                current_task_info = task_oracle.get_task_info_for_set(start_info, current_info, {task_name})
+                if len(current_task_info) > 0:
+                    task_success = True
+                    break
+
+            task_results.append({"task": task_name, "success": task_success, "steps": task_steps})
+            if task_success:
+                success_counter += 1
+                print(f"    [{method_name}] chain {ci+1}/{len(eval_specs)} "
+                      f"task {ti+1}/{len(chain)} success: {task_steps} steps", flush=True)
+            else:
+                print(f"    [{method_name}] chain {ci+1}/{len(eval_specs)} "
+                      f"task {ti+1}/{len(chain)} failed: {task_steps} steps", flush=True)
+                break
+
+        elapsed = time.time() - t_start
+        latencies.append(elapsed * 1000 / max(sum(r["steps"] for r in task_results), 1))
+        completed_tasks.append(success_counter)
+        all_results.append({"completed_tasks": success_counter, "task_results": task_results})
+        for length in range(1, args.chain_length + 1):
+            chain_successes[length].append(success_counter >= length)
+
+        if (ci + 1) % 10 == 0:
+            avg = sum(chain_successes[1]) / len(chain_successes[1]) * 100
+            print(f"    [{method_name}] {ci+1}/{len(eval_specs)} chains, L1 success: {avg:.1f}%")
+
+    results_summary = {}
+    for length in range(1, args.chain_length + 1):
+        s = chain_successes[length]
+        results_summary[f"chain_{length}"] = sum(s) / len(s) if s else 0.0
+    results_summary["avg_completed_tasks"] = float(np.mean(completed_tasks))
+    results_summary["avg_latency_ms"] = float(np.mean(latencies)) if latencies else 0.0
+    results_summary["n_chains"] = len(eval_specs)
+    results_summary["per_chain_completed_tasks"] = completed_tasks
+    results_summary["completed_tasks_distribution"] = {
+        str(i): int(sum(1 for c in completed_tasks if c == i))
+        for i in range(args.chain_length + 1)
+    }
+    return results_summary
+
+
 def evaluate_method(method_name, policy_fn, wrapper, eval_specs, data_dir, args, rng, policy_reset_fn=None):
     """对单个方法运行完整评估。"""
     chain_successes = {i: [] for i in range(1, args.chain_length + 1)}
@@ -430,11 +556,10 @@ def evaluate_method(method_name, policy_fn, wrapper, eval_specs, data_dir, args,
         scene_obs = spec.get("scene_obs")
 
         print(f"    [{method_name}] chain {ci + 1}/{len(eval_specs)} start: {chain}", flush=True)
-        if instructions:
-            print(f"    [{method_name}] chain {ci + 1}/{len(eval_specs)} instructions: {instructions}", flush=True)
 
         def progress(message, _ci=ci):
-            print(f"    [{method_name}] chain {_ci + 1}/{len(eval_specs)} {message}", flush=True)
+            if "success:" in message or "failed:" in message:
+                print(f"    [{method_name}] chain {_ci + 1}/{len(eval_specs)} {message}", flush=True)
 
         t_start = time.time()
         result = wrapper.run_chain_evaluation(
@@ -489,10 +614,11 @@ def evaluate_method(method_name, policy_fn, wrapper, eval_specs, data_dir, args,
 def main():
     args = parse_args()
     os.environ.setdefault("PYOPENGL_PLATFORM", "egl")
-    if args.device and str(args.device).startswith("cuda") and os.environ.get("CUDA_VISIBLE_DEVICES"):
-        os.environ.pop("CUDA_VISIBLE_DEVICES")
+
+    from pytorch_lightning import seed_everything
+    seed_everything(0, workers=True)
+
     rng = np.random.RandomState(args.seed)
-    torch.manual_seed(args.seed)
 
     from src.config.config_manager import ConfigManager
     cm = ConfigManager(config_path=args.config)
@@ -531,29 +657,38 @@ def main():
 
     # 初始化 CALVIN 环境
     print("\n[1] Initializing CALVIN environment...")
-    from src.evaluation.calvin_integration import CALVINWrapper
 
-    env_config = {
-        "use_real_env": True,
-        "scene": "calvin_scene_D",
-        "cameras": "static_and_gripper",
-        "use_egl": not args.no_egl,
-        "seed": args.seed,
-        "max_chain_length": args.chain_length,
-    }
-    wrapper = CALVINWrapper(config=env_config)
-    print(f"  Available tasks: {len(wrapper.available_tasks)}")
-
-    if args.sequence_source == "official":
-        eval_specs = sample_official_eval_specs(args.n_chains, args.chain_length, rng)
-    elif args.sequence_source == "flower_official":
+    if args.vla_type == "flower" and args.sequence_source == "flower_official":
+        # 用官方 HulcWrapper（已验证 L1=99.7%，与论文一致）
+        flower_model, flower_env, task_oracle, val_annotations = _init_flower_official_env(args, device)
         eval_specs = load_flower_official_eval_specs(args.n_chains, args.chain_length, offset=args.chain_offset)
+        print(f"  Using official FLOWER HulcWrapper environment")
+        print(f"  Sequence source: flower_official")
+        use_official_env = True
     else:
-        eval_specs = make_random_eval_specs(wrapper.available_tasks, args.n_chains, args.chain_length, rng)
-    print(f"  Sequence source: {args.sequence_source}")
+        from src.evaluation.calvin_integration import CALVINWrapper
+        env_config = {
+            "use_real_env": True,
+            "data_dir": args.data_dir,
+            "scene": "calvin_scene_D",
+            "cameras": "static_and_gripper",
+            "use_egl": not args.no_egl,
+            "seed": args.seed,
+            "max_chain_length": args.chain_length,
+        }
+        wrapper = CALVINWrapper(config=env_config)
+        print(f"  Available tasks: {len(wrapper.available_tasks)}")
+        if args.sequence_source == "official":
+            eval_specs = sample_official_eval_specs(args.n_chains, args.chain_length, rng)
+        elif args.sequence_source == "flower_official":
+            eval_specs = load_flower_official_eval_specs(args.n_chains, args.chain_length, offset=args.chain_offset)
+        else:
+            eval_specs = make_random_eval_specs(wrapper.available_tasks, args.n_chains, args.chain_length, rng)
+        print(f"  Sequence source: {args.sequence_source}")
+        use_official_env = False
 
     diagnostics = {}
-    if args.run_expert_replay_diagnostic:
+    if args.run_expert_replay_diagnostic and not use_official_env:
         print("\n[Diagnostic] Running expert rel_actions replay...")
         diagnostics["expert_replay"] = run_expert_replay_diagnostic(
             wrapper, args.data_dir, args.expert_replay_episodes
@@ -578,58 +713,131 @@ def main():
 
     all_method_results = {}
 
+    # 重新对齐 random state：模型加载/序列生成过程中可能消耗了 random numbers，
+    # 在评估开始前重置，确保与官方 eval 脚本行为一致。
+    seed_everything(0, workers=True)
+
     for method_name in args.methods:
         print(f"\n[Eval] Running: {method_name}")
         method_rng = np.random.RandomState(args.seed)
 
-        if method_name == "ce_ais":
-            topology = build_ce_ais_policy(
-                config_dict, vla_config, device, args.encoder_ckpt, args.cewm_ckpt
-            )
+        if use_official_env:
+            # 官方 HulcWrapper 评估路径
+            if method_name == "ce_ais":
+                topology = build_ce_ais_policy(
+                    config_dict, vla_config, device, args.encoder_ckpt, args.cewm_ckpt
+                )
+                topology.reset_diagnostics()
 
-            topology.reset_diagnostics()
+                def ce_ais_policy(obs, instruction, _topo=topology):
+                    obs_dict = {
+                        "rgb": obs["rgb_obs"]["rgb_static"].unsqueeze(0) if obs["rgb_obs"]["rgb_static"].dim() == 3 else obs["rgb_obs"]["rgb_static"],
+                        "depth": torch.zeros(1, 1, 200, 200, device=device),
+                        "pose": obs.get("robot_obs_raw", obs.get("robot_obs", torch.zeros(7)))[:7].unsqueeze(0).to(device) if isinstance(obs.get("robot_obs_raw", obs.get("robot_obs")), torch.Tensor) else torch.zeros(1, 7, device=device),
+                        "raw_calvin_obs": {
+                            "rgb_obs": {k: v.squeeze(0).permute(1, 2, 0).mul(255).byte().cpu().numpy()
+                                        if v.dim() == 4 else v.permute(1, 2, 0).mul(255).byte().cpu().numpy()
+                                        for k, v in obs["rgb_obs"].items()},
+                            "robot_obs": obs.get("robot_obs_raw", obs.get("robot_obs", torch.zeros(15))).cpu().numpy()
+                            if isinstance(obs.get("robot_obs_raw", obs.get("robot_obs")), torch.Tensor)
+                            else np.zeros(15),
+                        },
+                    }
+                    action, info = _topo.safe_step(obs_dict, str(instruction))
+                    return action.squeeze(0).squeeze(0).cpu()
 
-            def ce_ais_policy(obs_dict, instruction):
-                obs_on_device = {k: v.to(device) if isinstance(v, torch.Tensor) else v
-                                 for k, v in obs_dict.items()}
-                action, info = topology.safe_step(obs_on_device, str(instruction))
-                return action.squeeze(1).cpu()
+                results = evaluate_method_flower_official(
+                    method_name, ce_ais_policy, flower_env, task_oracle, val_annotations,
+                    eval_specs, args, policy_reset_fn=getattr(topology, "reset", None))
+                results["ce_ais_diagnostics"] = topology.get_diagnostics()
 
-            results = evaluate_method(
-                method_name, ce_ais_policy, wrapper, eval_specs, args.data_dir, args, method_rng,
-                policy_reset_fn=getattr(topology, "reset", None))
-            results["ce_ais_diagnostics"] = topology.get_diagnostics()
+            elif method_name in {"frozen_openvla", "frozen_vla", "frozen_flower", "frozen_robovlms"}:
+                def frozen_flower_policy(obs, instruction, _model=flower_model):
+                    _model.reset()
+                    return None
 
-        elif method_name in {"frozen_openvla", "frozen_vla", "frozen_flower", "frozen_robovlms"}:
-            from src.evaluation.baseline_framework import FrozenOpenVLABaseline
-            bl = FrozenOpenVLABaseline({**vla_config, "vla_type": args.vla_type})
-            bl.setup()
+                flower_model.reset()
 
-            def frozen_policy(obs_dict, instruction):
-                obs_on_device = {k: v.to(device) if isinstance(v, torch.Tensor) else v
-                                 for k, v in obs_dict.items()}
-                return bl.predict(obs_on_device, str(instruction)).squeeze(1).cpu()
+                def frozen_policy_step(obs, instruction, _model=flower_model):
+                    return _model.step(obs, {"lang_text": instruction})
 
-            results = evaluate_method(
-                method_name, frozen_policy, wrapper, eval_specs, args.data_dir, args, method_rng,
-                policy_reset_fn=getattr(bl, "reset_task", None))
-            bl.teardown()
+                results = evaluate_method_flower_official(
+                    method_name, frozen_policy_step, flower_env, task_oracle, val_annotations,
+                    eval_specs, args, policy_reset_fn=flower_model.reset)
+
+            else:
+                from src.evaluation.baseline_framework import BASELINE_REGISTRY
+                bl_cls = BASELINE_REGISTRY[method_name]
+                bl = bl_cls({**vla_config, "vla_type": args.vla_type})
+                bl.setup()
+
+                def baseline_policy(obs, instruction, _bl=bl):
+                    obs_dict = {
+                        "rgb": obs["rgb_obs"]["rgb_static"].unsqueeze(0) if obs["rgb_obs"]["rgb_static"].dim() == 3 else obs["rgb_obs"]["rgb_static"],
+                        "depth": torch.zeros(1, 1, 200, 200, device=device),
+                        "pose": torch.zeros(1, 7, device=device),
+                        "raw_calvin_obs": {
+                            "rgb_obs": {k: v.squeeze(0).permute(1, 2, 0).mul(255).byte().cpu().numpy()
+                                        if v.dim() == 4 else v.permute(1, 2, 0).mul(255).byte().cpu().numpy()
+                                        for k, v in obs["rgb_obs"].items()},
+                        },
+                    }
+                    return _bl.predict(obs_dict, str(instruction)).squeeze(0).squeeze(0).cpu()
+
+                results = evaluate_method_flower_official(
+                    method_name, baseline_policy, flower_env, task_oracle, val_annotations,
+                    eval_specs, args, policy_reset_fn=getattr(bl, "reset_task", None))
+                bl.teardown()
 
         else:
-            from src.evaluation.baseline_framework import BASELINE_REGISTRY
-            bl_cls = BASELINE_REGISTRY[method_name]
-            bl = bl_cls({**vla_config, "vla_type": args.vla_type})
-            bl.setup()
+            # 旧路径（非 flower 的 VLA）
+            if method_name == "ce_ais":
+                topology = build_ce_ais_policy(
+                    config_dict, vla_config, device, args.encoder_ckpt, args.cewm_ckpt
+                )
+                topology.reset_diagnostics()
 
-            def baseline_policy(obs_dict, instruction, _bl=bl):
-                obs_on_device = {k: v.to(device) if isinstance(v, torch.Tensor) else v
-                                 for k, v in obs_dict.items()}
-                return _bl.predict(obs_on_device, str(instruction)).squeeze(1).cpu()
+                def ce_ais_policy(obs_dict, instruction):
+                    obs_on_device = {k: v.to(device) if isinstance(v, torch.Tensor) else v
+                                     for k, v in obs_dict.items()}
+                    action, info = topology.safe_step(obs_on_device, str(instruction))
+                    return action.squeeze(1).cpu()
 
-            results = evaluate_method(
-                method_name, baseline_policy, wrapper, eval_specs, args.data_dir, args, method_rng,
-                policy_reset_fn=getattr(bl, "reset_task", None))
-            bl.teardown()
+                results = evaluate_method(
+                    method_name, ce_ais_policy, wrapper, eval_specs, args.data_dir, args, method_rng,
+                    policy_reset_fn=getattr(topology, "reset", None))
+                results["ce_ais_diagnostics"] = topology.get_diagnostics()
+
+            elif method_name in {"frozen_openvla", "frozen_vla", "frozen_flower", "frozen_robovlms"}:
+                from src.evaluation.baseline_framework import FrozenOpenVLABaseline
+                bl = FrozenOpenVLABaseline({**vla_config, "vla_type": args.vla_type})
+                bl.setup()
+
+                def frozen_policy(obs_dict, instruction):
+                    obs_on_device = {k: v.to(device) if isinstance(v, torch.Tensor) else v
+                                     for k, v in obs_dict.items()}
+                    return bl.predict(obs_on_device, str(instruction)).squeeze(1).cpu()
+
+                results = evaluate_method(
+                    method_name, frozen_policy, wrapper, eval_specs, args.data_dir, args, method_rng,
+                    policy_reset_fn=getattr(bl, "reset_task", None))
+                bl.teardown()
+
+            else:
+                from src.evaluation.baseline_framework import BASELINE_REGISTRY
+                bl_cls = BASELINE_REGISTRY[method_name]
+                bl = bl_cls({**vla_config, "vla_type": args.vla_type})
+                bl.setup()
+
+                def baseline_policy(obs_dict, instruction, _bl=bl):
+                    obs_on_device = {k: v.to(device) if isinstance(v, torch.Tensor) else v
+                                     for k, v in obs_dict.items()}
+                    return _bl.predict(obs_on_device, str(instruction)).squeeze(1).cpu()
+
+                results = evaluate_method(
+                    method_name, baseline_policy, wrapper, eval_specs, args.data_dir, args, method_rng,
+                    policy_reset_fn=getattr(bl, "reset_task", None))
+                bl.teardown()
 
         all_method_results[method_name] = results
         print(f"  [{method_name}] L1={results['chain_1']:.1%}, "

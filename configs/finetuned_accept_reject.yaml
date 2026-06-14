@@ -1,0 +1,9 @@
+# 方案一：更严格的 accept/reject
+# energy_after <= energy_before - 0.5 才接受 steering
+
+inherit_from: "base.yaml"
+
+steering:
+  enable_accept_reject: true
+  accept_energy_margin: 0.5
+  diagnostics: true

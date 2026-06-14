@@ -132,3 +132,2595 @@ ven = NVIDIA Corporation
     [ce_ais] chain 2/50 task 4/5 step 25/360: policy 1.63s, stepping env
     [ce_ais] chain 2/50 task 4/5 step 50/360: running policy
     [ce_ais] chain 2/50 task 4/5 step 50/360: policy 1.12s, stepping env
+    [ce_ais] chain 2/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 2/50 task 4/5 step 75/360: policy 1.59s, stepping env
+    [ce_ais] chain 2/50 task 4/5 step 100/360: running policy
+    [ce_ais] chain 2/50 task 4/5 step 100/360: policy 1.57s, stepping env
+    [ce_ais] chain 2/50 task 4/5 step 125/360: running policy
+    [ce_ais] chain 2/50 task 4/5 step 125/360: policy 1.55s, stepping env
+    [ce_ais] chain 2/50 task 4/5 step 150/360: running policy
+    [ce_ais] chain 2/50 task 4/5 step 150/360: policy 1.73s, stepping env
+    [ce_ais] chain 2/50 task 4/5 step 175/360: running policy
+    [ce_ais] chain 2/50 task 4/5 step 175/360: policy 1.22s, stepping env
+    [ce_ais] chain 2/50 task 4/5 step 200/360: running policy
+    [ce_ais] chain 2/50 task 4/5 step 200/360: policy 1.31s, stepping env
+    [ce_ais] chain 2/50 task 4/5 step 225/360: running policy
+    [ce_ais] chain 2/50 task 4/5 step 225/360: policy 1.63s, stepping env
+    [ce_ais] chain 2/50 task 4/5 step 250/360: running policy
+    [ce_ais] chain 2/50 task 4/5 step 250/360: policy 1.53s, stepping env
+    [ce_ais] chain 2/50 task 4/5 step 275/360: running policy
+    [ce_ais] chain 2/50 task 4/5 step 275/360: policy 1.42s, stepping env
+    [ce_ais] chain 2/50 task 4/5 step 300/360: running policy
+    [ce_ais] chain 2/50 task 4/5 step 300/360: policy 1.05s, stepping env
+    [ce_ais] chain 2/50 task 4/5 step 325/360: running policy
+    [ce_ais] chain 2/50 task 4/5 step 325/360: policy 1.04s, stepping env
+    [ce_ais] chain 2/50 task 4/5 step 350/360: running policy
+    [ce_ais] chain 2/50 task 4/5 step 350/360: policy 1.54s, stepping env
+    [ce_ais] chain 2/50 task 4/5 failed: 360 steps, 514.1s
+    [ce_ais] chain 3/50 start: ['lift_pink_block_slider', 'place_in_slider', 'open_drawer', 'rotate_red_block_right', 'lift_red_block_table']
+    [ce_ais] chain 3/50 instructions: ['lift the pink block from the sliding cabinet', 'store the grasped block in the sliding cabinet', 'pull the handle to open the drawer', 'take the red block and rotate it to the right', 'grasp and lift the red block']
+    [ce_ais] chain 3/50 task 1/5 start: lift_pink_block_slider | instruction: lift the pink block from the sliding cabinet
+    [ce_ais] chain 3/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 3/50 task 1/5 step 1/360: policy 1.76s, stepping env
+    [ce_ais] chain 3/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 3/50 task 1/5 step 25/360: policy 1.26s, stepping env
+    [ce_ais] chain 3/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 3/50 task 1/5 step 50/360: policy 1.61s, stepping env
+    [ce_ais] chain 3/50 task 1/5 success at step 66
+    [ce_ais] chain 3/50 task 1/5 success: 66 steps, 87.2s
+    [ce_ais] chain 3/50 task 2/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 3/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 3/50 task 2/5 step 1/360: policy 1.96s, stepping env
+    [ce_ais] chain 3/50 task 2/5 success at step 6
+    [ce_ais] chain 3/50 task 2/5 success: 6 steps, 10.2s
+    [ce_ais] chain 3/50 task 3/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 3/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 3/50 task 3/5 step 1/360: policy 1.90s, stepping env
+    [ce_ais] chain 3/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 3/50 task 3/5 step 25/360: policy 1.35s, stepping env
+    [ce_ais] chain 3/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 3/50 task 3/5 step 50/360: policy 1.08s, stepping env
+    [ce_ais] chain 3/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 3/50 task 3/5 step 75/360: policy 1.40s, stepping env
+    [ce_ais] chain 3/50 task 3/5 success at step 76
+    [ce_ais] chain 3/50 task 3/5 success: 76 steps, 110.0s
+    [ce_ais] chain 3/50 task 4/5 start: rotate_red_block_right | instruction: take the red block and rotate it to the right
+    [ce_ais] chain 3/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 3/50 task 4/5 step 1/360: policy 1.41s, stepping env
+    [ce_ais] chain 3/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 3/50 task 4/5 step 25/360: policy 1.97s, stepping env
+    [ce_ais] chain 3/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 3/50 task 4/5 step 50/360: policy 1.65s, stepping env
+    [ce_ais] chain 3/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 3/50 task 4/5 step 75/360: policy 1.51s, stepping env
+    [ce_ais] chain 3/50 task 4/5 step 100/360: running policy
+    [ce_ais] chain 3/50 task 4/5 step 100/360: policy 1.96s, stepping env
+    [ce_ais] chain 3/50 task 4/5 success at step 106
+    [ce_ais] chain 3/50 task 4/5 success: 106 steps, 154.7s
+    [ce_ais] chain 3/50 task 5/5 start: lift_red_block_table | instruction: grasp and lift the red block
+    [ce_ais] chain 3/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 3/50 task 5/5 step 1/360: policy 2.07s, stepping env
+    [ce_ais] chain 3/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 3/50 task 5/5 step 25/360: policy 1.95s, stepping env
+    [ce_ais] chain 3/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 3/50 task 5/5 step 50/360: policy 0.97s, stepping env
+    [ce_ais] chain 3/50 task 5/5 success at step 61
+    [ce_ais] chain 3/50 task 5/5 success: 61 steps, 95.4s
+    [ce_ais] chain 4/50 start: ['rotate_blue_block_right', 'lift_pink_block_table', 'place_in_slider', 'move_slider_left', 'open_drawer']
+    [ce_ais] chain 4/50 instructions: ['take the blue block and rotate it to the right', 'grasp and lift the pink block', 'store the grasped block in the sliding cabinet', 'push the sliding door to the left side', 'pull the handle to open the drawer']
+    [ce_ais] chain 4/50 task 1/5 start: rotate_blue_block_right | instruction: take the blue block and rotate it to the right
+    [ce_ais] chain 4/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 4/50 task 1/5 step 1/360: policy 1.60s, stepping env
+    [ce_ais] chain 4/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 4/50 task 1/5 step 25/360: policy 1.55s, stepping env
+    [ce_ais] chain 4/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 4/50 task 1/5 step 50/360: policy 0.90s, stepping env
+    [ce_ais] chain 4/50 task 1/5 step 75/360: running policy
+    [ce_ais] chain 4/50 task 1/5 step 75/360: policy 1.60s, stepping env
+    [ce_ais] chain 4/50 task 1/5 success at step 83
+    [ce_ais] chain 4/50 task 1/5 success: 83 steps, 134.4s
+    [ce_ais] chain 4/50 task 2/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 4/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 4/50 task 2/5 step 1/360: policy 2.68s, stepping env
+    [ce_ais] chain 4/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 4/50 task 2/5 step 25/360: policy 1.57s, stepping env
+    [ce_ais] chain 4/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 4/50 task 2/5 step 50/360: policy 1.68s, stepping env
+    [ce_ais] chain 4/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 4/50 task 2/5 step 75/360: policy 0.96s, stepping env
+    [ce_ais] chain 4/50 task 2/5 success at step 81
+    [ce_ais] chain 4/50 task 2/5 success: 81 steps, 122.1s
+    [ce_ais] chain 4/50 task 3/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 4/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 4/50 task 3/5 step 1/360: policy 2.34s, stepping env
+    [ce_ais] chain 4/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 4/50 task 3/5 step 25/360: policy 1.24s, stepping env
+    [ce_ais] chain 4/50 task 3/5 success at step 40
+    [ce_ais] chain 4/50 task 3/5 success: 40 steps, 49.1s
+    [ce_ais] chain 4/50 task 4/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 4/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 4/50 task 4/5 step 1/360: policy 1.68s, stepping env
+    [ce_ais] chain 4/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 4/50 task 4/5 step 25/360: policy 1.01s, stepping env
+    [ce_ais] chain 4/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 4/50 task 4/5 step 50/360: policy 1.46s, stepping env
+    [ce_ais] chain 4/50 task 4/5 success at step 69
+    [ce_ais] chain 4/50 task 4/5 success: 69 steps, 88.3s
+    [ce_ais] chain 4/50 task 5/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 4/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 4/50 task 5/5 step 1/360: policy 1.45s, stepping env
+    [ce_ais] chain 4/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 4/50 task 5/5 step 25/360: policy 1.14s, stepping env
+    [ce_ais] chain 4/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 4/50 task 5/5 step 50/360: policy 0.98s, stepping env
+    [ce_ais] chain 4/50 task 5/5 success at step 72
+    [ce_ais] chain 4/50 task 5/5 success: 72 steps, 92.0s
+    [ce_ais] chain 5/50 start: ['open_drawer', 'lift_pink_block_table', 'place_in_slider', 'turn_on_lightbulb', 'rotate_blue_block_left']
+    [ce_ais] chain 5/50 instructions: ['pull the handle to open the drawer', 'grasp and lift the pink block', 'store the grasped block in the sliding cabinet', 'use the switch to turn on the light bulb', 'take the blue block and rotate it to the left']
+    [ce_ais] chain 5/50 task 1/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 5/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 5/50 task 1/5 step 1/360: policy 2.55s, stepping env
+    [ce_ais] chain 5/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 5/50 task 1/5 step 25/360: policy 0.93s, stepping env
+    [ce_ais] chain 5/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 5/50 task 1/5 step 50/360: policy 1.05s, stepping env
+    [ce_ais] chain 5/50 task 1/5 success at step 61
+    [ce_ais] chain 5/50 task 1/5 success: 61 steps, 83.6s
+    [ce_ais] chain 5/50 task 2/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 5/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 5/50 task 2/5 step 1/360: policy 1.55s, stepping env
+    [ce_ais] chain 5/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 5/50 task 2/5 step 25/360: policy 1.49s, stepping env
+    [ce_ais] chain 5/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 5/50 task 2/5 step 50/360: policy 0.90s, stepping env
+    [ce_ais] chain 5/50 task 2/5 success at step 65
+    [ce_ais] chain 5/50 task 2/5 success: 65 steps, 80.7s
+    [ce_ais] chain 5/50 task 3/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 5/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 5/50 task 3/5 step 1/360: policy 1.96s, stepping env
+    [ce_ais] chain 5/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 5/50 task 3/5 step 25/360: policy 1.05s, stepping env
+    [ce_ais] chain 5/50 task 3/5 success at step 25
+    [ce_ais] chain 5/50 task 3/5 success: 25 steps, 33.6s
+    [ce_ais] chain 5/50 task 4/5 start: turn_on_lightbulb | instruction: use the switch to turn on the light bulb
+    [ce_ais] chain 5/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 5/50 task 4/5 step 1/360: policy 2.31s, stepping env
+    [ce_ais] chain 5/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 5/50 task 4/5 step 25/360: policy 1.44s, stepping env
+    [ce_ais] chain 5/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 5/50 task 4/5 step 50/360: policy 1.07s, stepping env
+    [ce_ais] chain 5/50 task 4/5 success at step 64
+    [ce_ais] chain 5/50 task 4/5 success: 64 steps, 80.2s
+    [ce_ais] chain 5/50 task 5/5 start: rotate_blue_block_left | instruction: take the blue block and rotate it to the left
+    [ce_ais] chain 5/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 5/50 task 5/5 step 1/360: policy 1.68s, stepping env
+    [ce_ais] chain 5/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 5/50 task 5/5 step 25/360: policy 1.23s, stepping env
+    [ce_ais] chain 5/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 5/50 task 5/5 step 50/360: policy 0.77s, stepping env
+    [ce_ais] chain 5/50 task 5/5 success at step 72
+    [ce_ais] chain 5/50 task 5/5 success: 72 steps, 92.0s
+    [ce_ais] chain 6/50 start: ['push_blue_block_left', 'close_drawer', 'lift_red_block_slider', 'place_in_slider', 'turn_off_lightbulb']
+    [ce_ais] chain 6/50 instructions: ['go push the blue block left', 'push the handle to close the drawer', 'lift the red block from the sliding cabinet', 'store the grasped block in the sliding cabinet', 'use the switch to turn off the light bulb']
+    [ce_ais] chain 6/50 task 1/5 start: push_blue_block_left | instruction: go push the blue block left
+    [ce_ais] chain 6/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 6/50 task 1/5 step 1/360: policy 2.21s, stepping env
+    [ce_ais] chain 6/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 6/50 task 1/5 step 25/360: policy 0.94s, stepping env
+    [ce_ais] chain 6/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 6/50 task 1/5 step 50/360: policy 1.67s, stepping env
+    [ce_ais] chain 6/50 task 1/5 success at step 64
+    [ce_ais] chain 6/50 task 1/5 success: 64 steps, 86.3s
+    [ce_ais] chain 6/50 task 2/5 start: close_drawer | instruction: push the handle to close the drawer
+    [ce_ais] chain 6/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 6/50 task 2/5 step 1/360: policy 1.84s, stepping env
+    [ce_ais] chain 6/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 6/50 task 2/5 step 25/360: policy 1.10s, stepping env
+    [ce_ais] chain 6/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 6/50 task 2/5 step 50/360: policy 1.25s, stepping env
+    [ce_ais] chain 6/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 6/50 task 2/5 step 75/360: policy 0.76s, stepping env
+    [ce_ais] chain 6/50 task 2/5 success at step 77
+    [ce_ais] chain 6/50 task 2/5 success: 77 steps, 97.3s
+    [ce_ais] chain 6/50 task 3/5 start: lift_red_block_slider | instruction: lift the red block from the sliding cabinet
+    [ce_ais] chain 6/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 6/50 task 3/5 step 1/360: policy 1.17s, stepping env
+    [ce_ais] chain 6/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 6/50 task 3/5 step 25/360: policy 0.96s, stepping env
+    [ce_ais] chain 6/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 6/50 task 3/5 step 50/360: policy 1.10s, stepping env
+    [ce_ais] chain 6/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 6/50 task 3/5 step 75/360: policy 1.55s, stepping env
+    [ce_ais] chain 6/50 task 3/5 success at step 76
+    [ce_ais] chain 6/50 task 3/5 success: 76 steps, 93.2s
+    [ce_ais] chain 6/50 task 4/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 6/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 6/50 task 4/5 step 1/360: policy 2.08s, stepping env
+    [ce_ais] chain 6/50 task 4/5 success at step 9
+    [ce_ais] chain 6/50 task 4/5 success: 9 steps, 13.0s
+    [ce_ais] chain 6/50 task 5/5 start: turn_off_lightbulb | instruction: use the switch to turn off the light bulb
+    [ce_ais] chain 6/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 6/50 task 5/5 step 1/360: policy 1.53s, stepping env
+    [ce_ais] chain 6/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 6/50 task 5/5 step 25/360: policy 0.79s, stepping env
+    [ce_ais] chain 6/50 task 5/5 success at step 49
+    [ce_ais] chain 6/50 task 5/5 success: 49 steps, 59.0s
+    [ce_ais] chain 7/50 start: ['open_drawer', 'rotate_red_block_right', 'turn_on_led', 'lift_pink_block_table', 'stack_block']
+    [ce_ais] chain 7/50 instructions: ['pull the handle to open the drawer', 'take the red block and rotate it to the right', 'press the button to turn on the led light', 'grasp and lift the pink block', 'stack the grasped block']
+    [ce_ais] chain 7/50 task 1/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 7/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 7/50 task 1/5 step 1/360: policy 1.55s, stepping env
+    [ce_ais] chain 7/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 7/50 task 1/5 step 25/360: policy 0.93s, stepping env
+    [ce_ais] chain 7/50 task 1/5 success at step 48
+    [ce_ais] chain 7/50 task 1/5 success: 48 steps, 61.4s
+    [ce_ais] chain 7/50 task 2/5 start: rotate_red_block_right | instruction: take the red block and rotate it to the right
+    [ce_ais] chain 7/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 7/50 task 2/5 step 1/360: policy 1.88s, stepping env
+    [ce_ais] chain 7/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 7/50 task 2/5 step 25/360: policy 0.87s, stepping env
+    [ce_ais] chain 7/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 7/50 task 2/5 step 50/360: policy 0.73s, stepping env
+    [ce_ais] chain 7/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 7/50 task 2/5 step 75/360: policy 1.38s, stepping env
+    [ce_ais] chain 7/50 task 2/5 success at step 99
+    [ce_ais] chain 7/50 task 2/5 success: 99 steps, 130.3s
+    [ce_ais] chain 7/50 task 3/5 start: turn_on_led | instruction: press the button to turn on the led light
+    [ce_ais] chain 7/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 7/50 task 3/5 step 1/360: policy 2.09s, stepping env
+    [ce_ais] chain 7/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 7/50 task 3/5 step 25/360: policy 0.95s, stepping env
+    [ce_ais] chain 7/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 7/50 task 3/5 step 50/360: policy 1.48s, stepping env
+    [ce_ais] chain 7/50 task 3/5 success at step 54
+    [ce_ais] chain 7/50 task 3/5 success: 54 steps, 71.0s
+    [ce_ais] chain 7/50 task 4/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 7/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 7/50 task 4/5 step 1/360: policy 1.83s, stepping env
+    [ce_ais] chain 7/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 7/50 task 4/5 step 25/360: policy 1.43s, stepping env
+    [ce_ais] chain 7/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 7/50 task 4/5 step 50/360: policy 1.21s, stepping env
+    [ce_ais] chain 7/50 task 4/5 success at step 53
+    [ce_ais] chain 7/50 task 4/5 success: 53 steps, 67.0s
+    [ce_ais] chain 7/50 task 5/5 start: stack_block | instruction: stack the grasped block
+    [ce_ais] chain 7/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 7/50 task 5/5 step 1/360: policy 1.04s, stepping env
+    [ce_ais] chain 7/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 7/50 task 5/5 step 25/360: policy 0.95s, stepping env
+    [ce_ais] chain 7/50 task 5/5 success at step 30
+    [ce_ais] chain 7/50 task 5/5 success: 30 steps, 36.4s
+    [ce_ais] chain 8/50 start: ['push_pink_block_right', 'lift_pink_block_table', 'place_in_slider', 'push_into_drawer', 'close_drawer']
+    [ce_ais] chain 8/50 instructions: ['go push the pink block right', 'grasp and lift the pink block', 'store the grasped block in the sliding cabinet', 'slide the block that it falls into the drawer', 'push the handle to close the drawer']
+    [ce_ais] chain 8/50 task 1/5 start: push_pink_block_right | instruction: go push the pink block right
+    [ce_ais] chain 8/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 8/50 task 1/5 step 1/360: policy 2.23s, stepping env
+    [ce_ais] chain 8/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 8/50 task 1/5 step 25/360: policy 1.18s, stepping env
+    [ce_ais] chain 8/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 8/50 task 1/5 step 50/360: policy 1.35s, stepping env
+    [ce_ais] chain 8/50 task 1/5 step 75/360: running policy
+    [ce_ais] chain 8/50 task 1/5 step 75/360: policy 1.45s, stepping env
+    [ce_ais] chain 8/50 task 1/5 step 100/360: running policy
+    [ce_ais] chain 8/50 task 1/5 step 100/360: policy 1.88s, stepping env
+    [ce_ais] chain 8/50 task 1/5 step 125/360: running policy
+    [ce_ais] chain 8/50 task 1/5 step 125/360: policy 1.00s, stepping env
+    [ce_ais] chain 8/50 task 1/5 success at step 129
+    [ce_ais] chain 8/50 task 1/5 success: 129 steps, 178.5s
+    [ce_ais] chain 8/50 task 2/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 8/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 8/50 task 2/5 step 1/360: policy 1.94s, stepping env
+    [ce_ais] chain 8/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 8/50 task 2/5 step 25/360: policy 1.21s, stepping env
+    [ce_ais] chain 8/50 task 2/5 success at step 46
+    [ce_ais] chain 8/50 task 2/5 success: 46 steps, 68.2s
+    [ce_ais] chain 8/50 task 3/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 8/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 8/50 task 3/5 step 1/360: policy 2.60s, stepping env
+    [ce_ais] chain 8/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 8/50 task 3/5 step 25/360: policy 1.12s, stepping env
+    [ce_ais] chain 8/50 task 3/5 success at step 39
+    [ce_ais] chain 8/50 task 3/5 success: 39 steps, 54.6s
+    [ce_ais] chain 8/50 task 4/5 start: push_into_drawer | instruction: slide the block that it falls into the drawer
+    [ce_ais] chain 8/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 8/50 task 4/5 step 1/360: policy 1.78s, stepping env
+    [ce_ais] chain 8/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 8/50 task 4/5 step 25/360: policy 1.52s, stepping env
+    [ce_ais] chain 8/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 8/50 task 4/5 step 50/360: policy 0.81s, stepping env
+    [ce_ais] chain 8/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 8/50 task 4/5 step 75/360: policy 1.00s, stepping env
+    [ce_ais] chain 8/50 task 4/5 step 100/360: running policy
+    [ce_ais] chain 8/50 task 4/5 step 100/360: policy 1.03s, stepping env
+    [ce_ais] chain 8/50 task 4/5 step 125/360: running policy
+    [ce_ais] chain 8/50 task 4/5 step 125/360: policy 1.22s, stepping env
+    [ce_ais] chain 8/50 task 4/5 step 150/360: running policy
+    [ce_ais] chain 8/50 task 4/5 step 150/360: policy 1.11s, stepping env
+    [ce_ais] chain 8/50 task 4/5 success at step 166
+    [ce_ais] chain 8/50 task 4/5 success: 166 steps, 214.3s
+    [ce_ais] chain 8/50 task 5/5 start: close_drawer | instruction: push the handle to close the drawer
+    [ce_ais] chain 8/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 8/50 task 5/5 step 1/360: policy 1.77s, stepping env
+    [ce_ais] chain 8/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 8/50 task 5/5 step 25/360: policy 1.10s, stepping env
+    [ce_ais] chain 8/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 8/50 task 5/5 step 50/360: policy 1.56s, stepping env
+    [ce_ais] chain 8/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 8/50 task 5/5 step 75/360: policy 0.96s, stepping env
+    [ce_ais] chain 8/50 task 5/5 success at step 79
+    [ce_ais] chain 8/50 task 5/5 success: 79 steps, 102.5s
+    [ce_ais] chain 9/50 start: ['open_drawer', 'push_red_block_right', 'move_slider_left', 'lift_pink_block_slider', 'place_in_slider']
+    [ce_ais] chain 9/50 instructions: ['pull the handle to open the drawer', 'go push the red block right', 'push the sliding door to the left side', 'lift the pink block from the sliding cabinet', 'store the grasped block in the sliding cabinet']
+    [ce_ais] chain 9/50 task 1/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 9/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 9/50 task 1/5 step 1/360: policy 1.41s, stepping env
+    [ce_ais] chain 9/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 9/50 task 1/5 step 25/360: policy 1.45s, stepping env
+    [ce_ais] chain 9/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 9/50 task 1/5 step 50/360: policy 0.95s, stepping env
+    [ce_ais] chain 9/50 task 1/5 success at step 55
+    [ce_ais] chain 9/50 task 1/5 success: 55 steps, 75.0s
+    [ce_ais] chain 9/50 task 2/5 start: push_red_block_right | instruction: go push the red block right
+    [ce_ais] chain 9/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 1/360: policy 1.42s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 25/360: policy 0.94s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 50/360: policy 1.21s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 75/360: policy 1.42s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 100/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 100/360: policy 1.52s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 125/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 125/360: policy 0.86s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 150/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 150/360: policy 1.02s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 175/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 175/360: policy 1.37s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 200/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 200/360: policy 1.36s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 225/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 225/360: policy 0.93s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 250/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 250/360: policy 1.41s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 275/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 275/360: policy 1.58s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 300/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 300/360: policy 1.32s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 325/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 325/360: policy 1.21s, stepping env
+    [ce_ais] chain 9/50 task 2/5 step 350/360: running policy
+    [ce_ais] chain 9/50 task 2/5 step 350/360: policy 1.19s, stepping env
+    [ce_ais] chain 9/50 task 2/5 failed: 360 steps, 510.2s
+    [ce_ais] chain 10/50 start: ['push_red_block_left', 'lift_blue_block_table', 'place_in_slider', 'turn_on_lightbulb', 'move_slider_right']
+    [ce_ais] chain 10/50 instructions: ['go push the red block left', 'grasp and lift the blue block', 'store the grasped block in the sliding cabinet', 'use the switch to turn on the light bulb', 'push the sliding door to the right side']
+    [ce_ais] chain 10/50 task 1/5 start: push_red_block_left | instruction: go push the red block left
+    [ce_ais] chain 10/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 1/360: policy 1.73s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 25/360: policy 1.19s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 50/360: policy 1.89s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 75/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 75/360: policy 1.79s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 100/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 100/360: policy 1.33s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 125/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 125/360: policy 1.51s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 150/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 150/360: policy 1.38s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 175/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 175/360: policy 1.46s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 200/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 200/360: policy 1.13s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 225/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 225/360: policy 1.12s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 250/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 250/360: policy 0.74s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 275/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 275/360: policy 1.47s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 300/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 300/360: policy 1.30s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 325/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 325/360: policy 1.85s, stepping env
+    [ce_ais] chain 10/50 task 1/5 step 350/360: running policy
+    [ce_ais] chain 10/50 task 1/5 step 350/360: policy 0.99s, stepping env
+    [ce_ais] chain 10/50 task 1/5 failed: 360 steps, 507.8s
+    [ce_ais] 10/50 chains, L1 success: 90.0%
+    [ce_ais] chain 11/50 start: ['rotate_blue_block_left', 'lift_blue_block_table', 'place_in_drawer', 'move_slider_right', 'turn_off_lightbulb']
+    [ce_ais] chain 11/50 instructions: ['take the blue block and rotate it to the left', 'grasp and lift the blue block', 'store the grasped block in the drawer', 'push the sliding door to the right side', 'use the switch to turn off the light bulb']
+    [ce_ais] chain 11/50 task 1/5 start: rotate_blue_block_left | instruction: take the blue block and rotate it to the left
+    [ce_ais] chain 11/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 11/50 task 1/5 step 1/360: policy 1.64s, stepping env
+    [ce_ais] chain 11/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 11/50 task 1/5 step 25/360: policy 0.94s, stepping env
+    [ce_ais] chain 11/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 11/50 task 1/5 step 50/360: policy 1.16s, stepping env
+    [ce_ais] chain 11/50 task 1/5 step 75/360: running policy
+    [ce_ais] chain 11/50 task 1/5 step 75/360: policy 0.92s, stepping env
+    [ce_ais] chain 11/50 task 1/5 success at step 75
+    [ce_ais] chain 11/50 task 1/5 success: 75 steps, 98.4s
+    [ce_ais] chain 11/50 task 2/5 start: lift_blue_block_table | instruction: grasp and lift the blue block
+    [ce_ais] chain 11/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 11/50 task 2/5 step 1/360: policy 1.82s, stepping env
+    [ce_ais] chain 11/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 11/50 task 2/5 step 25/360: policy 1.79s, stepping env
+    [ce_ais] chain 11/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 11/50 task 2/5 step 50/360: policy 1.57s, stepping env
+    [ce_ais] chain 11/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 11/50 task 2/5 step 75/360: policy 1.25s, stepping env
+    [ce_ais] chain 11/50 task 2/5 step 100/360: running policy
+    [ce_ais] chain 11/50 task 2/5 step 100/360: policy 1.46s, stepping env
+    [ce_ais] chain 11/50 task 2/5 step 125/360: running policy
+    [ce_ais] chain 11/50 task 2/5 step 125/360: policy 1.55s, stepping env
+    [ce_ais] chain 11/50 task 2/5 step 150/360: running policy
+    [ce_ais] chain 11/50 task 2/5 step 150/360: policy 1.20s, stepping env
+    [ce_ais] chain 11/50 task 2/5 success at step 157
+    [ce_ais] chain 11/50 task 2/5 success: 157 steps, 245.4s
+    [ce_ais] chain 11/50 task 3/5 start: place_in_drawer | instruction: store the grasped block in the drawer
+    [ce_ais] chain 11/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 11/50 task 3/5 step 1/360: policy 1.42s, stepping env
+    [ce_ais] chain 11/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 11/50 task 3/5 step 25/360: policy 1.20s, stepping env
+    [ce_ais] chain 11/50 task 3/5 success at step 36
+    [ce_ais] chain 11/50 task 3/5 success: 36 steps, 51.3s
+    [ce_ais] chain 11/50 task 4/5 start: move_slider_right | instruction: push the sliding door to the right side
+    [ce_ais] chain 11/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 11/50 task 4/5 step 1/360: policy 1.92s, stepping env
+    [ce_ais] chain 11/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 11/50 task 4/5 step 25/360: policy 1.74s, stepping env
+    [ce_ais] chain 11/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 11/50 task 4/5 step 50/360: policy 1.36s, stepping env
+    [ce_ais] chain 11/50 task 4/5 success at step 74
+    [ce_ais] chain 11/50 task 4/5 success: 74 steps, 103.0s
+    [ce_ais] chain 11/50 task 5/5 start: turn_off_lightbulb | instruction: use the switch to turn off the light bulb
+    [ce_ais] chain 11/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 11/50 task 5/5 step 1/360: policy 1.77s, stepping env
+    [ce_ais] chain 11/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 11/50 task 5/5 step 25/360: policy 1.16s, stepping env
+    [ce_ais] chain 11/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 11/50 task 5/5 step 50/360: policy 1.22s, stepping env
+    [ce_ais] chain 11/50 task 5/5 success at step 62
+    [ce_ais] chain 11/50 task 5/5 success: 62 steps, 83.3s
+    [ce_ais] chain 12/50 start: ['lift_pink_block_slider', 'place_in_slider', 'turn_on_lightbulb', 'rotate_blue_block_right', 'open_drawer']
+    [ce_ais] chain 12/50 instructions: ['lift the pink block from the sliding cabinet', 'store the grasped block in the sliding cabinet', 'use the switch to turn on the light bulb', 'take the blue block and rotate it to the right', 'pull the handle to open the drawer']
+    [ce_ais] chain 12/50 task 1/5 start: lift_pink_block_slider | instruction: lift the pink block from the sliding cabinet
+    [ce_ais] chain 12/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 12/50 task 1/5 step 1/360: policy 1.57s, stepping env
+    [ce_ais] chain 12/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 12/50 task 1/5 step 25/360: policy 1.42s, stepping env
+    [ce_ais] chain 12/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 12/50 task 1/5 step 50/360: policy 1.82s, stepping env
+    [ce_ais] chain 12/50 task 1/5 success at step 62
+    [ce_ais] chain 12/50 task 1/5 success: 62 steps, 92.7s
+    [ce_ais] chain 12/50 task 2/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 12/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 12/50 task 2/5 step 1/360: policy 2.17s, stepping env
+    [ce_ais] chain 12/50 task 2/5 success at step 11
+    [ce_ais] chain 12/50 task 2/5 success: 11 steps, 16.1s
+    [ce_ais] chain 12/50 task 3/5 start: turn_on_lightbulb | instruction: use the switch to turn on the light bulb
+    [ce_ais] chain 12/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 12/50 task 3/5 step 1/360: policy 1.90s, stepping env
+    [ce_ais] chain 12/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 12/50 task 3/5 step 25/360: policy 1.63s, stepping env
+    [ce_ais] chain 12/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 12/50 task 3/5 step 50/360: policy 1.52s, stepping env
+    [ce_ais] chain 12/50 task 3/5 success at step 69
+    [ce_ais] chain 12/50 task 3/5 success: 69 steps, 102.6s
+    [ce_ais] chain 12/50 task 4/5 start: rotate_blue_block_right | instruction: take the blue block and rotate it to the right
+    [ce_ais] chain 12/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 12/50 task 4/5 step 1/360: policy 1.68s, stepping env
+    [ce_ais] chain 12/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 12/50 task 4/5 step 25/360: policy 1.23s, stepping env
+    [ce_ais] chain 12/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 12/50 task 4/5 step 50/360: policy 1.05s, stepping env
+    [ce_ais] chain 12/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 12/50 task 4/5 step 75/360: policy 1.43s, stepping env
+    [ce_ais] chain 12/50 task 4/5 success at step 93
+    [ce_ais] chain 12/50 task 4/5 success: 93 steps, 139.4s
+    [ce_ais] chain 12/50 task 5/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 12/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 12/50 task 5/5 step 1/360: policy 2.00s, stepping env
+    [ce_ais] chain 12/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 12/50 task 5/5 step 25/360: policy 1.51s, stepping env
+    [ce_ais] chain 12/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 12/50 task 5/5 step 50/360: policy 1.48s, stepping env
+    [ce_ais] chain 12/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 12/50 task 5/5 step 75/360: policy 1.69s, stepping env
+    [ce_ais] chain 12/50 task 5/5 success at step 76
+    [ce_ais] chain 12/50 task 5/5 success: 76 steps, 106.7s
+    [ce_ais] chain 13/50 start: ['move_slider_left', 'rotate_red_block_left', 'turn_off_led', 'lift_pink_block_table', 'place_in_slider']
+    [ce_ais] chain 13/50 instructions: ['push the sliding door to the left side', 'take the red block and rotate it to the left', 'press the button to turn off the led light', 'grasp and lift the pink block', 'store the grasped block in the sliding cabinet']
+    [ce_ais] chain 13/50 task 1/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 13/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 13/50 task 1/5 step 1/360: policy 1.72s, stepping env
+    [ce_ais] chain 13/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 13/50 task 1/5 step 25/360: policy 1.05s, stepping env
+    [ce_ais] chain 13/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 13/50 task 1/5 step 50/360: policy 1.14s, stepping env
+    [ce_ais] chain 13/50 task 1/5 success at step 54
+    [ce_ais] chain 13/50 task 1/5 success: 54 steps, 73.3s
+    [ce_ais] chain 13/50 task 2/5 start: rotate_red_block_left | instruction: take the red block and rotate it to the left
+    [ce_ais] chain 13/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 13/50 task 2/5 step 1/360: policy 1.75s, stepping env
+    [ce_ais] chain 13/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 13/50 task 2/5 step 25/360: policy 0.95s, stepping env
+    [ce_ais] chain 13/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 13/50 task 2/5 step 50/360: policy 1.52s, stepping env
+    [ce_ais] chain 13/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 13/50 task 2/5 step 75/360: policy 1.09s, stepping env
+    [ce_ais] chain 13/50 task 2/5 success at step 94
+    [ce_ais] chain 13/50 task 2/5 success: 94 steps, 122.5s
+    [ce_ais] chain 13/50 task 3/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 13/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 13/50 task 3/5 step 1/360: policy 1.46s, stepping env
+    [ce_ais] chain 13/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 13/50 task 3/5 step 25/360: policy 1.65s, stepping env
+    [ce_ais] chain 13/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 13/50 task 3/5 step 50/360: policy 1.14s, stepping env
+    [ce_ais] chain 13/50 task 3/5 success at step 54
+    [ce_ais] chain 13/50 task 3/5 success: 54 steps, 79.1s
+    [ce_ais] chain 13/50 task 4/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 13/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 13/50 task 4/5 step 1/360: policy 2.55s, stepping env
+    [ce_ais] chain 13/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 13/50 task 4/5 step 25/360: policy 1.29s, stepping env
+    [ce_ais] chain 13/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 13/50 task 4/5 step 50/360: policy 1.22s, stepping env
+    [ce_ais] chain 13/50 task 4/5 success at step 53
+    [ce_ais] chain 13/50 task 4/5 success: 53 steps, 76.3s
+    [ce_ais] chain 13/50 task 5/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 13/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 13/50 task 5/5 step 1/360: policy 1.35s, stepping env
+    [ce_ais] chain 13/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 13/50 task 5/5 step 25/360: policy 1.15s, stepping env
+    [ce_ais] chain 13/50 task 5/5 success at step 33
+    [ce_ais] chain 13/50 task 5/5 success: 33 steps, 41.2s
+    [ce_ais] chain 14/50 start: ['turn_on_led', 'close_drawer', 'push_red_block_right', 'lift_red_block_table', 'place_in_slider']
+    [ce_ais] chain 14/50 instructions: ['press the button to turn on the led light', 'push the handle to close the drawer', 'go push the red block right', 'grasp and lift the red block', 'store the grasped block in the sliding cabinet']
+    [ce_ais] chain 14/50 task 1/5 start: turn_on_led | instruction: press the button to turn on the led light
+    [ce_ais] chain 14/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 14/50 task 1/5 step 1/360: policy 1.07s, stepping env
+    [ce_ais] chain 14/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 14/50 task 1/5 step 25/360: policy 1.13s, stepping env
+    [ce_ais] chain 14/50 task 1/5 success at step 35
+    [ce_ais] chain 14/50 task 1/5 success: 35 steps, 41.7s
+    [ce_ais] chain 14/50 task 2/5 start: close_drawer | instruction: push the handle to close the drawer
+    [ce_ais] chain 14/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 14/50 task 2/5 step 1/360: policy 2.13s, stepping env
+    [ce_ais] chain 14/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 14/50 task 2/5 step 25/360: policy 1.20s, stepping env
+    [ce_ais] chain 14/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 14/50 task 2/5 step 50/360: policy 1.01s, stepping env
+    [ce_ais] chain 14/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 14/50 task 2/5 step 75/360: policy 1.13s, stepping env
+    [ce_ais] chain 14/50 task 2/5 success at step 77
+    [ce_ais] chain 14/50 task 2/5 success: 77 steps, 103.0s
+    [ce_ais] chain 14/50 task 3/5 start: push_red_block_right | instruction: go push the red block right
+    [ce_ais] chain 14/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 1/360: policy 1.09s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 25/360: policy 1.70s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 50/360: policy 1.60s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 75/360: policy 1.10s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 100/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 100/360: policy 0.89s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 125/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 125/360: policy 1.28s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 150/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 150/360: policy 0.93s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 175/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 175/360: policy 1.04s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 200/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 200/360: policy 0.97s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 225/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 225/360: policy 1.21s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 250/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 250/360: policy 1.09s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 275/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 275/360: policy 1.57s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 300/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 300/360: policy 0.89s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 325/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 325/360: policy 1.05s, stepping env
+    [ce_ais] chain 14/50 task 3/5 step 350/360: running policy
+    [ce_ais] chain 14/50 task 3/5 step 350/360: policy 1.18s, stepping env
+    [ce_ais] chain 14/50 task 3/5 failed: 360 steps, 460.3s
+    [ce_ais] chain 15/50 start: ['lift_red_block_slider', 'stack_block', 'move_slider_left', 'turn_off_led', 'open_drawer']
+    [ce_ais] chain 15/50 instructions: ['lift the red block from the sliding cabinet', 'stack the grasped block', 'push the sliding door to the left side', 'press the button to turn off the led light', 'pull the handle to open the drawer']
+    [ce_ais] chain 15/50 task 1/5 start: lift_red_block_slider | instruction: lift the red block from the sliding cabinet
+    [ce_ais] chain 15/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 15/50 task 1/5 step 1/360: policy 1.92s, stepping env
+    [ce_ais] chain 15/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 15/50 task 1/5 step 25/360: policy 1.53s, stepping env
+    [ce_ais] chain 15/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 15/50 task 1/5 step 50/360: policy 1.30s, stepping env
+    [ce_ais] chain 15/50 task 1/5 success at step 72
+    [ce_ais] chain 15/50 task 1/5 success: 72 steps, 94.3s
+    [ce_ais] chain 15/50 task 2/5 start: stack_block | instruction: stack the grasped block
+    [ce_ais] chain 15/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 15/50 task 2/5 step 1/360: policy 1.90s, stepping env
+    [ce_ais] chain 15/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 15/50 task 2/5 step 25/360: policy 1.37s, stepping env
+    [ce_ais] chain 15/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 15/50 task 2/5 step 50/360: policy 1.89s, stepping env
+    [ce_ais] chain 15/50 task 2/5 success at step 51
+    [ce_ais] chain 15/50 task 2/5 success: 51 steps, 71.0s
+    [ce_ais] chain 15/50 task 3/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 15/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 15/50 task 3/5 step 1/360: policy 1.76s, stepping env
+    [ce_ais] chain 15/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 15/50 task 3/5 step 25/360: policy 1.78s, stepping env
+    [ce_ais] chain 15/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 15/50 task 3/5 step 50/360: policy 1.62s, stepping env
+    [ce_ais] chain 15/50 task 3/5 success at step 52
+    [ce_ais] chain 15/50 task 3/5 success: 52 steps, 73.6s
+    [ce_ais] chain 15/50 task 4/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 15/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 15/50 task 4/5 step 1/360: policy 1.95s, stepping env
+    [ce_ais] chain 15/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 15/50 task 4/5 step 25/360: policy 1.39s, stepping env
+    [ce_ais] chain 15/50 task 4/5 success at step 42
+    [ce_ais] chain 15/50 task 4/5 success: 42 steps, 63.4s
+    [ce_ais] chain 15/50 task 5/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 15/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 15/50 task 5/5 step 1/360: policy 2.19s, stepping env
+    [ce_ais] chain 15/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 15/50 task 5/5 step 25/360: policy 1.62s, stepping env
+    [ce_ais] chain 15/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 15/50 task 5/5 step 50/360: policy 1.32s, stepping env
+    [ce_ais] chain 15/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 15/50 task 5/5 step 75/360: policy 1.46s, stepping env
+    [ce_ais] chain 15/50 task 5/5 success at step 80
+    [ce_ais] chain 15/50 task 5/5 success: 80 steps, 121.1s
+    [ce_ais] chain 16/50 start: ['move_slider_left', 'push_pink_block_left', 'open_drawer', 'turn_on_lightbulb', 'lift_blue_block_table']
+    [ce_ais] chain 16/50 instructions: ['push the sliding door to the left side', 'go push the pink block left', 'pull the handle to open the drawer', 'use the switch to turn on the light bulb', 'grasp and lift the blue block']
+    [ce_ais] chain 16/50 task 1/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 16/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 16/50 task 1/5 step 1/360: policy 2.03s, stepping env
+    [ce_ais] chain 16/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 16/50 task 1/5 step 25/360: policy 0.81s, stepping env
+    [ce_ais] chain 16/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 16/50 task 1/5 step 50/360: policy 1.09s, stepping env
+    [ce_ais] chain 16/50 task 1/5 success at step 54
+    [ce_ais] chain 16/50 task 1/5 success: 54 steps, 72.4s
+    [ce_ais] chain 16/50 task 2/5 start: push_pink_block_left | instruction: go push the pink block left
+    [ce_ais] chain 16/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 16/50 task 2/5 step 1/360: policy 2.24s, stepping env
+    [ce_ais] chain 16/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 16/50 task 2/5 step 25/360: policy 0.74s, stepping env
+    [ce_ais] chain 16/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 16/50 task 2/5 step 50/360: policy 1.93s, stepping env
+    [ce_ais] chain 16/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 16/50 task 2/5 step 75/360: policy 1.20s, stepping env
+    [ce_ais] chain 16/50 task 2/5 step 100/360: running policy
+    [ce_ais] chain 16/50 task 2/5 step 100/360: policy 1.39s, stepping env
+    [ce_ais] chain 16/50 task 2/5 success at step 113
+    [ce_ais] chain 16/50 task 2/5 success: 113 steps, 157.6s
+    [ce_ais] chain 16/50 task 3/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 16/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 16/50 task 3/5 step 1/360: policy 1.84s, stepping env
+    [ce_ais] chain 16/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 16/50 task 3/5 step 25/360: policy 1.02s, stepping env
+    [ce_ais] chain 16/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 16/50 task 3/5 step 50/360: policy 1.47s, stepping env
+    [ce_ais] chain 16/50 task 3/5 success at step 63
+    [ce_ais] chain 16/50 task 3/5 success: 63 steps, 84.7s
+    [ce_ais] chain 16/50 task 4/5 start: turn_on_lightbulb | instruction: use the switch to turn on the light bulb
+    [ce_ais] chain 16/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 16/50 task 4/5 step 1/360: policy 1.45s, stepping env
+    [ce_ais] chain 16/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 16/50 task 4/5 step 25/360: policy 1.20s, stepping env
+    [ce_ais] chain 16/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 16/50 task 4/5 step 50/360: policy 1.48s, stepping env
+    [ce_ais] chain 16/50 task 4/5 success at step 73
+    [ce_ais] chain 16/50 task 4/5 success: 73 steps, 105.6s
+    [ce_ais] chain 16/50 task 5/5 start: lift_blue_block_table | instruction: grasp and lift the blue block
+    [ce_ais] chain 16/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 16/50 task 5/5 step 1/360: policy 2.38s, stepping env
+    [ce_ais] chain 16/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 16/50 task 5/5 step 25/360: policy 1.05s, stepping env
+    [ce_ais] chain 16/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 16/50 task 5/5 step 50/360: policy 1.65s, stepping env
+    [ce_ais] chain 16/50 task 5/5 success at step 60
+    [ce_ais] chain 16/50 task 5/5 success: 60 steps, 89.7s
+    [ce_ais] chain 17/50 start: ['push_red_block_left', 'lift_pink_block_slider', 'stack_block', 'turn_off_led', 'open_drawer']
+    [ce_ais] chain 17/50 instructions: ['go push the red block left', 'lift the pink block from the sliding cabinet', 'stack the grasped block', 'press the button to turn off the led light', 'pull the handle to open the drawer']
+    [ce_ais] chain 17/50 task 1/5 start: push_red_block_left | instruction: go push the red block left
+    [ce_ais] chain 17/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 17/50 task 1/5 step 1/360: policy 2.02s, stepping env
+    [ce_ais] chain 17/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 17/50 task 1/5 step 25/360: policy 1.47s, stepping env
+    [ce_ais] chain 17/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 17/50 task 1/5 step 50/360: policy 1.09s, stepping env
+    [ce_ais] chain 17/50 task 1/5 success at step 69
+    [ce_ais] chain 17/50 task 1/5 success: 69 steps, 102.2s
+    [ce_ais] chain 17/50 task 2/5 start: lift_pink_block_slider | instruction: lift the pink block from the sliding cabinet
+    [ce_ais] chain 17/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 17/50 task 2/5 step 1/360: policy 1.92s, stepping env
+    [ce_ais] chain 17/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 17/50 task 2/5 step 25/360: policy 1.51s, stepping env
+    [ce_ais] chain 17/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 17/50 task 2/5 step 50/360: policy 0.68s, stepping env
+    [ce_ais] chain 17/50 task 2/5 success at step 61
+    [ce_ais] chain 17/50 task 2/5 success: 61 steps, 86.2s
+    [ce_ais] chain 17/50 task 3/5 start: stack_block | instruction: stack the grasped block
+    [ce_ais] chain 17/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 17/50 task 3/5 step 1/360: policy 1.42s, stepping env
+    [ce_ais] chain 17/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 17/50 task 3/5 step 25/360: policy 1.50s, stepping env
+    [ce_ais] chain 17/50 task 3/5 success at step 30
+    [ce_ais] chain 17/50 task 3/5 success: 30 steps, 39.1s
+    [ce_ais] chain 17/50 task 4/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 17/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 17/50 task 4/5 step 1/360: policy 2.26s, stepping env
+    [ce_ais] chain 17/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 17/50 task 4/5 step 25/360: policy 1.33s, stepping env
+    [ce_ais] chain 17/50 task 4/5 success at step 46
+    [ce_ais] chain 17/50 task 4/5 success: 46 steps, 69.4s
+    [ce_ais] chain 17/50 task 5/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 17/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 17/50 task 5/5 step 1/360: policy 1.91s, stepping env
+    [ce_ais] chain 17/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 17/50 task 5/5 step 25/360: policy 1.47s, stepping env
+    [ce_ais] chain 17/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 17/50 task 5/5 step 50/360: policy 1.53s, stepping env
+    [ce_ais] chain 17/50 task 5/5 success at step 71
+    [ce_ais] chain 17/50 task 5/5 success: 71 steps, 111.6s
+    [ce_ais] chain 18/50 start: ['push_red_block_left', 'move_slider_right', 'lift_blue_block_slider', 'place_in_slider', 'turn_on_lightbulb']
+    [ce_ais] chain 18/50 instructions: ['go push the red block left', 'push the sliding door to the right side', 'lift the blue block from the sliding cabinet', 'store the grasped block in the sliding cabinet', 'use the switch to turn on the light bulb']
+    [ce_ais] chain 18/50 task 1/5 start: push_red_block_left | instruction: go push the red block left
+    [ce_ais] chain 18/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 18/50 task 1/5 step 1/360: policy 2.23s, stepping env
+    [ce_ais] chain 18/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 18/50 task 1/5 step 25/360: policy 1.18s, stepping env
+    [ce_ais] chain 18/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 18/50 task 1/5 step 50/360: policy 1.97s, stepping env
+    [ce_ais] chain 18/50 task 1/5 success at step 67
+    [ce_ais] chain 18/50 task 1/5 success: 67 steps, 101.0s
+    [ce_ais] chain 18/50 task 2/5 start: move_slider_right | instruction: push the sliding door to the right side
+    [ce_ais] chain 18/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 18/50 task 2/5 step 1/360: policy 1.52s, stepping env
+    [ce_ais] chain 18/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 18/50 task 2/5 step 25/360: policy 1.18s, stepping env
+    [ce_ais] chain 18/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 18/50 task 2/5 step 50/360: policy 1.24s, stepping env
+    [ce_ais] chain 18/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 18/50 task 2/5 step 75/360: policy 1.36s, stepping env
+    [ce_ais] chain 18/50 task 2/5 success at step 75
+    [ce_ais] chain 18/50 task 2/5 success: 75 steps, 109.9s
+    [ce_ais] chain 18/50 task 3/5 start: lift_blue_block_slider | instruction: lift the blue block from the sliding cabinet
+    [ce_ais] chain 18/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 18/50 task 3/5 step 1/360: policy 1.65s, stepping env
+    [ce_ais] chain 18/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 18/50 task 3/5 step 25/360: policy 1.46s, stepping env
+    [ce_ais] chain 18/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 18/50 task 3/5 step 50/360: policy 1.26s, stepping env
+    [ce_ais] chain 18/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 18/50 task 3/5 step 75/360: policy 0.76s, stepping env
+    [ce_ais] chain 18/50 task 3/5 success at step 83
+    [ce_ais] chain 18/50 task 3/5 success: 83 steps, 117.4s
+    [ce_ais] chain 18/50 task 4/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 18/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 18/50 task 4/5 step 1/360: policy 2.18s, stepping env
+    [ce_ais] chain 18/50 task 4/5 success at step 10
+    [ce_ais] chain 18/50 task 4/5 success: 10 steps, 14.5s
+    [ce_ais] chain 18/50 task 5/5 start: turn_on_lightbulb | instruction: use the switch to turn on the light bulb
+    [ce_ais] chain 18/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 18/50 task 5/5 step 1/360: policy 1.84s, stepping env
+    [ce_ais] chain 18/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 18/50 task 5/5 step 25/360: policy 0.99s, stepping env
+    [ce_ais] chain 18/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 18/50 task 5/5 step 50/360: policy 1.38s, stepping env
+    [ce_ais] chain 18/50 task 5/5 success at step 67
+    [ce_ais] chain 18/50 task 5/5 success: 67 steps, 96.1s
+    [ce_ais] chain 19/50 start: ['turn_on_lightbulb', 'push_red_block_right', 'move_slider_left', 'lift_red_block_table', 'stack_block']
+    [ce_ais] chain 19/50 instructions: ['use the switch to turn on the light bulb', 'go push the red block right', 'push the sliding door to the left side', 'grasp and lift the red block', 'stack the grasped block']
+    [ce_ais] chain 19/50 task 1/5 start: turn_on_lightbulb | instruction: use the switch to turn on the light bulb
+    [ce_ais] chain 19/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 19/50 task 1/5 step 1/360: policy 2.46s, stepping env
+    [ce_ais] chain 19/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 19/50 task 1/5 step 25/360: policy 1.21s, stepping env
+    [ce_ais] chain 19/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 19/50 task 1/5 step 50/360: policy 0.92s, stepping env
+    [ce_ais] chain 19/50 task 1/5 success at step 51
+    [ce_ais] chain 19/50 task 1/5 success: 51 steps, 64.1s
+    [ce_ais] chain 19/50 task 2/5 start: push_red_block_right | instruction: go push the red block right
+    [ce_ais] chain 19/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 19/50 task 2/5 step 1/360: policy 1.53s, stepping env
+    [ce_ais] chain 19/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 19/50 task 2/5 step 25/360: policy 1.57s, stepping env
+    [ce_ais] chain 19/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 19/50 task 2/5 step 50/360: policy 0.93s, stepping env
+    [ce_ais] chain 19/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 19/50 task 2/5 step 75/360: policy 1.49s, stepping env
+    [ce_ais] chain 19/50 task 2/5 success at step 84
+    [ce_ais] chain 19/50 task 2/5 success: 84 steps, 107.8s
+    [ce_ais] chain 19/50 task 3/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 19/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 19/50 task 3/5 step 1/360: policy 1.26s, stepping env
+    [ce_ais] chain 19/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 19/50 task 3/5 step 25/360: policy 0.98s, stepping env
+    [ce_ais] chain 19/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 19/50 task 3/5 step 50/360: policy 1.25s, stepping env
+    [ce_ais] chain 19/50 task 3/5 success at step 55
+    [ce_ais] chain 19/50 task 3/5 success: 55 steps, 71.6s
+    [ce_ais] chain 19/50 task 4/5 start: lift_red_block_table | instruction: grasp and lift the red block
+    [ce_ais] chain 19/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 19/50 task 4/5 step 1/360: policy 1.49s, stepping env
+    [ce_ais] chain 19/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 19/50 task 4/5 step 25/360: policy 1.70s, stepping env
+    [ce_ais] chain 19/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 19/50 task 4/5 step 50/360: policy 0.96s, stepping env
+    [ce_ais] chain 19/50 task 4/5 success at step 58
+    [ce_ais] chain 19/50 task 4/5 success: 58 steps, 78.3s
+    [ce_ais] chain 19/50 task 5/5 start: stack_block | instruction: stack the grasped block
+    [ce_ais] chain 19/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 19/50 task 5/5 step 1/360: policy 2.10s, stepping env
+    [ce_ais] chain 19/50 task 5/5 success at step 21
+    [ce_ais] chain 19/50 task 5/5 success: 21 steps, 30.6s
+    [ce_ais] chain 20/50 start: ['move_slider_left', 'lift_red_block_table', 'place_in_slider', 'turn_on_lightbulb', 'close_drawer']
+    [ce_ais] chain 20/50 instructions: ['push the sliding door to the left side', 'grasp and lift the red block', 'store the grasped block in the sliding cabinet', 'use the switch to turn on the light bulb', 'push the handle to close the drawer']
+    [ce_ais] chain 20/50 task 1/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 20/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 20/50 task 1/5 step 1/360: policy 1.41s, stepping env
+    [ce_ais] chain 20/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 20/50 task 1/5 step 25/360: policy 0.95s, stepping env
+    [ce_ais] chain 20/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 20/50 task 1/5 step 50/360: policy 1.19s, stepping env
+    [ce_ais] chain 20/50 task 1/5 success at step 53
+    [ce_ais] chain 20/50 task 1/5 success: 53 steps, 69.1s
+    [ce_ais] chain 20/50 task 2/5 start: lift_red_block_table | instruction: grasp and lift the red block
+    [ce_ais] chain 20/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 20/50 task 2/5 step 1/360: policy 1.80s, stepping env
+    [ce_ais] chain 20/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 20/50 task 2/5 step 25/360: policy 1.10s, stepping env
+    [ce_ais] chain 20/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 20/50 task 2/5 step 50/360: policy 1.72s, stepping env
+    [ce_ais] chain 20/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 20/50 task 2/5 step 75/360: policy 1.24s, stepping env
+    [ce_ais] chain 20/50 task 2/5 step 100/360: running policy
+    [ce_ais] chain 20/50 task 2/5 step 100/360: policy 0.86s, stepping env
+    [ce_ais] chain 20/50 task 2/5 step 125/360: running policy
+    [ce_ais] chain 20/50 task 2/5 step 125/360: policy 0.93s, stepping env
+    [ce_ais] chain 20/50 task 2/5 step 150/360: running policy
+    [ce_ais] chain 20/50 task 2/5 step 150/360: policy 1.22s, stepping env
+    [ce_ais] chain 20/50 task 2/5 step 175/360: running policy
+    [ce_ais] chain 20/50 task 2/5 step 175/360: policy 0.91s, stepping env
+    [ce_ais] chain 20/50 task 2/5 success at step 189
+    [ce_ais] chain 20/50 task 2/5 success: 189 steps, 261.3s
+    [ce_ais] chain 20/50 task 3/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 20/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 20/50 task 3/5 step 1/360: policy 1.74s, stepping env
+    [ce_ais] chain 20/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 20/50 task 3/5 step 25/360: policy 1.25s, stepping env
+    [ce_ais] chain 20/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 20/50 task 3/5 step 50/360: policy 1.46s, stepping env
+    [ce_ais] chain 20/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 20/50 task 3/5 step 75/360: policy 1.42s, stepping env
+    [ce_ais] chain 20/50 task 3/5 step 100/360: running policy
+    [ce_ais] chain 20/50 task 3/5 step 100/360: policy 1.23s, stepping env
+    [ce_ais] chain 20/50 task 3/5 success at step 103
+    [ce_ais] chain 20/50 task 3/5 success: 103 steps, 155.7s
+    [ce_ais] chain 20/50 task 4/5 start: turn_on_lightbulb | instruction: use the switch to turn on the light bulb
+    [ce_ais] chain 20/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 20/50 task 4/5 step 1/360: policy 2.08s, stepping env
+    [ce_ais] chain 20/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 20/50 task 4/5 step 25/360: policy 1.17s, stepping env
+    [ce_ais] chain 20/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 20/50 task 4/5 step 50/360: policy 1.51s, stepping env
+    [ce_ais] chain 20/50 task 4/5 success at step 73
+    [ce_ais] chain 20/50 task 4/5 success: 73 steps, 107.5s
+    [ce_ais] chain 20/50 task 5/5 start: close_drawer | instruction: push the handle to close the drawer
+    [ce_ais] chain 20/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 20/50 task 5/5 step 1/360: policy 1.98s, stepping env
+    [ce_ais] chain 20/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 20/50 task 5/5 step 25/360: policy 1.49s, stepping env
+    [ce_ais] chain 20/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 20/50 task 5/5 step 50/360: policy 0.98s, stepping env
+    [ce_ais] chain 20/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 20/50 task 5/5 step 75/360: policy 1.38s, stepping env
+    [ce_ais] chain 20/50 task 5/5 success at step 91
+    [ce_ais] chain 20/50 task 5/5 success: 91 steps, 122.9s
+    [ce_ais] 20/50 chains, L1 success: 95.0%
+    [ce_ais] chain 21/50 start: ['open_drawer', 'turn_on_lightbulb', 'push_red_block_left', 'move_slider_left', 'push_into_drawer']
+    [ce_ais] chain 21/50 instructions: ['pull the handle to open the drawer', 'use the switch to turn on the light bulb', 'go push the red block left', 'push the sliding door to the left side', 'slide the block that it falls into the drawer']
+    [ce_ais] chain 21/50 task 1/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 21/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 21/50 task 1/5 step 1/360: policy 2.19s, stepping env
+    [ce_ais] chain 21/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 21/50 task 1/5 step 25/360: policy 1.03s, stepping env
+    [ce_ais] chain 21/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 21/50 task 1/5 step 50/360: policy 1.04s, stepping env
+    [ce_ais] chain 21/50 task 1/5 success at step 66
+    [ce_ais] chain 21/50 task 1/5 success: 66 steps, 91.1s
+    [ce_ais] chain 21/50 task 2/5 start: turn_on_lightbulb | instruction: use the switch to turn on the light bulb
+    [ce_ais] chain 21/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 21/50 task 2/5 step 1/360: policy 2.33s, stepping env
+    [ce_ais] chain 21/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 21/50 task 2/5 step 25/360: policy 1.58s, stepping env
+    [ce_ais] chain 21/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 21/50 task 2/5 step 50/360: policy 1.18s, stepping env
+    [ce_ais] chain 21/50 task 2/5 success at step 68
+    [ce_ais] chain 21/50 task 2/5 success: 68 steps, 99.1s
+    [ce_ais] chain 21/50 task 3/5 start: push_red_block_left | instruction: go push the red block left
+    [ce_ais] chain 21/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 21/50 task 3/5 step 1/360: policy 1.70s, stepping env
+    [ce_ais] chain 21/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 21/50 task 3/5 step 25/360: policy 1.44s, stepping env
+    [ce_ais] chain 21/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 21/50 task 3/5 step 50/360: policy 0.86s, stepping env
+    [ce_ais] chain 21/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 21/50 task 3/5 step 75/360: policy 1.50s, stepping env
+    [ce_ais] chain 21/50 task 3/5 step 100/360: running policy
+    [ce_ais] chain 21/50 task 3/5 step 100/360: policy 1.18s, stepping env
+    [ce_ais] chain 21/50 task 3/5 success at step 103
+    [ce_ais] chain 21/50 task 3/5 success: 103 steps, 146.2s
+    [ce_ais] chain 21/50 task 4/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 21/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 21/50 task 4/5 step 1/360: policy 1.48s, stepping env
+    [ce_ais] chain 21/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 21/50 task 4/5 step 25/360: policy 1.32s, stepping env
+    [ce_ais] chain 21/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 21/50 task 4/5 step 50/360: policy 1.57s, stepping env
+    [ce_ais] chain 21/50 task 4/5 success at step 61
+    [ce_ais] chain 21/50 task 4/5 success: 61 steps, 88.3s
+    [ce_ais] chain 21/50 task 5/5 start: push_into_drawer | instruction: slide the block that it falls into the drawer
+    [ce_ais] chain 21/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 21/50 task 5/5 step 1/360: policy 2.12s, stepping env
+    [ce_ais] chain 21/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 21/50 task 5/5 step 25/360: policy 1.51s, stepping env
+    [ce_ais] chain 21/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 21/50 task 5/5 step 50/360: policy 1.11s, stepping env
+    [ce_ais] chain 21/50 task 5/5 success at step 67
+    [ce_ais] chain 21/50 task 5/5 success: 67 steps, 91.6s
+    [ce_ais] chain 22/50 start: ['move_slider_right', 'turn_off_lightbulb', 'lift_pink_block_table', 'place_in_drawer', 'lift_pink_block_drawer']
+    [ce_ais] chain 22/50 instructions: ['push the sliding door to the right side', 'use the switch to turn off the light bulb', 'grasp and lift the pink block', 'store the grasped block in the drawer', 'Take the pink block from the drawer']
+    [ce_ais] chain 22/50 task 1/5 start: move_slider_right | instruction: push the sliding door to the right side
+    [ce_ais] chain 22/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 22/50 task 1/5 step 1/360: policy 1.96s, stepping env
+    [ce_ais] chain 22/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 22/50 task 1/5 step 25/360: policy 1.37s, stepping env
+    [ce_ais] chain 22/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 22/50 task 1/5 step 50/360: policy 1.16s, stepping env
+    [ce_ais] chain 22/50 task 1/5 success at step 60
+    [ce_ais] chain 22/50 task 1/5 success: 60 steps, 81.5s
+    [ce_ais] chain 22/50 task 2/5 start: turn_off_lightbulb | instruction: use the switch to turn off the light bulb
+    [ce_ais] chain 22/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 22/50 task 2/5 step 1/360: policy 1.77s, stepping env
+    [ce_ais] chain 22/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 22/50 task 2/5 step 25/360: policy 0.72s, stepping env
+    [ce_ais] chain 22/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 22/50 task 2/5 step 50/360: policy 1.47s, stepping env
+    [ce_ais] chain 22/50 task 2/5 success at step 59
+    [ce_ais] chain 22/50 task 2/5 success: 59 steps, 75.9s
+    [ce_ais] chain 22/50 task 3/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 22/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 22/50 task 3/5 step 1/360: policy 1.68s, stepping env
+    [ce_ais] chain 22/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 22/50 task 3/5 step 25/360: policy 1.04s, stepping env
+    [ce_ais] chain 22/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 22/50 task 3/5 step 50/360: policy 0.93s, stepping env
+    [ce_ais] chain 22/50 task 3/5 success at step 69
+    [ce_ais] chain 22/50 task 3/5 success: 69 steps, 90.8s
+    [ce_ais] chain 22/50 task 4/5 start: place_in_drawer | instruction: store the grasped block in the drawer
+    [ce_ais] chain 22/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 22/50 task 4/5 step 1/360: policy 2.11s, stepping env
+    [ce_ais] chain 22/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 22/50 task 4/5 step 25/360: policy 0.80s, stepping env
+    [ce_ais] chain 22/50 task 4/5 success at step 35
+    [ce_ais] chain 22/50 task 4/5 success: 35 steps, 50.8s
+    [ce_ais] chain 22/50 task 5/5 start: lift_pink_block_drawer | instruction: Take the pink block from the drawer
+    [ce_ais] chain 22/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 22/50 task 5/5 step 1/360: policy 2.04s, stepping env
+    [ce_ais] chain 22/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 22/50 task 5/5 step 25/360: policy 1.61s, stepping env
+    [ce_ais] chain 22/50 task 5/5 success at step 41
+    [ce_ais] chain 22/50 task 5/5 success: 41 steps, 59.2s
+    [ce_ais] chain 23/50 start: ['rotate_pink_block_right', 'open_drawer', 'lift_blue_block_table', 'place_in_slider', 'turn_off_lightbulb']
+    [ce_ais] chain 23/50 instructions: ['take the pink block and rotate it to the right', 'pull the handle to open the drawer', 'grasp and lift the blue block', 'store the grasped block in the sliding cabinet', 'use the switch to turn off the light bulb']
+    [ce_ais] chain 23/50 task 1/5 start: rotate_pink_block_right | instruction: take the pink block and rotate it to the right
+    [ce_ais] chain 23/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 23/50 task 1/5 step 1/360: policy 1.62s, stepping env
+    [ce_ais] chain 23/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 23/50 task 1/5 step 25/360: policy 1.37s, stepping env
+    [ce_ais] chain 23/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 23/50 task 1/5 step 50/360: policy 1.50s, stepping env
+    [ce_ais] chain 23/50 task 1/5 step 75/360: running policy
+    [ce_ais] chain 23/50 task 1/5 step 75/360: policy 1.25s, stepping env
+    [ce_ais] chain 23/50 task 1/5 success at step 83
+    [ce_ais] chain 23/50 task 1/5 success: 83 steps, 117.1s
+    [ce_ais] chain 23/50 task 2/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 23/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 23/50 task 2/5 step 1/360: policy 2.19s, stepping env
+    [ce_ais] chain 23/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 23/50 task 2/5 step 25/360: policy 0.97s, stepping env
+    [ce_ais] chain 23/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 23/50 task 2/5 step 50/360: policy 1.55s, stepping env
+    [ce_ais] chain 23/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 23/50 task 2/5 step 75/360: policy 0.93s, stepping env
+    [ce_ais] chain 23/50 task 2/5 success at step 89
+    [ce_ais] chain 23/50 task 2/5 success: 89 steps, 124.3s
+    [ce_ais] chain 23/50 task 3/5 start: lift_blue_block_table | instruction: grasp and lift the blue block
+    [ce_ais] chain 23/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 23/50 task 3/5 step 1/360: policy 1.79s, stepping env
+    [ce_ais] chain 23/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 23/50 task 3/5 step 25/360: policy 1.11s, stepping env
+    [ce_ais] chain 23/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 23/50 task 3/5 step 50/360: policy 1.06s, stepping env
+    [ce_ais] chain 23/50 task 3/5 success at step 72
+    [ce_ais] chain 23/50 task 3/5 success: 72 steps, 93.5s
+    [ce_ais] chain 23/50 task 4/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 23/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 23/50 task 4/5 step 1/360: policy 1.30s, stepping env
+    [ce_ais] chain 23/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 23/50 task 4/5 step 25/360: policy 1.08s, stepping env
+    [ce_ais] chain 23/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 23/50 task 4/5 step 50/360: policy 1.35s, stepping env
+    [ce_ais] chain 23/50 task 4/5 success at step 50
+    [ce_ais] chain 23/50 task 4/5 success: 50 steps, 76.4s
+    [ce_ais] chain 23/50 task 5/5 start: turn_off_lightbulb | instruction: use the switch to turn off the light bulb
+    [ce_ais] chain 23/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 23/50 task 5/5 step 1/360: policy 2.30s, stepping env
+    [ce_ais] chain 23/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 23/50 task 5/5 step 25/360: policy 1.59s, stepping env
+    [ce_ais] chain 23/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 23/50 task 5/5 step 50/360: policy 1.58s, stepping env
+    [ce_ais] chain 23/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 23/50 task 5/5 step 75/360: policy 1.63s, stepping env
+    [ce_ais] chain 23/50 task 5/5 success at step 81
+    [ce_ais] chain 23/50 task 5/5 success: 81 steps, 122.6s
+    [ce_ais] chain 24/50 start: ['turn_on_led', 'move_slider_left', 'lift_blue_block_table', 'stack_block', 'unstack_block']
+    [ce_ais] chain 24/50 instructions: ['press the button to turn on the led light', 'push the sliding door to the left side', 'grasp and lift the blue block', 'stack the grasped block', 'remove the stacked block']
+    [ce_ais] chain 24/50 task 1/5 start: turn_on_led | instruction: press the button to turn on the led light
+    [ce_ais] chain 24/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 24/50 task 1/5 step 1/360: policy 1.59s, stepping env
+    [ce_ais] chain 24/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 24/50 task 1/5 step 25/360: policy 1.44s, stepping env
+    [ce_ais] chain 24/50 task 1/5 success at step 35
+    [ce_ais] chain 24/50 task 1/5 success: 35 steps, 48.9s
+    [ce_ais] chain 24/50 task 2/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 24/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 24/50 task 2/5 step 1/360: policy 1.75s, stepping env
+    [ce_ais] chain 24/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 24/50 task 2/5 step 25/360: policy 1.18s, stepping env
+    [ce_ais] chain 24/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 24/50 task 2/5 step 50/360: policy 0.95s, stepping env
+    [ce_ais] chain 24/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 24/50 task 2/5 step 75/360: policy 0.82s, stepping env
+    [ce_ais] chain 24/50 task 2/5 success at step 92
+    [ce_ais] chain 24/50 task 2/5 success: 92 steps, 123.7s
+    [ce_ais] chain 24/50 task 3/5 start: lift_blue_block_table | instruction: grasp and lift the blue block
+    [ce_ais] chain 24/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 24/50 task 3/5 step 1/360: policy 1.54s, stepping env
+    [ce_ais] chain 24/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 24/50 task 3/5 step 25/360: policy 0.99s, stepping env
+    [ce_ais] chain 24/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 24/50 task 3/5 step 50/360: policy 1.43s, stepping env
+    [ce_ais] chain 24/50 task 3/5 success at step 57
+    [ce_ais] chain 24/50 task 3/5 success: 57 steps, 77.2s
+    [ce_ais] chain 24/50 task 4/5 start: stack_block | instruction: stack the grasped block
+    [ce_ais] chain 24/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 24/50 task 4/5 step 1/360: policy 1.89s, stepping env
+    [ce_ais] chain 24/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 24/50 task 4/5 step 25/360: policy 0.81s, stepping env
+    [ce_ais] chain 24/50 task 4/5 success at step 37
+    [ce_ais] chain 24/50 task 4/5 success: 37 steps, 44.2s
+    [ce_ais] chain 24/50 task 5/5 start: unstack_block | instruction: remove the stacked block
+    [ce_ais] chain 24/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 24/50 task 5/5 step 1/360: policy 1.47s, stepping env
+    [ce_ais] chain 24/50 task 5/5 success at step 2
+    [ce_ais] chain 24/50 task 5/5 success: 2 steps, 2.5s
+    [ce_ais] chain 25/50 start: ['rotate_blue_block_right', 'open_drawer', 'turn_off_led', 'lift_blue_block_table', 'place_in_slider']
+    [ce_ais] chain 25/50 instructions: ['take the blue block and rotate it to the right', 'pull the handle to open the drawer', 'press the button to turn off the led light', 'grasp and lift the blue block', 'store the grasped block in the sliding cabinet']
+    [ce_ais] chain 25/50 task 1/5 start: rotate_blue_block_right | instruction: take the blue block and rotate it to the right
+    [ce_ais] chain 25/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 25/50 task 1/5 step 1/360: policy 2.08s, stepping env
+    [ce_ais] chain 25/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 25/50 task 1/5 step 25/360: policy 1.26s, stepping env
+    [ce_ais] chain 25/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 25/50 task 1/5 step 50/360: policy 0.94s, stepping env
+    [ce_ais] chain 25/50 task 1/5 success at step 60
+    [ce_ais] chain 25/50 task 1/5 success: 60 steps, 84.4s
+    [ce_ais] chain 25/50 task 2/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 25/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 25/50 task 2/5 step 1/360: policy 1.63s, stepping env
+    [ce_ais] chain 25/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 25/50 task 2/5 step 25/360: policy 1.21s, stepping env
+    [ce_ais] chain 25/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 25/50 task 2/5 step 50/360: policy 0.88s, stepping env
+    [ce_ais] chain 25/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 25/50 task 2/5 step 75/360: policy 1.25s, stepping env
+    [ce_ais] chain 25/50 task 2/5 success at step 95
+    [ce_ais] chain 25/50 task 2/5 success: 95 steps, 124.3s
+    [ce_ais] chain 25/50 task 3/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 25/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 25/50 task 3/5 step 1/360: policy 1.95s, stepping env
+    [ce_ais] chain 25/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 25/50 task 3/5 step 25/360: policy 0.97s, stepping env
+    [ce_ais] chain 25/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 25/50 task 3/5 step 50/360: policy 1.48s, stepping env
+    [ce_ais] chain 25/50 task 3/5 success at step 70
+    [ce_ais] chain 25/50 task 3/5 success: 70 steps, 94.3s
+    [ce_ais] chain 25/50 task 4/5 start: lift_blue_block_table | instruction: grasp and lift the blue block
+    [ce_ais] chain 25/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 1/360: policy 1.62s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 25/360: policy 0.90s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 50/360: policy 1.20s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 75/360: policy 1.06s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 100/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 100/360: policy 1.14s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 125/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 125/360: policy 1.31s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 150/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 150/360: policy 0.90s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 175/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 175/360: policy 1.13s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 200/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 200/360: policy 1.50s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 225/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 225/360: policy 1.64s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 250/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 250/360: policy 1.33s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 275/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 275/360: policy 1.73s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 300/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 300/360: policy 1.56s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 325/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 325/360: policy 1.83s, stepping env
+    [ce_ais] chain 25/50 task 4/5 step 350/360: running policy
+    [ce_ais] chain 25/50 task 4/5 step 350/360: policy 1.52s, stepping env
+    [ce_ais] chain 25/50 task 4/5 failed: 360 steps, 483.4s
+    [ce_ais] chain 26/50 start: ['lift_blue_block_slider', 'stack_block', 'turn_off_led', 'unstack_block', 'push_blue_block_left']
+    [ce_ais] chain 26/50 instructions: ['lift the blue block from the sliding cabinet', 'stack the grasped block', 'press the button to turn off the led light', 'remove the stacked block', 'go push the blue block left']
+    [ce_ais] chain 26/50 task 1/5 start: lift_blue_block_slider | instruction: lift the blue block from the sliding cabinet
+    [ce_ais] chain 26/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 26/50 task 1/5 step 1/360: policy 1.48s, stepping env
+    [ce_ais] chain 26/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 26/50 task 1/5 step 25/360: policy 1.59s, stepping env
+    [ce_ais] chain 26/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 26/50 task 1/5 step 50/360: policy 1.28s, stepping env
+    [ce_ais] chain 26/50 task 1/5 success at step 69
+    [ce_ais] chain 26/50 task 1/5 success: 69 steps, 97.7s
+    [ce_ais] chain 26/50 task 2/5 start: stack_block | instruction: stack the grasped block
+    [ce_ais] chain 26/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 26/50 task 2/5 step 1/360: policy 2.05s, stepping env
+    [ce_ais] chain 26/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 26/50 task 2/5 step 25/360: policy 1.29s, stepping env
+    [ce_ais] chain 26/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 26/50 task 2/5 step 50/360: policy 0.93s, stepping env
+    [ce_ais] chain 26/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 26/50 task 2/5 step 75/360: policy 0.98s, stepping env
+    [ce_ais] chain 26/50 task 2/5 success at step 89
+    [ce_ais] chain 26/50 task 2/5 success: 89 steps, 114.6s
+    [ce_ais] chain 26/50 task 3/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 26/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 26/50 task 3/5 step 1/360: policy 1.50s, stepping env
+    [ce_ais] chain 26/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 26/50 task 3/5 step 25/360: policy 1.65s, stepping env
+    [ce_ais] chain 26/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 26/50 task 3/5 step 50/360: policy 0.87s, stepping env
+    [ce_ais] chain 26/50 task 3/5 success at step 50
+    [ce_ais] chain 26/50 task 3/5 success: 50 steps, 67.5s
+    [ce_ais] chain 26/50 task 4/5 start: unstack_block | instruction: remove the stacked block
+    [ce_ais] chain 26/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 26/50 task 4/5 step 1/360: policy 1.64s, stepping env
+    [ce_ais] chain 26/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 26/50 task 4/5 step 25/360: policy 1.22s, stepping env
+    [ce_ais] chain 26/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 26/50 task 4/5 step 50/360: policy 1.50s, stepping env
+    [ce_ais] chain 26/50 task 4/5 success at step 67
+    [ce_ais] chain 26/50 task 4/5 success: 67 steps, 90.9s
+    [ce_ais] chain 26/50 task 5/5 start: push_blue_block_left | instruction: go push the blue block left
+    [ce_ais] chain 26/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 1/360: policy 2.52s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 25/360: policy 1.50s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 50/360: policy 1.55s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 75/360: policy 1.21s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 100/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 100/360: policy 1.18s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 125/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 125/360: policy 1.47s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 150/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 150/360: policy 1.49s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 175/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 175/360: policy 1.34s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 200/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 200/360: policy 1.50s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 225/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 225/360: policy 1.20s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 250/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 250/360: policy 1.49s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 275/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 275/360: policy 1.52s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 300/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 300/360: policy 1.10s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 325/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 325/360: policy 1.43s, stepping env
+    [ce_ais] chain 26/50 task 5/5 step 350/360: running policy
+    [ce_ais] chain 26/50 task 5/5 step 350/360: policy 0.94s, stepping env
+    [ce_ais] chain 26/50 task 5/5 failed: 360 steps, 494.4s
+    [ce_ais] chain 27/50 start: ['push_blue_block_right', 'open_drawer', 'lift_pink_block_slider', 'place_in_slider', 'push_into_drawer']
+    [ce_ais] chain 27/50 instructions: ['go push the blue block right', 'pull the handle to open the drawer', 'lift the pink block from the sliding cabinet', 'store the grasped block in the sliding cabinet', 'slide the block that it falls into the drawer']
+    [ce_ais] chain 27/50 task 1/5 start: push_blue_block_right | instruction: go push the blue block right
+    [ce_ais] chain 27/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 27/50 task 1/5 step 1/360: policy 1.47s, stepping env
+    [ce_ais] chain 27/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 27/50 task 1/5 step 25/360: policy 1.06s, stepping env
+    [ce_ais] chain 27/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 27/50 task 1/5 step 50/360: policy 1.23s, stepping env
+    [ce_ais] chain 27/50 task 1/5 step 75/360: running policy
+    [ce_ais] chain 27/50 task 1/5 step 75/360: policy 1.01s, stepping env
+    [ce_ais] chain 27/50 task 1/5 step 100/360: running policy
+    [ce_ais] chain 27/50 task 1/5 step 100/360: policy 1.18s, stepping env
+    [ce_ais] chain 27/50 task 1/5 step 125/360: running policy
+    [ce_ais] chain 27/50 task 1/5 step 125/360: policy 1.12s, stepping env
+    [ce_ais] chain 27/50 task 1/5 step 150/360: running policy
+    [ce_ais] chain 27/50 task 1/5 step 150/360: policy 1.22s, stepping env
+    [ce_ais] chain 27/50 task 1/5 step 175/360: running policy
+    [ce_ais] chain 27/50 task 1/5 step 175/360: policy 1.84s, stepping env
+    [ce_ais] chain 27/50 task 1/5 step 200/360: running policy
+    [ce_ais] chain 27/50 task 1/5 step 200/360: policy 1.56s, stepping env
+    [ce_ais] chain 27/50 task 1/5 step 225/360: running policy
+    [ce_ais] chain 27/50 task 1/5 step 225/360: policy 0.91s, stepping env
+    [ce_ais] chain 27/50 task 1/5 step 250/360: running policy
+    [ce_ais] chain 27/50 task 1/5 step 250/360: policy 0.90s, stepping env
+    [ce_ais] chain 27/50 task 1/5 success at step 252
+    [ce_ais] chain 27/50 task 1/5 success: 252 steps, 323.1s
+    [ce_ais] chain 27/50 task 2/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 27/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 27/50 task 2/5 step 1/360: policy 2.19s, stepping env
+    [ce_ais] chain 27/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 27/50 task 2/5 step 25/360: policy 1.29s, stepping env
+    [ce_ais] chain 27/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 27/50 task 2/5 step 50/360: policy 1.28s, stepping env
+    [ce_ais] chain 27/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 27/50 task 2/5 step 75/360: policy 0.98s, stepping env
+    [ce_ais] chain 27/50 task 2/5 success at step 75
+    [ce_ais] chain 27/50 task 2/5 success: 75 steps, 101.3s
+    [ce_ais] chain 27/50 task 3/5 start: lift_pink_block_slider | instruction: lift the pink block from the sliding cabinet
+    [ce_ais] chain 27/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 27/50 task 3/5 step 1/360: policy 1.52s, stepping env
+    [ce_ais] chain 27/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 27/50 task 3/5 step 25/360: policy 1.52s, stepping env
+    [ce_ais] chain 27/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 27/50 task 3/5 step 50/360: policy 1.30s, stepping env
+    [ce_ais] chain 27/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 27/50 task 3/5 step 75/360: policy 0.88s, stepping env
+    [ce_ais] chain 27/50 task 3/5 step 100/360: running policy
+    [ce_ais] chain 27/50 task 3/5 step 100/360: policy 1.45s, stepping env
+    [ce_ais] chain 27/50 task 3/5 success at step 109
+    [ce_ais] chain 27/50 task 3/5 success: 109 steps, 131.6s
+    [ce_ais] chain 27/50 task 4/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 27/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 27/50 task 4/5 step 1/360: policy 1.54s, stepping env
+    [ce_ais] chain 27/50 task 4/5 success at step 18
+    [ce_ais] chain 27/50 task 4/5 success: 18 steps, 25.4s
+    [ce_ais] chain 27/50 task 5/5 start: push_into_drawer | instruction: slide the block that it falls into the drawer
+    [ce_ais] chain 27/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 27/50 task 5/5 step 1/360: policy 1.68s, stepping env
+    [ce_ais] chain 27/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 27/50 task 5/5 step 25/360: policy 1.67s, stepping env
+    [ce_ais] chain 27/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 27/50 task 5/5 step 50/360: policy 0.98s, stepping env
+    [ce_ais] chain 27/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 27/50 task 5/5 step 75/360: policy 1.45s, stepping env
+    [ce_ais] chain 27/50 task 5/5 step 100/360: running policy
+    [ce_ais] chain 27/50 task 5/5 step 100/360: policy 0.94s, stepping env
+    [ce_ais] chain 27/50 task 5/5 step 125/360: running policy
+    [ce_ais] chain 27/50 task 5/5 step 125/360: policy 0.98s, stepping env
+    [ce_ais] chain 27/50 task 5/5 step 150/360: running policy
+    [ce_ais] chain 27/50 task 5/5 step 150/360: policy 1.10s, stepping env
+    [ce_ais] chain 27/50 task 5/5 step 175/360: running policy
+    [ce_ais] chain 27/50 task 5/5 step 175/360: policy 1.28s, stepping env
+    [ce_ais] chain 27/50 task 5/5 step 200/360: running policy
+    [ce_ais] chain 27/50 task 5/5 step 200/360: policy 1.28s, stepping env
+    [ce_ais] chain 27/50 task 5/5 success at step 211
+    [ce_ais] chain 27/50 task 5/5 success: 211 steps, 278.2s
+    [ce_ais] chain 28/50 start: ['push_red_block_right', 'turn_on_lightbulb', 'push_into_drawer', 'move_slider_left', 'close_drawer']
+    [ce_ais] chain 28/50 instructions: ['go push the red block right', 'use the switch to turn on the light bulb', 'slide the block that it falls into the drawer', 'push the sliding door to the left side', 'push the handle to close the drawer']
+    [ce_ais] chain 28/50 task 1/5 start: push_red_block_right | instruction: go push the red block right
+    [ce_ais] chain 28/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 28/50 task 1/5 step 1/360: policy 1.89s, stepping env
+    [ce_ais] chain 28/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 28/50 task 1/5 step 25/360: policy 1.58s, stepping env
+    [ce_ais] chain 28/50 task 1/5 success at step 44
+    [ce_ais] chain 28/50 task 1/5 success: 44 steps, 66.7s
+    [ce_ais] chain 28/50 task 2/5 start: turn_on_lightbulb | instruction: use the switch to turn on the light bulb
+    [ce_ais] chain 28/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 28/50 task 2/5 step 1/360: policy 2.04s, stepping env
+    [ce_ais] chain 28/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 28/50 task 2/5 step 25/360: policy 1.17s, stepping env
+    [ce_ais] chain 28/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 28/50 task 2/5 step 50/360: policy 1.19s, stepping env
+    [ce_ais] chain 28/50 task 2/5 success at step 61
+    [ce_ais] chain 28/50 task 2/5 success: 61 steps, 80.1s
+    [ce_ais] chain 28/50 task 3/5 start: push_into_drawer | instruction: slide the block that it falls into the drawer
+    [ce_ais] chain 28/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 28/50 task 3/5 step 1/360: policy 2.02s, stepping env
+    [ce_ais] chain 28/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 28/50 task 3/5 step 25/360: policy 1.61s, stepping env
+    [ce_ais] chain 28/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 28/50 task 3/5 step 50/360: policy 1.75s, stepping env
+    [ce_ais] chain 28/50 task 3/5 success at step 65
+    [ce_ais] chain 28/50 task 3/5 success: 65 steps, 99.4s
+    [ce_ais] chain 28/50 task 4/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 28/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 28/50 task 4/5 step 1/360: policy 1.97s, stepping env
+    [ce_ais] chain 28/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 28/50 task 4/5 step 25/360: policy 1.07s, stepping env
+    [ce_ais] chain 28/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 28/50 task 4/5 step 50/360: policy 1.40s, stepping env
+    [ce_ais] chain 28/50 task 4/5 success at step 61
+    [ce_ais] chain 28/50 task 4/5 success: 61 steps, 80.2s
+    [ce_ais] chain 28/50 task 5/5 start: close_drawer | instruction: push the handle to close the drawer
+    [ce_ais] chain 28/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 28/50 task 5/5 step 1/360: policy 1.53s, stepping env
+    [ce_ais] chain 28/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 28/50 task 5/5 step 25/360: policy 1.22s, stepping env
+    [ce_ais] chain 28/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 28/50 task 5/5 step 50/360: policy 1.89s, stepping env
+    [ce_ais] chain 28/50 task 5/5 success at step 74
+    [ce_ais] chain 28/50 task 5/5 success: 74 steps, 95.0s
+    [ce_ais] chain 29/50 start: ['turn_off_lightbulb', 'rotate_blue_block_left', 'move_slider_left', 'open_drawer', 'lift_red_block_table']
+    [ce_ais] chain 29/50 instructions: ['use the switch to turn off the light bulb', 'take the blue block and rotate it to the left', 'push the sliding door to the left side', 'pull the handle to open the drawer', 'grasp and lift the red block']
+    [ce_ais] chain 29/50 task 1/5 start: turn_off_lightbulb | instruction: use the switch to turn off the light bulb
+    [ce_ais] chain 29/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 29/50 task 1/5 step 1/360: policy 1.33s, stepping env
+    [ce_ais] chain 29/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 29/50 task 1/5 step 25/360: policy 1.00s, stepping env
+    [ce_ais] chain 29/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 29/50 task 1/5 step 50/360: policy 1.43s, stepping env
+    [ce_ais] chain 29/50 task 1/5 success at step 53
+    [ce_ais] chain 29/50 task 1/5 success: 53 steps, 66.1s
+    [ce_ais] chain 29/50 task 2/5 start: rotate_blue_block_left | instruction: take the blue block and rotate it to the left
+    [ce_ais] chain 29/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 29/50 task 2/5 step 1/360: policy 1.55s, stepping env
+    [ce_ais] chain 29/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 29/50 task 2/5 step 25/360: policy 1.17s, stepping env
+    [ce_ais] chain 29/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 29/50 task 2/5 step 50/360: policy 1.11s, stepping env
+    [ce_ais] chain 29/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 29/50 task 2/5 step 75/360: policy 1.44s, stepping env
+    [ce_ais] chain 29/50 task 2/5 success at step 96
+    [ce_ais] chain 29/50 task 2/5 success: 96 steps, 129.4s
+    [ce_ais] chain 29/50 task 3/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 29/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 29/50 task 3/5 step 1/360: policy 1.39s, stepping env
+    [ce_ais] chain 29/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 29/50 task 3/5 step 25/360: policy 0.81s, stepping env
+    [ce_ais] chain 29/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 29/50 task 3/5 step 50/360: policy 1.11s, stepping env
+    [ce_ais] chain 29/50 task 3/5 success at step 74
+    [ce_ais] chain 29/50 task 3/5 success: 74 steps, 93.7s
+    [ce_ais] chain 29/50 task 4/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 29/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 29/50 task 4/5 step 1/360: policy 1.50s, stepping env
+    [ce_ais] chain 29/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 29/50 task 4/5 step 25/360: policy 1.12s, stepping env
+    [ce_ais] chain 29/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 29/50 task 4/5 step 50/360: policy 1.32s, stepping env
+    [ce_ais] chain 29/50 task 4/5 success at step 73
+    [ce_ais] chain 29/50 task 4/5 success: 73 steps, 88.3s
+    [ce_ais] chain 29/50 task 5/5 start: lift_red_block_table | instruction: grasp and lift the red block
+    [ce_ais] chain 29/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 29/50 task 5/5 step 1/360: policy 2.06s, stepping env
+    [ce_ais] chain 29/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 29/50 task 5/5 step 25/360: policy 1.17s, stepping env
+    [ce_ais] chain 29/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 29/50 task 5/5 step 50/360: policy 1.26s, stepping env
+    [ce_ais] chain 29/50 task 5/5 success at step 70
+    [ce_ais] chain 29/50 task 5/5 success: 70 steps, 84.4s
+    [ce_ais] chain 30/50 start: ['lift_red_block_table', 'stack_block', 'unstack_block', 'open_drawer', 'turn_on_led']
+    [ce_ais] chain 30/50 instructions: ['grasp and lift the red block', 'stack the grasped block', 'remove the stacked block', 'pull the handle to open the drawer', 'press the button to turn on the led light']
+    [ce_ais] chain 30/50 task 1/5 start: lift_red_block_table | instruction: grasp and lift the red block
+    [ce_ais] chain 30/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 30/50 task 1/5 step 1/360: policy 1.51s, stepping env
+    [ce_ais] chain 30/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 30/50 task 1/5 step 25/360: policy 1.08s, stepping env
+    [ce_ais] chain 30/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 30/50 task 1/5 step 50/360: policy 1.40s, stepping env
+    [ce_ais] chain 30/50 task 1/5 step 75/360: running policy
+    [ce_ais] chain 30/50 task 1/5 step 75/360: policy 1.38s, stepping env
+    [ce_ais] chain 30/50 task 1/5 step 100/360: running policy
+    [ce_ais] chain 30/50 task 1/5 step 100/360: policy 1.27s, stepping env
+    [ce_ais] chain 30/50 task 1/5 step 125/360: running policy
+    [ce_ais] chain 30/50 task 1/5 step 125/360: policy 1.35s, stepping env
+    [ce_ais] chain 30/50 task 1/5 step 150/360: running policy
+    [ce_ais] chain 30/50 task 1/5 step 150/360: policy 1.09s, stepping env
+    [ce_ais] chain 30/50 task 1/5 step 175/360: running policy
+    [ce_ais] chain 30/50 task 1/5 step 175/360: policy 1.28s, stepping env
+    [ce_ais] chain 30/50 task 1/5 step 200/360: running policy
+    [ce_ais] chain 30/50 task 1/5 step 200/360: policy 1.19s, stepping env
+    [ce_ais] chain 30/50 task 1/5 step 225/360: running policy
+    [ce_ais] chain 30/50 task 1/5 step 225/360: policy 1.38s, stepping env
+    [ce_ais] chain 30/50 task 1/5 success at step 240
+    [ce_ais] chain 30/50 task 1/5 success: 240 steps, 340.0s
+    [ce_ais] chain 30/50 task 2/5 start: stack_block | instruction: stack the grasped block
+    [ce_ais] chain 30/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 30/50 task 2/5 step 1/360: policy 1.56s, stepping env
+    [ce_ais] chain 30/50 task 2/5 success at step 19
+    [ce_ais] chain 30/50 task 2/5 success: 19 steps, 25.2s
+    [ce_ais] chain 30/50 task 3/5 start: unstack_block | instruction: remove the stacked block
+    [ce_ais] chain 30/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 30/50 task 3/5 step 1/360: policy 2.14s, stepping env
+    [ce_ais] chain 30/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 30/50 task 3/5 step 25/360: policy 1.11s, stepping env
+    [ce_ais] chain 30/50 task 3/5 success at step 31
+    [ce_ais] chain 30/50 task 3/5 success: 31 steps, 36.7s
+    [ce_ais] chain 30/50 task 4/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 30/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 30/50 task 4/5 step 1/360: policy 1.54s, stepping env
+    [ce_ais] chain 30/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 30/50 task 4/5 step 25/360: policy 1.48s, stepping env
+    [ce_ais] chain 30/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 30/50 task 4/5 step 50/360: policy 0.86s, stepping env
+    [ce_ais] chain 30/50 task 4/5 success at step 65
+    [ce_ais] chain 30/50 task 4/5 success: 65 steps, 81.8s
+    [ce_ais] chain 30/50 task 5/5 start: turn_on_led | instruction: press the button to turn on the led light
+    [ce_ais] chain 30/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 1/360: policy 2.11s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 25/360: policy 1.49s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 50/360: policy 1.33s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 75/360: policy 0.85s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 100/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 100/360: policy 0.99s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 125/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 125/360: policy 1.65s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 150/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 150/360: policy 2.12s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 175/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 175/360: policy 1.07s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 200/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 200/360: policy 0.99s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 225/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 225/360: policy 0.98s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 250/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 250/360: policy 1.09s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 275/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 275/360: policy 1.30s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 300/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 300/360: policy 1.37s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 325/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 325/360: policy 0.76s, stepping env
+    [ce_ais] chain 30/50 task 5/5 step 350/360: running policy
+    [ce_ais] chain 30/50 task 5/5 step 350/360: policy 0.94s, stepping env
+    [ce_ais] chain 30/50 task 5/5 failed: 360 steps, 471.9s
+    [ce_ais] 30/50 chains, L1 success: 96.7%
+    [ce_ais] chain 31/50 start: ['lift_blue_block_table', 'place_in_drawer', 'push_red_block_right', 'close_drawer', 'turn_off_led']
+    [ce_ais] chain 31/50 instructions: ['grasp and lift the blue block', 'store the grasped block in the drawer', 'go push the red block right', 'push the handle to close the drawer', 'press the button to turn off the led light']
+    [ce_ais] chain 31/50 task 1/5 start: lift_blue_block_table | instruction: grasp and lift the blue block
+    [ce_ais] chain 31/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 31/50 task 1/5 step 1/360: policy 2.03s, stepping env
+    [ce_ais] chain 31/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 31/50 task 1/5 step 25/360: policy 1.10s, stepping env
+    [ce_ais] chain 31/50 task 1/5 success at step 28
+    [ce_ais] chain 31/50 task 1/5 success: 28 steps, 42.2s
+    [ce_ais] chain 31/50 task 2/5 start: place_in_drawer | instruction: store the grasped block in the drawer
+    [ce_ais] chain 31/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 31/50 task 2/5 step 1/360: policy 1.70s, stepping env
+    [ce_ais] chain 31/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 31/50 task 2/5 step 25/360: policy 1.05s, stepping env
+    [ce_ais] chain 31/50 task 2/5 success at step 37
+    [ce_ais] chain 31/50 task 2/5 success: 37 steps, 51.9s
+    [ce_ais] chain 31/50 task 3/5 start: push_red_block_right | instruction: go push the red block right
+    [ce_ais] chain 31/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 31/50 task 3/5 step 1/360: policy 1.59s, stepping env
+    [ce_ais] chain 31/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 31/50 task 3/5 step 25/360: policy 1.93s, stepping env
+    [ce_ais] chain 31/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 31/50 task 3/5 step 50/360: policy 1.53s, stepping env
+    [ce_ais] chain 31/50 task 3/5 success at step 71
+    [ce_ais] chain 31/50 task 3/5 success: 71 steps, 109.4s
+    [ce_ais] chain 31/50 task 4/5 start: close_drawer | instruction: push the handle to close the drawer
+    [ce_ais] chain 31/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 31/50 task 4/5 step 1/360: policy 1.66s, stepping env
+    [ce_ais] chain 31/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 31/50 task 4/5 step 25/360: policy 1.25s, stepping env
+    [ce_ais] chain 31/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 31/50 task 4/5 step 50/360: policy 1.42s, stepping env
+    [ce_ais] chain 31/50 task 4/5 success at step 74
+    [ce_ais] chain 31/50 task 4/5 success: 74 steps, 103.7s
+    [ce_ais] chain 31/50 task 5/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 31/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 31/50 task 5/5 step 1/360: policy 1.35s, stepping env
+    [ce_ais] chain 31/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 31/50 task 5/5 step 25/360: policy 1.48s, stepping env
+    [ce_ais] chain 31/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 31/50 task 5/5 step 50/360: policy 1.20s, stepping env
+    [ce_ais] chain 31/50 task 5/5 success at step 64
+    [ce_ais] chain 31/50 task 5/5 success: 64 steps, 83.2s
+    [ce_ais] chain 32/50 start: ['lift_pink_block_table', 'place_in_slider', 'push_into_drawer', 'close_drawer', 'turn_off_led']
+    [ce_ais] chain 32/50 instructions: ['grasp and lift the pink block', 'store the grasped block in the sliding cabinet', 'slide the block that it falls into the drawer', 'push the handle to close the drawer', 'press the button to turn off the led light']
+    [ce_ais] chain 32/50 task 1/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 32/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 32/50 task 1/5 step 1/360: policy 1.77s, stepping env
+    [ce_ais] chain 32/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 32/50 task 1/5 step 25/360: policy 1.38s, stepping env
+    [ce_ais] chain 32/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 32/50 task 1/5 step 50/360: policy 0.80s, stepping env
+    [ce_ais] chain 32/50 task 1/5 success at step 61
+    [ce_ais] chain 32/50 task 1/5 success: 61 steps, 81.6s
+    [ce_ais] chain 32/50 task 2/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 32/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 32/50 task 2/5 step 1/360: policy 2.45s, stepping env
+    [ce_ais] chain 32/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 32/50 task 2/5 step 25/360: policy 1.09s, stepping env
+    [ce_ais] chain 32/50 task 2/5 success at step 28
+    [ce_ais] chain 32/50 task 2/5 success: 28 steps, 42.5s
+    [ce_ais] chain 32/50 task 3/5 start: push_into_drawer | instruction: slide the block that it falls into the drawer
+    [ce_ais] chain 32/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 32/50 task 3/5 step 1/360: policy 1.36s, stepping env
+    [ce_ais] chain 32/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 32/50 task 3/5 step 25/360: policy 0.88s, stepping env
+    [ce_ais] chain 32/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 32/50 task 3/5 step 50/360: policy 0.93s, stepping env
+    [ce_ais] chain 32/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 32/50 task 3/5 step 75/360: policy 1.22s, stepping env
+    [ce_ais] chain 32/50 task 3/5 step 100/360: running policy
+    [ce_ais] chain 32/50 task 3/5 step 100/360: policy 1.38s, stepping env
+    [ce_ais] chain 32/50 task 3/5 success at step 116
+    [ce_ais] chain 32/50 task 3/5 success: 116 steps, 142.0s
+    [ce_ais] chain 32/50 task 4/5 start: close_drawer | instruction: push the handle to close the drawer
+    [ce_ais] chain 32/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 32/50 task 4/5 step 1/360: policy 1.31s, stepping env
+    [ce_ais] chain 32/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 32/50 task 4/5 step 25/360: policy 1.29s, stepping env
+    [ce_ais] chain 32/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 32/50 task 4/5 step 50/360: policy 1.82s, stepping env
+    [ce_ais] chain 32/50 task 4/5 success at step 67
+    [ce_ais] chain 32/50 task 4/5 success: 67 steps, 98.5s
+    [ce_ais] chain 32/50 task 5/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 32/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 32/50 task 5/5 step 1/360: policy 2.28s, stepping env
+    [ce_ais] chain 32/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 32/50 task 5/5 step 25/360: policy 1.13s, stepping env
+    [ce_ais] chain 32/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 32/50 task 5/5 step 50/360: policy 1.11s, stepping env
+    [ce_ais] chain 32/50 task 5/5 success at step 68
+    [ce_ais] chain 32/50 task 5/5 success: 68 steps, 81.3s
+    [ce_ais] chain 33/50 start: ['rotate_pink_block_left', 'lift_pink_block_table', 'stack_block', 'unstack_block', 'turn_off_led']
+    [ce_ais] chain 33/50 instructions: ['take the pink block and rotate it to the left', 'grasp and lift the pink block', 'stack the grasped block', 'remove the stacked block', 'press the button to turn off the led light']
+    [ce_ais] chain 33/50 task 1/5 start: rotate_pink_block_left | instruction: take the pink block and rotate it to the left
+    [ce_ais] chain 33/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 33/50 task 1/5 step 1/360: policy 1.56s, stepping env
+    [ce_ais] chain 33/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 33/50 task 1/5 step 25/360: policy 1.22s, stepping env
+    [ce_ais] chain 33/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 33/50 task 1/5 step 50/360: policy 0.94s, stepping env
+    [ce_ais] chain 33/50 task 1/5 success at step 64
+    [ce_ais] chain 33/50 task 1/5 success: 64 steps, 77.7s
+    [ce_ais] chain 33/50 task 2/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 33/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 33/50 task 2/5 step 1/360: policy 2.15s, stepping env
+    [ce_ais] chain 33/50 task 2/5 success at step 11
+    [ce_ais] chain 33/50 task 2/5 success: 11 steps, 20.0s
+    [ce_ais] chain 33/50 task 3/5 start: stack_block | instruction: stack the grasped block
+    [ce_ais] chain 33/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 33/50 task 3/5 step 1/360: policy 2.73s, stepping env
+    [ce_ais] chain 33/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 33/50 task 3/5 step 25/360: policy 1.43s, stepping env
+    [ce_ais] chain 33/50 task 3/5 success at step 35
+    [ce_ais] chain 33/50 task 3/5 success: 35 steps, 57.8s
+    [ce_ais] chain 33/50 task 4/5 start: unstack_block | instruction: remove the stacked block
+    [ce_ais] chain 33/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 33/50 task 4/5 step 1/360: policy 1.91s, stepping env
+    [ce_ais] chain 33/50 task 4/5 success at step 2
+    [ce_ais] chain 33/50 task 4/5 success: 2 steps, 3.5s
+    [ce_ais] chain 33/50 task 5/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 33/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 33/50 task 5/5 step 1/360: policy 1.81s, stepping env
+    [ce_ais] chain 33/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 33/50 task 5/5 step 25/360: policy 1.10s, stepping env
+    [ce_ais] chain 33/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 33/50 task 5/5 step 50/360: policy 1.21s, stepping env
+    [ce_ais] chain 33/50 task 5/5 success at step 50
+    [ce_ais] chain 33/50 task 5/5 success: 50 steps, 68.8s
+    [ce_ais] chain 34/50 start: ['turn_off_led', 'open_drawer', 'push_pink_block_left', 'lift_blue_block_table', 'place_in_slider']
+    [ce_ais] chain 34/50 instructions: ['press the button to turn off the led light', 'pull the handle to open the drawer', 'go push the pink block left', 'grasp and lift the blue block', 'store the grasped block in the sliding cabinet']
+    [ce_ais] chain 34/50 task 1/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 34/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 34/50 task 1/5 step 1/360: policy 1.56s, stepping env
+    [ce_ais] chain 34/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 34/50 task 1/5 step 25/360: policy 0.87s, stepping env
+    [ce_ais] chain 34/50 task 1/5 success at step 37
+    [ce_ais] chain 34/50 task 1/5 success: 37 steps, 40.7s
+    [ce_ais] chain 34/50 task 2/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 34/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 34/50 task 2/5 step 1/360: policy 2.51s, stepping env
+    [ce_ais] chain 34/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 34/50 task 2/5 step 25/360: policy 1.41s, stepping env
+    [ce_ais] chain 34/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 34/50 task 2/5 step 50/360: policy 1.12s, stepping env
+    [ce_ais] chain 34/50 task 2/5 success at step 69
+    [ce_ais] chain 34/50 task 2/5 success: 69 steps, 86.4s
+    [ce_ais] chain 34/50 task 3/5 start: push_pink_block_left | instruction: go push the pink block left
+    [ce_ais] chain 34/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 34/50 task 3/5 step 1/360: policy 1.57s, stepping env
+    [ce_ais] chain 34/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 34/50 task 3/5 step 25/360: policy 1.43s, stepping env
+    [ce_ais] chain 34/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 34/50 task 3/5 step 50/360: policy 1.82s, stepping env
+    [ce_ais] chain 34/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 34/50 task 3/5 step 75/360: policy 1.53s, stepping env
+    [ce_ais] chain 34/50 task 3/5 step 100/360: running policy
+    [ce_ais] chain 34/50 task 3/5 step 100/360: policy 1.51s, stepping env
+    [ce_ais] chain 34/50 task 3/5 success at step 101
+    [ce_ais] chain 34/50 task 3/5 success: 101 steps, 135.0s
+    [ce_ais] chain 34/50 task 4/5 start: lift_blue_block_table | instruction: grasp and lift the blue block
+    [ce_ais] chain 34/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 34/50 task 4/5 step 1/360: policy 1.43s, stepping env
+    [ce_ais] chain 34/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 34/50 task 4/5 step 25/360: policy 1.18s, stepping env
+    [ce_ais] chain 34/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 34/50 task 4/5 step 50/360: policy 1.36s, stepping env
+    [ce_ais] chain 34/50 task 4/5 success at step 59
+    [ce_ais] chain 34/50 task 4/5 success: 59 steps, 84.4s
+    [ce_ais] chain 34/50 task 5/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 34/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 34/50 task 5/5 step 1/360: policy 2.23s, stepping env
+    [ce_ais] chain 34/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 34/50 task 5/5 step 25/360: policy 1.25s, stepping env
+    [ce_ais] chain 34/50 task 5/5 success at step 42
+    [ce_ais] chain 34/50 task 5/5 success: 42 steps, 61.9s
+    [ce_ais] chain 35/50 start: ['move_slider_right', 'push_blue_block_left', 'open_drawer', 'lift_red_block_table', 'stack_block']
+    [ce_ais] chain 35/50 instructions: ['push the sliding door to the right side', 'go push the blue block left', 'pull the handle to open the drawer', 'grasp and lift the red block', 'stack the grasped block']
+    [ce_ais] chain 35/50 task 1/5 start: move_slider_right | instruction: push the sliding door to the right side
+    [ce_ais] chain 35/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 35/50 task 1/5 step 1/360: policy 1.39s, stepping env
+    [ce_ais] chain 35/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 35/50 task 1/5 step 25/360: policy 1.52s, stepping env
+    [ce_ais] chain 35/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 35/50 task 1/5 step 50/360: policy 1.83s, stepping env
+    [ce_ais] chain 35/50 task 1/5 success at step 64
+    [ce_ais] chain 35/50 task 1/5 success: 64 steps, 96.9s
+    [ce_ais] chain 35/50 task 2/5 start: push_blue_block_left | instruction: go push the blue block left
+    [ce_ais] chain 35/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 1/360: policy 2.06s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 25/360: policy 1.69s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 50/360: policy 1.61s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 75/360: policy 0.86s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 100/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 100/360: policy 1.56s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 125/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 125/360: policy 0.86s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 150/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 150/360: policy 1.26s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 175/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 175/360: policy 2.09s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 200/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 200/360: policy 1.39s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 225/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 225/360: policy 1.05s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 250/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 250/360: policy 2.10s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 275/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 275/360: policy 1.49s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 300/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 300/360: policy 0.82s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 325/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 325/360: policy 1.08s, stepping env
+    [ce_ais] chain 35/50 task 2/5 step 350/360: running policy
+    [ce_ais] chain 35/50 task 2/5 step 350/360: policy 1.50s, stepping env
+    [ce_ais] chain 35/50 task 2/5 failed: 360 steps, 521.7s
+    [ce_ais] chain 36/50 start: ['lift_red_block_slider', 'place_in_slider', 'move_slider_right', 'push_into_drawer', 'turn_off_led']
+    [ce_ais] chain 36/50 instructions: ['lift the red block from the sliding cabinet', 'store the grasped block in the sliding cabinet', 'push the sliding door to the right side', 'slide the block that it falls into the drawer', 'press the button to turn off the led light']
+    [ce_ais] chain 36/50 task 1/5 start: lift_red_block_slider | instruction: lift the red block from the sliding cabinet
+    [ce_ais] chain 36/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 36/50 task 1/5 step 1/360: policy 2.43s, stepping env
+    [ce_ais] chain 36/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 36/50 task 1/5 step 25/360: policy 0.80s, stepping env
+    [ce_ais] chain 36/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 36/50 task 1/5 step 50/360: policy 1.85s, stepping env
+    [ce_ais] chain 36/50 task 1/5 success at step 52
+    [ce_ais] chain 36/50 task 1/5 success: 52 steps, 83.5s
+    [ce_ais] chain 36/50 task 2/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 36/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 36/50 task 2/5 step 1/360: policy 2.26s, stepping env
+    [ce_ais] chain 36/50 task 2/5 success at step 7
+    [ce_ais] chain 36/50 task 2/5 success: 7 steps, 12.8s
+    [ce_ais] chain 36/50 task 3/5 start: move_slider_right | instruction: push the sliding door to the right side
+    [ce_ais] chain 36/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 36/50 task 3/5 step 1/360: policy 2.15s, stepping env
+    [ce_ais] chain 36/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 36/50 task 3/5 step 25/360: policy 1.59s, stepping env
+    [ce_ais] chain 36/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 36/50 task 3/5 step 50/360: policy 1.48s, stepping env
+    [ce_ais] chain 36/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 36/50 task 3/5 step 75/360: policy 1.46s, stepping env
+    [ce_ais] chain 36/50 task 3/5 success at step 77
+    [ce_ais] chain 36/50 task 3/5 success: 77 steps, 129.2s
+    [ce_ais] chain 36/50 task 4/5 start: push_into_drawer | instruction: slide the block that it falls into the drawer
+    [ce_ais] chain 36/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 36/50 task 4/5 step 1/360: policy 1.75s, stepping env
+    [ce_ais] chain 36/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 36/50 task 4/5 step 25/360: policy 1.22s, stepping env
+    [ce_ais] chain 36/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 36/50 task 4/5 step 50/360: policy 1.83s, stepping env
+    [ce_ais] chain 36/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 36/50 task 4/5 step 75/360: policy 1.13s, stepping env
+    [ce_ais] chain 36/50 task 4/5 success at step 83
+    [ce_ais] chain 36/50 task 4/5 success: 83 steps, 110.3s
+    [ce_ais] chain 36/50 task 5/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 36/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 36/50 task 5/5 step 1/360: policy 1.11s, stepping env
+    [ce_ais] chain 36/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 36/50 task 5/5 step 25/360: policy 1.04s, stepping env
+    [ce_ais] chain 36/50 task 5/5 success at step 40
+    [ce_ais] chain 36/50 task 5/5 success: 40 steps, 48.1s
+    [ce_ais] chain 37/50 start: ['move_slider_right', 'turn_off_lightbulb', 'lift_pink_block_slider', 'place_in_slider', 'push_red_block_right']
+    [ce_ais] chain 37/50 instructions: ['push the sliding door to the right side', 'use the switch to turn off the light bulb', 'lift the pink block from the sliding cabinet', 'store the grasped block in the sliding cabinet', 'go push the red block right']
+    [ce_ais] chain 37/50 task 1/5 start: move_slider_right | instruction: push the sliding door to the right side
+    [ce_ais] chain 37/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 37/50 task 1/5 step 1/360: policy 1.65s, stepping env
+    [ce_ais] chain 37/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 37/50 task 1/5 step 25/360: policy 1.37s, stepping env
+    [ce_ais] chain 37/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 37/50 task 1/5 step 50/360: policy 1.00s, stepping env
+    [ce_ais] chain 37/50 task 1/5 success at step 63
+    [ce_ais] chain 37/50 task 1/5 success: 63 steps, 82.4s
+    [ce_ais] chain 37/50 task 2/5 start: turn_off_lightbulb | instruction: use the switch to turn off the light bulb
+    [ce_ais] chain 37/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 37/50 task 2/5 step 1/360: policy 2.18s, stepping env
+    [ce_ais] chain 37/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 37/50 task 2/5 step 25/360: policy 1.55s, stepping env
+    [ce_ais] chain 37/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 37/50 task 2/5 step 50/360: policy 1.53s, stepping env
+    [ce_ais] chain 37/50 task 2/5 success at step 65
+    [ce_ais] chain 37/50 task 2/5 success: 65 steps, 96.2s
+    [ce_ais] chain 37/50 task 3/5 start: lift_pink_block_slider | instruction: lift the pink block from the sliding cabinet
+    [ce_ais] chain 37/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 37/50 task 3/5 step 1/360: policy 1.47s, stepping env
+    [ce_ais] chain 37/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 37/50 task 3/5 step 25/360: policy 1.35s, stepping env
+    [ce_ais] chain 37/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 37/50 task 3/5 step 50/360: policy 0.88s, stepping env
+    [ce_ais] chain 37/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 37/50 task 3/5 step 75/360: policy 1.16s, stepping env
+    [ce_ais] chain 37/50 task 3/5 success at step 81
+    [ce_ais] chain 37/50 task 3/5 success: 81 steps, 98.5s
+    [ce_ais] chain 37/50 task 4/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 37/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 37/50 task 4/5 step 1/360: policy 1.60s, stepping env
+    [ce_ais] chain 37/50 task 4/5 success at step 8
+    [ce_ais] chain 37/50 task 4/5 success: 8 steps, 10.2s
+    [ce_ais] chain 37/50 task 5/5 start: push_red_block_right | instruction: go push the red block right
+    [ce_ais] chain 37/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 37/50 task 5/5 step 1/360: policy 1.65s, stepping env
+    [ce_ais] chain 37/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 37/50 task 5/5 step 25/360: policy 1.30s, stepping env
+    [ce_ais] chain 37/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 37/50 task 5/5 step 50/360: policy 1.68s, stepping env
+    [ce_ais] chain 37/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 37/50 task 5/5 step 75/360: policy 0.94s, stepping env
+    [ce_ais] chain 37/50 task 5/5 step 100/360: running policy
+    [ce_ais] chain 37/50 task 5/5 step 100/360: policy 1.03s, stepping env
+    [ce_ais] chain 37/50 task 5/5 step 125/360: running policy
+    [ce_ais] chain 37/50 task 5/5 step 125/360: policy 1.05s, stepping env
+    [ce_ais] chain 37/50 task 5/5 step 150/360: running policy
+    [ce_ais] chain 37/50 task 5/5 step 150/360: policy 1.49s, stepping env
+    [ce_ais] chain 37/50 task 5/5 success at step 170
+    [ce_ais] chain 37/50 task 5/5 success: 170 steps, 245.5s
+    [ce_ais] chain 38/50 start: ['turn_off_lightbulb', 'push_red_block_right', 'push_into_drawer', 'move_slider_left', 'close_drawer']
+    [ce_ais] chain 38/50 instructions: ['use the switch to turn off the light bulb', 'go push the red block right', 'slide the block that it falls into the drawer', 'push the sliding door to the left side', 'push the handle to close the drawer']
+    [ce_ais] chain 38/50 task 1/5 start: turn_off_lightbulb | instruction: use the switch to turn off the light bulb
+    [ce_ais] chain 38/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 38/50 task 1/5 step 1/360: policy 2.38s, stepping env
+    [ce_ais] chain 38/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 38/50 task 1/5 step 25/360: policy 1.38s, stepping env
+    [ce_ais] chain 38/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 38/50 task 1/5 step 50/360: policy 1.23s, stepping env
+    [ce_ais] chain 38/50 task 1/5 success at step 60
+    [ce_ais] chain 38/50 task 1/5 success: 60 steps, 85.8s
+    [ce_ais] chain 38/50 task 2/5 start: push_red_block_right | instruction: go push the red block right
+    [ce_ais] chain 38/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 38/50 task 2/5 step 1/360: policy 2.01s, stepping env
+    [ce_ais] chain 38/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 38/50 task 2/5 step 25/360: policy 1.31s, stepping env
+    [ce_ais] chain 38/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 38/50 task 2/5 step 50/360: policy 1.40s, stepping env
+    [ce_ais] chain 38/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 38/50 task 2/5 step 75/360: policy 1.32s, stepping env
+    [ce_ais] chain 38/50 task 2/5 success at step 77
+    [ce_ais] chain 38/50 task 2/5 success: 77 steps, 112.9s
+    [ce_ais] chain 38/50 task 3/5 start: push_into_drawer | instruction: slide the block that it falls into the drawer
+    [ce_ais] chain 38/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 1/360: policy 1.89s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 25/360: policy 1.16s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 50/360: policy 1.05s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 75/360: policy 1.05s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 100/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 100/360: policy 0.96s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 125/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 125/360: policy 1.06s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 150/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 150/360: policy 1.24s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 175/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 175/360: policy 1.10s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 200/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 200/360: policy 1.76s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 225/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 225/360: policy 1.23s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 250/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 250/360: policy 1.81s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 275/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 275/360: policy 1.50s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 300/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 300/360: policy 1.60s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 325/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 325/360: policy 0.90s, stepping env
+    [ce_ais] chain 38/50 task 3/5 step 350/360: running policy
+    [ce_ais] chain 38/50 task 3/5 step 350/360: policy 0.98s, stepping env
+    [ce_ais] chain 38/50 task 3/5 failed: 360 steps, 501.1s
+    [ce_ais] chain 39/50 start: ['open_drawer', 'move_slider_right', 'push_blue_block_right', 'lift_blue_block_table', 'place_in_slider']
+    [ce_ais] chain 39/50 instructions: ['pull the handle to open the drawer', 'push the sliding door to the right side', 'go push the blue block right', 'grasp and lift the blue block', 'store the grasped block in the sliding cabinet']
+    [ce_ais] chain 39/50 task 1/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 39/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 39/50 task 1/5 step 1/360: policy 2.24s, stepping env
+    [ce_ais] chain 39/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 39/50 task 1/5 step 25/360: policy 1.89s, stepping env
+    [ce_ais] chain 39/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 39/50 task 1/5 step 50/360: policy 1.53s, stepping env
+    [ce_ais] chain 39/50 task 1/5 success at step 59
+    [ce_ais] chain 39/50 task 1/5 success: 59 steps, 96.8s
+    [ce_ais] chain 39/50 task 2/5 start: move_slider_right | instruction: push the sliding door to the right side
+    [ce_ais] chain 39/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 39/50 task 2/5 step 1/360: policy 2.37s, stepping env
+    [ce_ais] chain 39/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 39/50 task 2/5 step 25/360: policy 1.43s, stepping env
+    [ce_ais] chain 39/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 39/50 task 2/5 step 50/360: policy 1.84s, stepping env
+    [ce_ais] chain 39/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 39/50 task 2/5 step 75/360: policy 1.96s, stepping env
+    [ce_ais] chain 39/50 task 2/5 success at step 94
+    [ce_ais] chain 39/50 task 2/5 success: 94 steps, 152.1s
+    [ce_ais] chain 39/50 task 3/5 start: push_blue_block_right | instruction: go push the blue block right
+    [ce_ais] chain 39/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 39/50 task 3/5 step 1/360: policy 2.30s, stepping env
+    [ce_ais] chain 39/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 39/50 task 3/5 step 25/360: policy 1.81s, stepping env
+    [ce_ais] chain 39/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 39/50 task 3/5 step 50/360: policy 1.01s, stepping env
+    [ce_ais] chain 39/50 task 3/5 success at step 61
+    [ce_ais] chain 39/50 task 3/5 success: 61 steps, 96.5s
+    [ce_ais] chain 39/50 task 4/5 start: lift_blue_block_table | instruction: grasp and lift the blue block
+    [ce_ais] chain 39/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 39/50 task 4/5 step 1/360: policy 1.85s, stepping env
+    [ce_ais] chain 39/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 39/50 task 4/5 step 25/360: policy 1.22s, stepping env
+    [ce_ais] chain 39/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 39/50 task 4/5 step 50/360: policy 1.26s, stepping env
+    [ce_ais] chain 39/50 task 4/5 success at step 61
+    [ce_ais] chain 39/50 task 4/5 success: 61 steps, 84.2s
+    [ce_ais] chain 39/50 task 5/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 39/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 1/360: policy 1.93s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 25/360: policy 1.56s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 50/360: policy 0.95s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 75/360: policy 1.36s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 100/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 100/360: policy 1.48s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 125/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 125/360: policy 1.23s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 150/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 150/360: policy 1.36s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 175/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 175/360: policy 1.07s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 200/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 200/360: policy 1.27s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 225/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 225/360: policy 1.75s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 250/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 250/360: policy 0.97s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 275/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 275/360: policy 0.76s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 300/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 300/360: policy 0.81s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 325/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 325/360: policy 1.62s, stepping env
+    [ce_ais] chain 39/50 task 5/5 step 350/360: running policy
+    [ce_ais] chain 39/50 task 5/5 step 350/360: policy 1.48s, stepping env
+    [ce_ais] chain 39/50 task 5/5 failed: 360 steps, 509.5s
+    [ce_ais] chain 40/50 start: ['turn_on_led', 'rotate_pink_block_right', 'move_slider_right', 'close_drawer', 'lift_pink_block_table']
+    [ce_ais] chain 40/50 instructions: ['press the button to turn on the led light', 'take the pink block and rotate it to the right', 'push the sliding door to the right side', 'push the handle to close the drawer', 'grasp and lift the pink block']
+    [ce_ais] chain 40/50 task 1/5 start: turn_on_led | instruction: press the button to turn on the led light
+    [ce_ais] chain 40/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 40/50 task 1/5 step 1/360: policy 2.46s, stepping env
+    [ce_ais] chain 40/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 40/50 task 1/5 step 25/360: policy 1.72s, stepping env
+    [ce_ais] chain 40/50 task 1/5 success at step 29
+    [ce_ais] chain 40/50 task 1/5 success: 29 steps, 44.1s
+    [ce_ais] chain 40/50 task 2/5 start: rotate_pink_block_right | instruction: take the pink block and rotate it to the right
+    [ce_ais] chain 40/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 40/50 task 2/5 step 1/360: policy 1.68s, stepping env
+    [ce_ais] chain 40/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 40/50 task 2/5 step 25/360: policy 1.21s, stepping env
+    [ce_ais] chain 40/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 40/50 task 2/5 step 50/360: policy 1.65s, stepping env
+    [ce_ais] chain 40/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 40/50 task 2/5 step 75/360: policy 1.04s, stepping env
+    [ce_ais] chain 40/50 task 2/5 step 100/360: running policy
+    [ce_ais] chain 40/50 task 2/5 step 100/360: policy 1.59s, stepping env
+    [ce_ais] chain 40/50 task 2/5 step 125/360: running policy
+    [ce_ais] chain 40/50 task 2/5 step 125/360: policy 0.79s, stepping env
+    [ce_ais] chain 40/50 task 2/5 success at step 128
+    [ce_ais] chain 40/50 task 2/5 success: 128 steps, 179.9s
+    [ce_ais] chain 40/50 task 3/5 start: move_slider_right | instruction: push the sliding door to the right side
+    [ce_ais] chain 40/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 40/50 task 3/5 step 1/360: policy 1.81s, stepping env
+    [ce_ais] chain 40/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 40/50 task 3/5 step 25/360: policy 1.14s, stepping env
+    [ce_ais] chain 40/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 40/50 task 3/5 step 50/360: policy 1.10s, stepping env
+    [ce_ais] chain 40/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 40/50 task 3/5 step 75/360: policy 1.25s, stepping env
+    [ce_ais] chain 40/50 task 3/5 success at step 82
+    [ce_ais] chain 40/50 task 3/5 success: 82 steps, 97.1s
+    [ce_ais] chain 40/50 task 4/5 start: close_drawer | instruction: push the handle to close the drawer
+    [ce_ais] chain 40/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 40/50 task 4/5 step 1/360: policy 1.37s, stepping env
+    [ce_ais] chain 40/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 40/50 task 4/5 step 25/360: policy 1.08s, stepping env
+    [ce_ais] chain 40/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 40/50 task 4/5 step 50/360: policy 1.00s, stepping env
+    [ce_ais] chain 40/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 40/50 task 4/5 step 75/360: policy 1.20s, stepping env
+    [ce_ais] chain 40/50 task 4/5 success at step 83
+    [ce_ais] chain 40/50 task 4/5 success: 83 steps, 101.1s
+    [ce_ais] chain 40/50 task 5/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 40/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 40/50 task 5/5 step 1/360: policy 1.95s, stepping env
+    [ce_ais] chain 40/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 40/50 task 5/5 step 25/360: policy 1.64s, stepping env
+    [ce_ais] chain 40/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 40/50 task 5/5 step 50/360: policy 1.07s, stepping env
+    [ce_ais] chain 40/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 40/50 task 5/5 step 75/360: policy 1.33s, stepping env
+    [ce_ais] chain 40/50 task 5/5 step 100/360: running policy
+    [ce_ais] chain 40/50 task 5/5 step 100/360: policy 1.02s, stepping env
+    [ce_ais] chain 40/50 task 5/5 step 125/360: running policy
+    [ce_ais] chain 40/50 task 5/5 step 125/360: policy 1.42s, stepping env
+    [ce_ais] chain 40/50 task 5/5 step 150/360: running policy
+    [ce_ais] chain 40/50 task 5/5 step 150/360: policy 1.20s, stepping env
+    [ce_ais] chain 40/50 task 5/5 step 175/360: running policy
+    [ce_ais] chain 40/50 task 5/5 step 175/360: policy 1.16s, stepping env
+    [ce_ais] chain 40/50 task 5/5 success at step 191
+    [ce_ais] chain 40/50 task 5/5 success: 191 steps, 253.1s
+    [ce_ais] 40/50 chains, L1 success: 97.5%
+    [ce_ais] chain 41/50 start: ['move_slider_right', 'close_drawer', 'push_pink_block_left', 'lift_pink_block_table', 'place_in_slider']
+    [ce_ais] chain 41/50 instructions: ['push the sliding door to the right side', 'push the handle to close the drawer', 'go push the pink block left', 'grasp and lift the pink block', 'store the grasped block in the sliding cabinet']
+    [ce_ais] chain 41/50 task 1/5 start: move_slider_right | instruction: push the sliding door to the right side
+    [ce_ais] chain 41/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 41/50 task 1/5 step 1/360: policy 2.04s, stepping env
+    [ce_ais] chain 41/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 41/50 task 1/5 step 25/360: policy 1.06s, stepping env
+    [ce_ais] chain 41/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 41/50 task 1/5 step 50/360: policy 1.03s, stepping env
+    [ce_ais] chain 41/50 task 1/5 success at step 61
+    [ce_ais] chain 41/50 task 1/5 success: 61 steps, 84.1s
+    [ce_ais] chain 41/50 task 2/5 start: close_drawer | instruction: push the handle to close the drawer
+    [ce_ais] chain 41/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 41/50 task 2/5 step 1/360: policy 1.79s, stepping env
+    [ce_ais] chain 41/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 41/50 task 2/5 step 25/360: policy 1.18s, stepping env
+    [ce_ais] chain 41/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 41/50 task 2/5 step 50/360: policy 1.18s, stepping env
+    [ce_ais] chain 41/50 task 2/5 success at step 74
+    [ce_ais] chain 41/50 task 2/5 success: 74 steps, 94.9s
+    [ce_ais] chain 41/50 task 3/5 start: push_pink_block_left | instruction: go push the pink block left
+    [ce_ais] chain 41/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 41/50 task 3/5 step 1/360: policy 2.01s, stepping env
+    [ce_ais] chain 41/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 41/50 task 3/5 step 25/360: policy 1.18s, stepping env
+    [ce_ais] chain 41/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 41/50 task 3/5 step 50/360: policy 1.83s, stepping env
+    [ce_ais] chain 41/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 41/50 task 3/5 step 75/360: policy 0.92s, stepping env
+    [ce_ais] chain 41/50 task 3/5 step 100/360: running policy
+    [ce_ais] chain 41/50 task 3/5 step 100/360: policy 1.79s, stepping env
+    [ce_ais] chain 41/50 task 3/5 success at step 102
+    [ce_ais] chain 41/50 task 3/5 success: 102 steps, 144.3s
+    [ce_ais] chain 41/50 task 4/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 41/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 41/50 task 4/5 step 1/360: policy 2.43s, stepping env
+    [ce_ais] chain 41/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 41/50 task 4/5 step 25/360: policy 1.18s, stepping env
+    [ce_ais] chain 41/50 task 4/5 success at step 46
+    [ce_ais] chain 41/50 task 4/5 success: 46 steps, 61.0s
+    [ce_ais] chain 41/50 task 5/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 41/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 1/360: policy 1.55s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 25/360: policy 1.16s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 50/360: policy 1.15s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 75/360: policy 1.62s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 100/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 100/360: policy 1.03s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 125/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 125/360: policy 1.36s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 150/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 150/360: policy 0.94s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 175/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 175/360: policy 1.49s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 200/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 200/360: policy 1.04s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 225/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 225/360: policy 1.16s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 250/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 250/360: policy 1.22s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 275/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 275/360: policy 1.13s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 300/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 300/360: policy 1.47s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 325/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 325/360: policy 1.08s, stepping env
+    [ce_ais] chain 41/50 task 5/5 step 350/360: running policy
+    [ce_ais] chain 41/50 task 5/5 step 350/360: policy 1.13s, stepping env
+    [ce_ais] chain 41/50 task 5/5 failed: 360 steps, 486.0s
+    [ce_ais] chain 42/50 start: ['move_slider_right', 'push_into_drawer', 'turn_off_led', 'lift_pink_block_drawer', 'place_in_drawer']
+    [ce_ais] chain 42/50 instructions: ['push the sliding door to the right side', 'slide the block that it falls into the drawer', 'press the button to turn off the led light', 'Take the pink block from the drawer', 'store the grasped block in the drawer']
+    [ce_ais] chain 42/50 task 1/5 start: move_slider_right | instruction: push the sliding door to the right side
+    [ce_ais] chain 42/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 42/50 task 1/5 step 1/360: policy 1.44s, stepping env
+    [ce_ais] chain 42/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 42/50 task 1/5 step 25/360: policy 1.21s, stepping env
+    [ce_ais] chain 42/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 42/50 task 1/5 step 50/360: policy 1.06s, stepping env
+    [ce_ais] chain 42/50 task 1/5 success at step 62
+    [ce_ais] chain 42/50 task 1/5 success: 62 steps, 90.2s
+    [ce_ais] chain 42/50 task 2/5 start: push_into_drawer | instruction: slide the block that it falls into the drawer
+    [ce_ais] chain 42/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 42/50 task 2/5 step 1/360: policy 1.69s, stepping env
+    [ce_ais] chain 42/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 42/50 task 2/5 step 25/360: policy 1.73s, stepping env
+    [ce_ais] chain 42/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 42/50 task 2/5 step 50/360: policy 1.37s, stepping env
+    [ce_ais] chain 42/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 42/50 task 2/5 step 75/360: policy 1.29s, stepping env
+    [ce_ais] chain 42/50 task 2/5 success at step 91
+    [ce_ais] chain 42/50 task 2/5 success: 91 steps, 138.4s
+    [ce_ais] chain 42/50 task 3/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 42/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 42/50 task 3/5 step 1/360: policy 2.20s, stepping env
+    [ce_ais] chain 42/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 42/50 task 3/5 step 25/360: policy 1.41s, stepping env
+    [ce_ais] chain 42/50 task 3/5 success at step 41
+    [ce_ais] chain 42/50 task 3/5 success: 41 steps, 65.1s
+    [ce_ais] chain 42/50 task 4/5 start: lift_pink_block_drawer | instruction: Take the pink block from the drawer
+    [ce_ais] chain 42/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 42/50 task 4/5 step 1/360: policy 2.12s, stepping env
+    [ce_ais] chain 42/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 42/50 task 4/5 step 25/360: policy 1.87s, stepping env
+    [ce_ais] chain 42/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 42/50 task 4/5 step 50/360: policy 1.08s, stepping env
+    [ce_ais] chain 42/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 42/50 task 4/5 step 75/360: policy 1.27s, stepping env
+    [ce_ais] chain 42/50 task 4/5 step 100/360: running policy
+    [ce_ais] chain 42/50 task 4/5 step 100/360: policy 1.30s, stepping env
+    [ce_ais] chain 42/50 task 4/5 step 125/360: running policy
+    [ce_ais] chain 42/50 task 4/5 step 125/360: policy 1.99s, stepping env
+    [ce_ais] chain 42/50 task 4/5 success at step 133
+    [ce_ais] chain 42/50 task 4/5 success: 133 steps, 182.9s
+    [ce_ais] chain 42/50 task 5/5 start: place_in_drawer | instruction: store the grasped block in the drawer
+    [ce_ais] chain 42/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 42/50 task 5/5 step 1/360: policy 1.78s, stepping env
+    [ce_ais] chain 42/50 task 5/5 success at step 18
+    [ce_ais] chain 42/50 task 5/5 success: 18 steps, 28.3s
+    [ce_ais] chain 43/50 start: ['move_slider_left', 'push_pink_block_left', 'lift_blue_block_slider', 'place_in_slider', 'turn_off_led']
+    [ce_ais] chain 43/50 instructions: ['push the sliding door to the left side', 'go push the pink block left', 'lift the blue block from the sliding cabinet', 'store the grasped block in the sliding cabinet', 'press the button to turn off the led light']
+    [ce_ais] chain 43/50 task 1/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 43/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 43/50 task 1/5 step 1/360: policy 1.95s, stepping env
+    [ce_ais] chain 43/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 43/50 task 1/5 step 25/360: policy 1.66s, stepping env
+    [ce_ais] chain 43/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 43/50 task 1/5 step 50/360: policy 1.86s, stepping env
+    [ce_ais] chain 43/50 task 1/5 success at step 56
+    [ce_ais] chain 43/50 task 1/5 success: 56 steps, 91.9s
+    [ce_ais] chain 43/50 task 2/5 start: push_pink_block_left | instruction: go push the pink block left
+    [ce_ais] chain 43/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 43/50 task 2/5 step 1/360: policy 2.10s, stepping env
+    [ce_ais] chain 43/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 43/50 task 2/5 step 25/360: policy 1.93s, stepping env
+    [ce_ais] chain 43/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 43/50 task 2/5 step 50/360: policy 1.13s, stepping env
+    [ce_ais] chain 43/50 task 2/5 step 75/360: running policy
+    [ce_ais] chain 43/50 task 2/5 step 75/360: policy 1.71s, stepping env
+    [ce_ais] chain 43/50 task 2/5 success at step 75
+    [ce_ais] chain 43/50 task 2/5 success: 75 steps, 126.2s
+    [ce_ais] chain 43/50 task 3/5 start: lift_blue_block_slider | instruction: lift the blue block from the sliding cabinet
+    [ce_ais] chain 43/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 1/360: policy 2.01s, stepping env
+    [ce_ais] chain 43/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 25/360: policy 1.82s, stepping env
+    [ce_ais] chain 43/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 50/360: policy 1.81s, stepping env
+    [ce_ais] chain 43/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 75/360: policy 1.11s, stepping env
+    [ce_ais] chain 43/50 task 3/5 step 100/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 100/360: policy 1.63s, stepping env
+    [ce_ais] chain 43/50 task 3/5 step 125/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 125/360: policy 1.36s, stepping env
+    [ce_ais] chain 43/50 task 3/5 step 150/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 150/360: policy 1.29s, stepping env
+    [ce_ais] chain 43/50 task 3/5 step 175/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 175/360: policy 1.08s, stepping env
+    [ce_ais] chain 43/50 task 3/5 step 200/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 200/360: policy 2.10s, stepping env
+    [ce_ais] chain 43/50 task 3/5 step 225/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 225/360: policy 2.00s, stepping env
+    [ce_ais] chain 43/50 task 3/5 step 250/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 250/360: policy 1.15s, stepping env
+    [ce_ais] chain 43/50 task 3/5 step 275/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 275/360: policy 1.07s, stepping env
+    [ce_ais] chain 43/50 task 3/5 step 300/360: running policy
+    [ce_ais] chain 43/50 task 3/5 step 300/360: policy 1.54s, stepping env
+    [ce_ais] chain 43/50 task 3/5 success at step 304
+    [ce_ais] chain 43/50 task 3/5 success: 304 steps, 461.8s
+    [ce_ais] chain 43/50 task 4/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 43/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 43/50 task 4/5 step 1/360: policy 1.85s, stepping env
+    [ce_ais] chain 43/50 task 4/5 success at step 16
+    [ce_ais] chain 43/50 task 4/5 success: 16 steps, 23.3s
+    [ce_ais] chain 43/50 task 5/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 43/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 43/50 task 5/5 step 1/360: policy 2.11s, stepping env
+    [ce_ais] chain 43/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 43/50 task 5/5 step 25/360: policy 1.80s, stepping env
+    [ce_ais] chain 43/50 task 5/5 success at step 46
+    [ce_ais] chain 43/50 task 5/5 success: 46 steps, 73.4s
+    [ce_ais] chain 44/50 start: ['rotate_pink_block_right', 'lift_pink_block_table', 'place_in_slider', 'open_drawer', 'lift_blue_block_slider']
+    [ce_ais] chain 44/50 instructions: ['take the pink block and rotate it to the right', 'grasp and lift the pink block', 'store the grasped block in the sliding cabinet', 'pull the handle to open the drawer', 'lift the blue block from the sliding cabinet']
+    [ce_ais] chain 44/50 task 1/5 start: rotate_pink_block_right | instruction: take the pink block and rotate it to the right
+    [ce_ais] chain 44/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 44/50 task 1/5 step 1/360: policy 2.38s, stepping env
+    [ce_ais] chain 44/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 44/50 task 1/5 step 25/360: policy 1.62s, stepping env
+    [ce_ais] chain 44/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 44/50 task 1/5 step 50/360: policy 1.31s, stepping env
+    [ce_ais] chain 44/50 task 1/5 step 75/360: running policy
+    [ce_ais] chain 44/50 task 1/5 step 75/360: policy 1.60s, stepping env
+    [ce_ais] chain 44/50 task 1/5 success at step 79
+    [ce_ais] chain 44/50 task 1/5 success: 79 steps, 125.5s
+    [ce_ais] chain 44/50 task 2/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 44/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 44/50 task 2/5 step 1/360: policy 2.00s, stepping env
+    [ce_ais] chain 44/50 task 2/5 success at step 12
+    [ce_ais] chain 44/50 task 2/5 success: 12 steps, 17.7s
+    [ce_ais] chain 44/50 task 3/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 44/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 1/360: policy 1.97s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 25/360: policy 1.25s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 50/360: policy 1.43s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 75/360: policy 1.22s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 100/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 100/360: policy 1.50s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 125/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 125/360: policy 1.82s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 150/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 150/360: policy 1.83s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 175/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 175/360: policy 1.18s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 200/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 200/360: policy 0.99s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 225/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 225/360: policy 0.76s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 250/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 250/360: policy 1.72s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 275/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 275/360: policy 1.61s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 300/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 300/360: policy 1.60s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 325/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 325/360: policy 1.32s, stepping env
+    [ce_ais] chain 44/50 task 3/5 step 350/360: running policy
+    [ce_ais] chain 44/50 task 3/5 step 350/360: policy 1.72s, stepping env
+    [ce_ais] chain 44/50 task 3/5 failed: 360 steps, 552.5s
+    [ce_ais] chain 45/50 start: ['lift_blue_block_table', 'place_in_slider', 'turn_on_led', 'rotate_pink_block_right', 'lift_red_block_slider']
+    [ce_ais] chain 45/50 instructions: ['grasp and lift the blue block', 'store the grasped block in the sliding cabinet', 'press the button to turn on the led light', 'take the pink block and rotate it to the right', 'lift the red block from the sliding cabinet']
+    [ce_ais] chain 45/50 task 1/5 start: lift_blue_block_table | instruction: grasp and lift the blue block
+    [ce_ais] chain 45/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 45/50 task 1/5 step 1/360: policy 2.33s, stepping env
+    [ce_ais] chain 45/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 45/50 task 1/5 step 25/360: policy 1.27s, stepping env
+    [ce_ais] chain 45/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 45/50 task 1/5 step 50/360: policy 1.40s, stepping env
+    [ce_ais] chain 45/50 task 1/5 success at step 50
+    [ce_ais] chain 45/50 task 1/5 success: 50 steps, 70.6s
+    [ce_ais] chain 45/50 task 2/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 45/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 45/50 task 2/5 step 1/360: policy 1.65s, stepping env
+    [ce_ais] chain 45/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 45/50 task 2/5 step 25/360: policy 1.45s, stepping env
+    [ce_ais] chain 45/50 task 2/5 success at step 49
+    [ce_ais] chain 45/50 task 2/5 success: 49 steps, 83.1s
+    [ce_ais] chain 45/50 task 3/5 start: turn_on_led | instruction: press the button to turn on the led light
+    [ce_ais] chain 45/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 45/50 task 3/5 step 1/360: policy 2.94s, stepping env
+    [ce_ais] chain 45/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 45/50 task 3/5 step 25/360: policy 1.49s, stepping env
+    [ce_ais] chain 45/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 45/50 task 3/5 step 50/360: policy 1.36s, stepping env
+    [ce_ais] chain 45/50 task 3/5 success at step 50
+    [ce_ais] chain 45/50 task 3/5 success: 50 steps, 81.3s
+    [ce_ais] chain 45/50 task 4/5 start: rotate_pink_block_right | instruction: take the pink block and rotate it to the right
+    [ce_ais] chain 45/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 45/50 task 4/5 step 1/360: policy 2.49s, stepping env
+    [ce_ais] chain 45/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 45/50 task 4/5 step 25/360: policy 1.57s, stepping env
+    [ce_ais] chain 45/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 45/50 task 4/5 step 50/360: policy 1.37s, stepping env
+    [ce_ais] chain 45/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 45/50 task 4/5 step 75/360: policy 1.81s, stepping env
+    [ce_ais] chain 45/50 task 4/5 step 100/360: running policy
+    [ce_ais] chain 45/50 task 4/5 step 100/360: policy 1.18s, stepping env
+    [ce_ais] chain 45/50 task 4/5 step 125/360: running policy
+    [ce_ais] chain 45/50 task 4/5 step 125/360: policy 1.21s, stepping env
+    [ce_ais] chain 45/50 task 4/5 step 150/360: running policy
+    [ce_ais] chain 45/50 task 4/5 step 150/360: policy 1.63s, stepping env
+    [ce_ais] chain 45/50 task 4/5 success at step 170
+    [ce_ais] chain 45/50 task 4/5 success: 170 steps, 281.0s
+    [ce_ais] chain 45/50 task 5/5 start: lift_red_block_slider | instruction: lift the red block from the sliding cabinet
+    [ce_ais] chain 45/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 1/360: policy 2.47s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 25/360: policy 1.56s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 50/360: policy 1.47s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 75/360: policy 0.95s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 100/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 100/360: policy 1.30s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 125/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 125/360: policy 1.83s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 150/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 150/360: policy 1.57s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 175/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 175/360: policy 1.61s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 200/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 200/360: policy 1.25s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 225/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 225/360: policy 1.66s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 250/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 250/360: policy 1.45s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 275/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 275/360: policy 1.84s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 300/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 300/360: policy 1.18s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 325/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 325/360: policy 1.81s, stepping env
+    [ce_ais] chain 45/50 task 5/5 step 350/360: running policy
+    [ce_ais] chain 45/50 task 5/5 step 350/360: policy 1.07s, stepping env
+    [ce_ais] chain 45/50 task 5/5 failed: 360 steps, 556.7s
+    [ce_ais] chain 46/50 start: ['rotate_pink_block_right', 'turn_off_led', 'lift_pink_block_table', 'place_in_slider', 'open_drawer']
+    [ce_ais] chain 46/50 instructions: ['take the pink block and rotate it to the right', 'press the button to turn off the led light', 'grasp and lift the pink block', 'store the grasped block in the sliding cabinet', 'pull the handle to open the drawer']
+    [ce_ais] chain 46/50 task 1/5 start: rotate_pink_block_right | instruction: take the pink block and rotate it to the right
+    [ce_ais] chain 46/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 46/50 task 1/5 step 1/360: policy 2.22s, stepping env
+    [ce_ais] chain 46/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 46/50 task 1/5 step 25/360: policy 1.32s, stepping env
+    [ce_ais] chain 46/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 46/50 task 1/5 step 50/360: policy 1.72s, stepping env
+    [ce_ais] chain 46/50 task 1/5 step 75/360: running policy
+    [ce_ais] chain 46/50 task 1/5 step 75/360: policy 1.61s, stepping env
+    [ce_ais] chain 46/50 task 1/5 success at step 75
+    [ce_ais] chain 46/50 task 1/5 success: 75 steps, 119.9s
+    [ce_ais] chain 46/50 task 2/5 start: turn_off_led | instruction: press the button to turn off the led light
+    [ce_ais] chain 46/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 46/50 task 2/5 step 1/360: policy 2.28s, stepping env
+    [ce_ais] chain 46/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 46/50 task 2/5 step 25/360: policy 1.50s, stepping env
+    [ce_ais] chain 46/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 46/50 task 2/5 step 50/360: policy 1.79s, stepping env
+    [ce_ais] chain 46/50 task 2/5 success at step 50
+    [ce_ais] chain 46/50 task 2/5 success: 50 steps, 82.1s
+    [ce_ais] chain 46/50 task 3/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 46/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 46/50 task 3/5 step 1/360: policy 2.14s, stepping env
+    [ce_ais] chain 46/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 46/50 task 3/5 step 25/360: policy 1.98s, stepping env
+    [ce_ais] chain 46/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 46/50 task 3/5 step 50/360: policy 1.37s, stepping env
+    [ce_ais] chain 46/50 task 3/5 success at step 64
+    [ce_ais] chain 46/50 task 3/5 success: 64 steps, 113.2s
+    [ce_ais] chain 46/50 task 4/5 start: place_in_slider | instruction: store the grasped block in the sliding cabinet
+    [ce_ais] chain 46/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 1/360: policy 2.18s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 25/360: policy 1.57s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 50/360: policy 1.69s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 75/360: policy 1.46s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 100/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 100/360: policy 1.49s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 125/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 125/360: policy 1.18s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 150/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 150/360: policy 0.99s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 175/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 175/360: policy 1.25s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 200/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 200/360: policy 0.92s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 225/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 225/360: policy 1.39s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 250/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 250/360: policy 1.06s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 275/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 275/360: policy 1.14s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 300/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 300/360: policy 1.02s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 325/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 325/360: policy 1.17s, stepping env
+    [ce_ais] chain 46/50 task 4/5 step 350/360: running policy
+    [ce_ais] chain 46/50 task 4/5 step 350/360: policy 0.94s, stepping env
+    [ce_ais] chain 46/50 task 4/5 failed: 360 steps, 483.4s
+    [ce_ais] chain 47/50 start: ['turn_off_lightbulb', 'push_pink_block_left', 'move_slider_left', 'open_drawer', 'lift_pink_block_table']
+    [ce_ais] chain 47/50 instructions: ['use the switch to turn off the light bulb', 'go push the pink block left', 'push the sliding door to the left side', 'pull the handle to open the drawer', 'grasp and lift the pink block']
+    [ce_ais] chain 47/50 task 1/5 start: turn_off_lightbulb | instruction: use the switch to turn off the light bulb
+    [ce_ais] chain 47/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 47/50 task 1/5 step 1/360: policy 1.67s, stepping env
+    [ce_ais] chain 47/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 47/50 task 1/5 step 25/360: policy 1.10s, stepping env
+    [ce_ais] chain 47/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 47/50 task 1/5 step 50/360: policy 1.18s, stepping env
+    [ce_ais] chain 47/50 task 1/5 success at step 53
+    [ce_ais] chain 47/50 task 1/5 success: 53 steps, 70.4s
+    [ce_ais] chain 47/50 task 2/5 start: push_pink_block_left | instruction: go push the pink block left
+    [ce_ais] chain 47/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 47/50 task 2/5 step 1/360: policy 1.80s, stepping env
+    [ce_ais] chain 47/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 47/50 task 2/5 step 25/360: policy 1.18s, stepping env
+    [ce_ais] chain 47/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 47/50 task 2/5 step 50/360: policy 1.01s, stepping env
+    [ce_ais] chain 47/50 task 2/5 success at step 71
+    [ce_ais] chain 47/50 task 2/5 success: 71 steps, 86.1s
+    [ce_ais] chain 47/50 task 3/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 47/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 47/50 task 3/5 step 1/360: policy 1.95s, stepping env
+    [ce_ais] chain 47/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 47/50 task 3/5 step 25/360: policy 1.06s, stepping env
+    [ce_ais] chain 47/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 47/50 task 3/5 step 50/360: policy 1.26s, stepping env
+    [ce_ais] chain 47/50 task 3/5 success at step 65
+    [ce_ais] chain 47/50 task 3/5 success: 65 steps, 80.8s
+    [ce_ais] chain 47/50 task 4/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 47/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 47/50 task 4/5 step 1/360: policy 1.82s, stepping env
+    [ce_ais] chain 47/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 47/50 task 4/5 step 25/360: policy 1.09s, stepping env
+    [ce_ais] chain 47/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 47/50 task 4/5 step 50/360: policy 0.92s, stepping env
+    [ce_ais] chain 47/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 47/50 task 4/5 step 75/360: policy 0.84s, stepping env
+    [ce_ais] chain 47/50 task 4/5 success at step 75
+    [ce_ais] chain 47/50 task 4/5 success: 75 steps, 83.8s
+    [ce_ais] chain 47/50 task 5/5 start: lift_pink_block_table | instruction: grasp and lift the pink block
+    [ce_ais] chain 47/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 47/50 task 5/5 step 1/360: policy 1.22s, stepping env
+    [ce_ais] chain 47/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 47/50 task 5/5 step 25/360: policy 0.84s, stepping env
+    [ce_ais] chain 47/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 47/50 task 5/5 step 50/360: policy 1.08s, stepping env
+    [ce_ais] chain 47/50 task 5/5 success at step 65
+    [ce_ais] chain 47/50 task 5/5 success: 65 steps, 68.3s
+    [ce_ais] chain 48/50 start: ['lift_red_block_slider', 'stack_block', 'turn_on_led', 'unstack_block', 'lift_red_block_table']
+    [ce_ais] chain 48/50 instructions: ['lift the red block from the sliding cabinet', 'stack the grasped block', 'press the button to turn on the led light', 'remove the stacked block', 'grasp and lift the red block']
+    [ce_ais] chain 48/50 task 1/5 start: lift_red_block_slider | instruction: lift the red block from the sliding cabinet
+    [ce_ais] chain 48/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 48/50 task 1/5 step 1/360: policy 1.45s, stepping env
+    [ce_ais] chain 48/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 48/50 task 1/5 step 25/360: policy 1.10s, stepping env
+    [ce_ais] chain 48/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 48/50 task 1/5 step 50/360: policy 0.99s, stepping env
+    [ce_ais] chain 48/50 task 1/5 success at step 70
+    [ce_ais] chain 48/50 task 1/5 success: 70 steps, 84.6s
+    [ce_ais] chain 48/50 task 2/5 start: stack_block | instruction: stack the grasped block
+    [ce_ais] chain 48/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 48/50 task 2/5 step 1/360: policy 1.55s, stepping env
+    [ce_ais] chain 48/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 48/50 task 2/5 step 25/360: policy 1.15s, stepping env
+    [ce_ais] chain 48/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 48/50 task 2/5 step 50/360: policy 0.88s, stepping env
+    [ce_ais] chain 48/50 task 2/5 success at step 66
+    [ce_ais] chain 48/50 task 2/5 success: 66 steps, 78.6s
+    [ce_ais] chain 48/50 task 3/5 start: turn_on_led | instruction: press the button to turn on the led light
+    [ce_ais] chain 48/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 48/50 task 3/5 step 1/360: policy 1.35s, stepping env
+    [ce_ais] chain 48/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 48/50 task 3/5 step 25/360: policy 0.99s, stepping env
+    [ce_ais] chain 48/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 48/50 task 3/5 step 50/360: policy 1.39s, stepping env
+    [ce_ais] chain 48/50 task 3/5 success at step 56
+    [ce_ais] chain 48/50 task 3/5 success: 56 steps, 75.0s
+    [ce_ais] chain 48/50 task 4/5 start: unstack_block | instruction: remove the stacked block
+    [ce_ais] chain 48/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 48/50 task 4/5 step 1/360: policy 2.42s, stepping env
+    [ce_ais] chain 48/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 48/50 task 4/5 step 25/360: policy 1.03s, stepping env
+    [ce_ais] chain 48/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 48/50 task 4/5 step 50/360: policy 0.95s, stepping env
+    [ce_ais] chain 48/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 48/50 task 4/5 step 75/360: policy 1.08s, stepping env
+    [ce_ais] chain 48/50 task 4/5 success at step 77
+    [ce_ais] chain 48/50 task 4/5 success: 77 steps, 93.4s
+    [ce_ais] chain 48/50 task 5/5 start: lift_red_block_table | instruction: grasp and lift the red block
+    [ce_ais] chain 48/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 1/360: policy 1.38s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 25/360: policy 0.59s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 50/360: policy 1.49s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 75/360: policy 1.20s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 100/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 100/360: policy 0.98s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 125/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 125/360: policy 1.19s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 150/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 150/360: policy 1.22s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 175/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 175/360: policy 1.50s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 200/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 200/360: policy 1.14s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 225/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 225/360: policy 1.32s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 250/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 250/360: policy 0.73s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 275/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 275/360: policy 1.46s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 300/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 300/360: policy 1.23s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 325/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 325/360: policy 1.00s, stepping env
+    [ce_ais] chain 48/50 task 5/5 step 350/360: running policy
+    [ce_ais] chain 48/50 task 5/5 step 350/360: policy 1.35s, stepping env
+    [ce_ais] chain 48/50 task 5/5 failed: 360 steps, 455.2s
+    [ce_ais] chain 49/50 start: ['rotate_blue_block_left', 'move_slider_left', 'open_drawer', 'lift_red_block_slider', 'place_in_drawer']
+    [ce_ais] chain 49/50 instructions: ['take the blue block and rotate it to the left', 'push the sliding door to the left side', 'pull the handle to open the drawer', 'lift the red block from the sliding cabinet', 'store the grasped block in the drawer']
+    [ce_ais] chain 49/50 task 1/5 start: rotate_blue_block_left | instruction: take the blue block and rotate it to the left
+    [ce_ais] chain 49/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 49/50 task 1/5 step 1/360: policy 1.83s, stepping env
+    [ce_ais] chain 49/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 49/50 task 1/5 step 25/360: policy 0.90s, stepping env
+    [ce_ais] chain 49/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 49/50 task 1/5 step 50/360: policy 0.89s, stepping env
+    [ce_ais] chain 49/50 task 1/5 success at step 69
+    [ce_ais] chain 49/50 task 1/5 success: 69 steps, 92.1s
+    [ce_ais] chain 49/50 task 2/5 start: move_slider_left | instruction: push the sliding door to the left side
+    [ce_ais] chain 49/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 49/50 task 2/5 step 1/360: policy 2.59s, stepping env
+    [ce_ais] chain 49/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 49/50 task 2/5 step 25/360: policy 1.61s, stepping env
+    [ce_ais] chain 49/50 task 2/5 step 50/360: running policy
+    [ce_ais] chain 49/50 task 2/5 step 50/360: policy 1.05s, stepping env
+    [ce_ais] chain 49/50 task 2/5 success at step 73
+    [ce_ais] chain 49/50 task 2/5 success: 73 steps, 106.8s
+    [ce_ais] chain 49/50 task 3/5 start: open_drawer | instruction: pull the handle to open the drawer
+    [ce_ais] chain 49/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 49/50 task 3/5 step 1/360: policy 1.28s, stepping env
+    [ce_ais] chain 49/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 49/50 task 3/5 step 25/360: policy 1.00s, stepping env
+    [ce_ais] chain 49/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 49/50 task 3/5 step 50/360: policy 1.39s, stepping env
+    [ce_ais] chain 49/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 49/50 task 3/5 step 75/360: policy 1.30s, stepping env
+    [ce_ais] chain 49/50 task 3/5 success at step 80
+    [ce_ais] chain 49/50 task 3/5 success: 80 steps, 106.2s
+    [ce_ais] chain 49/50 task 4/5 start: lift_red_block_slider | instruction: lift the red block from the sliding cabinet
+    [ce_ais] chain 49/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 49/50 task 4/5 step 1/360: policy 1.86s, stepping env
+    [ce_ais] chain 49/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 49/50 task 4/5 step 25/360: policy 1.20s, stepping env
+    [ce_ais] chain 49/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 49/50 task 4/5 step 50/360: policy 1.61s, stepping env
+    [ce_ais] chain 49/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 49/50 task 4/5 step 75/360: policy 1.09s, stepping env
+    [ce_ais] chain 49/50 task 4/5 success at step 76
+    [ce_ais] chain 49/50 task 4/5 success: 76 steps, 105.8s
+    [ce_ais] chain 49/50 task 5/5 start: place_in_drawer | instruction: store the grasped block in the drawer
+    [ce_ais] chain 49/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 49/50 task 5/5 step 1/360: policy 1.70s, stepping env
+    [ce_ais] chain 49/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 49/50 task 5/5 step 25/360: policy 1.24s, stepping env
+    [ce_ais] chain 49/50 task 5/5 success at step 47
+    [ce_ais] chain 49/50 task 5/5 success: 47 steps, 56.9s
+    [ce_ais] chain 50/50 start: ['lift_red_block_table', 'place_in_drawer', 'rotate_blue_block_right', 'lift_pink_block_slider', 'stack_block']
+    [ce_ais] chain 50/50 instructions: ['grasp and lift the red block', 'store the grasped block in the drawer', 'take the blue block and rotate it to the right', 'lift the pink block from the sliding cabinet', 'stack the grasped block']
+    [ce_ais] chain 50/50 task 1/5 start: lift_red_block_table | instruction: grasp and lift the red block
+    [ce_ais] chain 50/50 task 1/5 step 1/360: running policy
+    [ce_ais] chain 50/50 task 1/5 step 1/360: policy 2.09s, stepping env
+    [ce_ais] chain 50/50 task 1/5 step 25/360: running policy
+    [ce_ais] chain 50/50 task 1/5 step 25/360: policy 1.58s, stepping env
+    [ce_ais] chain 50/50 task 1/5 step 50/360: running policy
+    [ce_ais] chain 50/50 task 1/5 step 50/360: policy 1.36s, stepping env
+    [ce_ais] chain 50/50 task 1/5 step 75/360: running policy
+    [ce_ais] chain 50/50 task 1/5 step 75/360: policy 1.11s, stepping env
+    [ce_ais] chain 50/50 task 1/5 step 100/360: running policy
+    [ce_ais] chain 50/50 task 1/5 step 100/360: policy 1.99s, stepping env
+    [ce_ais] chain 50/50 task 1/5 success at step 122
+    [ce_ais] chain 50/50 task 1/5 success: 122 steps, 187.6s
+    [ce_ais] chain 50/50 task 2/5 start: place_in_drawer | instruction: store the grasped block in the drawer
+    [ce_ais] chain 50/50 task 2/5 step 1/360: running policy
+    [ce_ais] chain 50/50 task 2/5 step 1/360: policy 2.06s, stepping env
+    [ce_ais] chain 50/50 task 2/5 step 25/360: running policy
+    [ce_ais] chain 50/50 task 2/5 step 25/360: policy 1.25s, stepping env
+    [ce_ais] chain 50/50 task 2/5 success at step 33
+    [ce_ais] chain 50/50 task 2/5 success: 33 steps, 50.1s
+    [ce_ais] chain 50/50 task 3/5 start: rotate_blue_block_right | instruction: take the blue block and rotate it to the right
+    [ce_ais] chain 50/50 task 3/5 step 1/360: running policy
+    [ce_ais] chain 50/50 task 3/5 step 1/360: policy 2.46s, stepping env
+    [ce_ais] chain 50/50 task 3/5 step 25/360: running policy
+    [ce_ais] chain 50/50 task 3/5 step 25/360: policy 1.40s, stepping env
+    [ce_ais] chain 50/50 task 3/5 step 50/360: running policy
+    [ce_ais] chain 50/50 task 3/5 step 50/360: policy 1.52s, stepping env
+    [ce_ais] chain 50/50 task 3/5 step 75/360: running policy
+    [ce_ais] chain 50/50 task 3/5 step 75/360: policy 1.39s, stepping env
+    [ce_ais] chain 50/50 task 3/5 success at step 99
+    [ce_ais] chain 50/50 task 3/5 success: 99 steps, 160.7s
+    [ce_ais] chain 50/50 task 4/5 start: lift_pink_block_slider | instruction: lift the pink block from the sliding cabinet
+    [ce_ais] chain 50/50 task 4/5 step 1/360: running policy
+    [ce_ais] chain 50/50 task 4/5 step 1/360: policy 1.80s, stepping env
+    [ce_ais] chain 50/50 task 4/5 step 25/360: running policy
+    [ce_ais] chain 50/50 task 4/5 step 25/360: policy 0.85s, stepping env
+    [ce_ais] chain 50/50 task 4/5 step 50/360: running policy
+    [ce_ais] chain 50/50 task 4/5 step 50/360: policy 1.67s, stepping env
+    [ce_ais] chain 50/50 task 4/5 step 75/360: running policy
+    [ce_ais] chain 50/50 task 4/5 step 75/360: policy 1.56s, stepping env
+    [ce_ais] chain 50/50 task 4/5 success at step 98
+    [ce_ais] chain 50/50 task 4/5 success: 98 steps, 148.4s
+    [ce_ais] chain 50/50 task 5/5 start: stack_block | instruction: stack the grasped block
+    [ce_ais] chain 50/50 task 5/5 step 1/360: running policy
+    [ce_ais] chain 50/50 task 5/5 step 1/360: policy 1.51s, stepping env
+    [ce_ais] chain 50/50 task 5/5 step 25/360: running policy
+    [ce_ais] chain 50/50 task 5/5 step 25/360: policy 1.02s, stepping env
+    [ce_ais] chain 50/50 task 5/5 step 50/360: running policy
+    [ce_ais] chain 50/50 task 5/5 step 50/360: policy 1.81s, stepping env
+    [ce_ais] chain 50/50 task 5/5 step 75/360: running policy
+    [ce_ais] chain 50/50 task 5/5 step 75/360: policy 1.93s, stepping env
+    [ce_ais] chain 50/50 task 5/5 step 100/360: running policy
+    [ce_ais] chain 50/50 task 5/5 step 100/360: policy 1.52s, stepping env
+    [ce_ais] chain 50/50 task 5/5 step 125/360: running policy
+    [ce_ais] chain 50/50 task 5/5 step 125/360: policy 1.03s, stepping env
+    [ce_ais] chain 50/50 task 5/5 step 150/360: running policy
+    [ce_ais] chain 50/50 task 5/5 step 150/360: policy 1.14s, stepping env
+    [ce_ais] chain 50/50 task 5/5 success at step 155
+    [ce_ais] chain 50/50 task 5/5 success: 155 steps, 224.3s
+    [ce_ais] 50/50 chains, L1 success: 98.0%
+  [ce_ais] L1=98.0%, L3=88.0%, L5=70.0%, latency=1390.9ms
+
+Results saved: results/ce_ais_aggressive/quick_test/main_experiment.json
+
+======================================================================
+Method                     L1       L2       L3       L4       L5  Lat(ms)
+----------------------------------------------------------------------
+ce_ais                 98.0%   94.0%   88.0%   82.0%   70.0%  1390.9
+======================================================================
+disconnecting id 0 from server
+Destroy EGL OpenGL window.
+disconnecting id -1 from server

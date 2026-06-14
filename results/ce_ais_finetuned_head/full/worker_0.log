@@ -1,0 +1,56 @@
+======================================================================
+CE-AIS Paper Main Experiments
+Methods: ['ce_ais', 'frozen_flower']
+Chains: 250 x 5
+Device: cuda:7 (requested=cuda:7, visible=None)
+EGL: enabled (EGL_VISIBLE_DEVICES=7)
+======================================================================
+
+[1] Initializing CALVIN environment...
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+pybullet build time: Oct 21 2025 10:07:17
+/data0/yejinxuan/workspace/calvin/calvin_env/calvin_env/envs/play_table_env.py:289: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  @hydra.main(config_path="../../conf", config_name="config_data_collection")
+/data0/yejinxuan/workspace/calvin/calvin_env/calvin_env/envs/play_table_env.py:284: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  hydra.initialize(".")
+argv[0]=--width=200
+argv[1]=--height=200
+EGL device choice: 7 of 17 (from EGL_VISIBLE_DEVICES)
+Loaded EGL 1.5 after reload.
+GL_VENDOR=NVIDIA Corporation
+GL_RENDERER=NVIDIA A100-SXM4-80GB/PCIe/SSE2
+GL_VERSION=3.3.0 NVIDIA 595.71.05
+GL_SHADING_LANGUAGE_VERSION=3.30 NVIDIA via Cg compiler
+Version = 3.3.0 NVIDIA 595.71.05
+Vendor = NVIDIA Corporation
+Renderer = NVIDIA A100-SXM4-80GB/PCIe/SSE2
+  Available tasks: 34
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/lightning_lite/__init__.py:29: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  __import__("pkg_resources").declare_namespace(__name__)
+  Sequence source: flower_official
+
+[Eval] Running: ce_ais
+Loading Florence-2 from /data0/yejinxuan/hf_cache/hub/Florence-2-large
+The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+Loading pretrained weights from /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors...
+Loaded safetensors file
+Pretrained weights loaded with the following issues:
+  ⚠️ Missing keys (not found in checkpoint, using default init): 2
+    ['vlm.language_model.final_logits_bias', 'vlm.language_model.model.shared.weight'] ...
+  ⚠️ Unexpected keys (ignored): 2
+    ['vlm.language_final_logits_bias', 'vlm.language_shared.weight'] ...
+  Loaded encoder checkpoint: /data0/yejinxuan/ce-ais/checkpoints/encoder_epoch0044.pt
+  Loaded CE-WM checkpoint: /data0/yejinxuan/ce-ais/checkpoints_finetuned_energy_head/energy_head_best.pt
+    [ce_ais] chain 1/250 start: ['rotate_blue_block_right', 'move_slider_right', 'lift_red_block_slider', 'place_in_slider', 'turn_off_lightbulb']
+ven = NVIDIA Corporation
+ven = NVIDIA Corporation
+    [ce_ais] chain 1/250 task 1/5 success: 93 steps, 49.6s

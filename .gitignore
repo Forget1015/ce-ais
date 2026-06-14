@@ -4,6 +4,7 @@ data/
 checkpoints/
 checkpoints_sub/
 checkpoints_new_sub/
+checkpoints_finetuned_energy_head/
 checkpoints_calibrated_cewm/
 external/flower_vla_calvin/calvin_env/
 external/flower_vla_calvin/LIBERO/
