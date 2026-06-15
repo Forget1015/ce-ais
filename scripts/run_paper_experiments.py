@@ -729,26 +729,45 @@ def main():
                 )
                 topology.reset_diagnostics()
 
-                def ce_ais_policy(obs, instruction, _topo=topology):
-                    obs_dict = {
-                        "rgb": obs["rgb_obs"]["rgb_static"].unsqueeze(0) if obs["rgb_obs"]["rgb_static"].dim() == 3 else obs["rgb_obs"]["rgb_static"],
+                def ce_ais_policy(obs, instruction, _topo=topology, _env=flower_env, _model=flower_model):
+                    # 1. Get FLOWER action the same way as frozen_flower (directly via model.step)
+                    goal = {"lang_text": instruction}
+                    with torch.no_grad():
+                        vla_action = _model.step(obs, goal)
+                    # shape: [7] or [1, 7]
+                    if vla_action.dim() == 1:
+                        vla_action = vla_action.unsqueeze(0).unsqueeze(0)  # [1, 1, 7]
+                    elif vla_action.dim() == 2:
+                        vla_action = vla_action.unsqueeze(1)  # [1, 1, 7]
+
+                    # 2. Get raw obs for encoder (same as collect_rollout_data.py)
+                    raw_obs = _env.env.get_obs()
+                    rgb_static = raw_obs["rgb_obs"]["rgb_static"]
+                    rgb_tensor = torch.from_numpy(rgb_static).permute(2, 0, 1).unsqueeze(0).float().to(device)
+                    rgb_for_encoder = torch.nn.functional.interpolate(
+                        rgb_tensor, size=(200, 200), mode="bilinear", align_corners=False
+                    )
+                    robot_obs_raw = raw_obs.get("robot_obs", np.zeros(15))
+                    pose_tensor = torch.from_numpy(robot_obs_raw[:7].astype(np.float32)).unsqueeze(0).to(device)
+
+                    obs_for_topo = {
+                        "rgb": rgb_for_encoder,
                         "depth": torch.zeros(1, 1, 200, 200, device=device),
-                        "pose": obs.get("robot_obs_raw", obs.get("robot_obs", torch.zeros(7)))[:7].unsqueeze(0).to(device) if isinstance(obs.get("robot_obs_raw", obs.get("robot_obs")), torch.Tensor) else torch.zeros(1, 7, device=device),
-                        "raw_calvin_obs": {
-                            "rgb_obs": {k: v.squeeze(0).permute(1, 2, 0).mul(255).byte().cpu().numpy()
-                                        if v.dim() == 4 else v.permute(1, 2, 0).mul(255).byte().cpu().numpy()
-                                        for k, v in obs["rgb_obs"].items()},
-                            "robot_obs": obs.get("robot_obs_raw", obs.get("robot_obs", torch.zeros(15))).cpu().numpy()
-                            if isinstance(obs.get("robot_obs_raw", obs.get("robot_obs")), torch.Tensor)
-                            else np.zeros(15),
-                        },
+                        "pose": pose_tensor,
                     }
-                    action, info = _topo.safe_step(obs_dict, str(instruction))
+
+                    # 3. Run topology (encoder + energy eval + steering)
+                    action, info = _topo.safe_step(obs_for_topo, str(instruction), a_init=vla_action)
                     return action.squeeze(0).squeeze(0).cpu()
+
+                def _reset_all():
+                    flower_model.reset()
+                    if hasattr(topology, "reset"):
+                        topology.reset()
 
                 results = evaluate_method_flower_official(
                     method_name, ce_ais_policy, flower_env, task_oracle, val_annotations,
-                    eval_specs, args, policy_reset_fn=getattr(topology, "reset", None))
+                    eval_specs, args, policy_reset_fn=_reset_all)
                 results["ce_ais_diagnostics"] = topology.get_diagnostics()
 
             elif method_name in {"frozen_openvla", "frozen_vla", "frozen_flower", "frozen_robovlms"}:
@@ -772,14 +791,17 @@ def main():
                 bl.setup()
 
                 def baseline_policy(obs, instruction, _bl=bl):
+                    def _to_numpy_rgb(v):
+                        while v.dim() > 3:
+                            v = v.squeeze(0)
+                        return v.permute(1, 2, 0).mul(255).byte().cpu().numpy()
+
                     obs_dict = {
                         "rgb": obs["rgb_obs"]["rgb_static"].unsqueeze(0) if obs["rgb_obs"]["rgb_static"].dim() == 3 else obs["rgb_obs"]["rgb_static"],
                         "depth": torch.zeros(1, 1, 200, 200, device=device),
                         "pose": torch.zeros(1, 7, device=device),
                         "raw_calvin_obs": {
-                            "rgb_obs": {k: v.squeeze(0).permute(1, 2, 0).mul(255).byte().cpu().numpy()
-                                        if v.dim() == 4 else v.permute(1, 2, 0).mul(255).byte().cpu().numpy()
-                                        for k, v in obs["rgb_obs"].items()},
+                            "rgb_obs": {k: _to_numpy_rgb(v) for k, v in obs["rgb_obs"].items()},
                         },
                     }
                     return _bl.predict(obs_dict, str(instruction)).squeeze(0).squeeze(0).cpu()

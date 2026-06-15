@@ -130,20 +130,22 @@ class DualStreamTopology:
         self,
         observation: dict,
         language_instruction: str,
+        a_init: torch.Tensor = None,
     ) -> Tuple[torch.Tensor, Dict[str, Any]]:
         """带安全回退的推理步骤。"""
         if not hasattr(self, "_diag"):
             self.reset_diagnostics()
 
-        try:
-            a_init = self.vla.predict(observation, language_instruction)
-        except Exception as e:
-            logger.error("VLA prediction failed: %s", e)
-            info = self._make_info(status="fallback", error=str(e), reject_reason="vla_error")
-            self._record_diagnostics(info)
-            if self.last_action is not None:
-                return self.last_action, info
-            raise
+        if a_init is None:
+            try:
+                a_init = self.vla.predict(observation, language_instruction)
+            except Exception as e:
+                logger.error("VLA prediction failed: %s", e)
+                info = self._make_info(status="fallback", error=str(e), reject_reason="vla_error")
+                self._record_diagnostics(info)
+                if self.last_action is not None:
+                    return self.last_action, info
+                raise
 
         try:
             z_t = self.encoder.encode(observation)
