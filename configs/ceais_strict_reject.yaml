@@ -1,0 +1,21 @@
+# 方向B：加强 reject 机制（有害修正回退）
+# 思路：修正后 energy 必须比修正前好 0.005 才接受，否则回退
+# 分析：当前 rejected_count=0，说明只要 energy 不变差就接受
+#       加入 margin 让微弱改善也被拒绝，阻止无效/有害修正
+
+inherit_from: "/data0/yejinxuan/ce-ais/configs/base.yaml"
+
+bilateral_gating:
+  lambda_max: 0.3
+  sensitivity: 0.1
+  hard_uncertainty_threshold: 0.3
+  min_lambda: 0.05
+
+steering:
+  n_steps: 1
+  step_size: 0.005
+  kl_weight: 30.0
+  action_delta_max: 0.08
+  enable_accept_reject: true
+  accept_energy_margin: 0.005
+  diagnostics: true

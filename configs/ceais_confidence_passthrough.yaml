@@ -1,0 +1,21 @@
+# 方向C：低 uncertainty 完全 passthrough（保护精确任务）
+# 思路：uncertainty < 0.15 时完全不干预 + min_lambda 提高
+# 分析：slider 精确任务时模型通常很确定（uncertainty 低），
+#       让确定的步完全不被干预，只在模型犹豫时才 steering
+
+inherit_from: "/data0/yejinxuan/ce-ais/configs/base.yaml"
+
+bilateral_gating:
+  lambda_max: 0.3
+  sensitivity: 0.1
+  hard_uncertainty_threshold: 0.15
+  min_lambda: 0.08
+
+steering:
+  n_steps: 1
+  step_size: 0.005
+  kl_weight: 30.0
+  action_delta_max: 0.08
+  enable_accept_reject: true
+  accept_energy_margin: 0.0
+  diagnostics: true

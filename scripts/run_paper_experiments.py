@@ -36,6 +36,8 @@ def parse_args():
     parser.add_argument("--n-chains", type=int, default=200)
     parser.add_argument("--chain-offset", type=int, default=0,
                         help="Skip first N chains from the sequence list (for parallel evaluation)")
+    parser.add_argument("--chain-indices", type=str, default=None,
+                        help="JSON file with chain indices to evaluate (overrides --n-chains/--chain-offset)")
     parser.add_argument("--chain-length", type=int, default=5)
     parser.add_argument("--max-steps", type=int, default=360)
     parser.add_argument("--seed", type=int, default=42)
@@ -661,7 +663,19 @@ def main():
     if args.vla_type == "flower" and args.sequence_source == "flower_official":
         # 用官方 HulcWrapper（已验证 L1=99.7%，与论文一致）
         flower_model, flower_env, task_oracle, val_annotations = _init_flower_official_env(args, device)
-        eval_specs = load_flower_official_eval_specs(args.n_chains, args.chain_length, offset=args.chain_offset)
+        if args.chain_indices:
+            # 从 JSON 文件加载指定 chain 索引（快速测试用）
+            all_specs = load_flower_official_eval_specs(1000, args.chain_length, offset=0)
+            with open(args.chain_indices) as f:
+                indices_data = json.load(f)
+            if isinstance(indices_data, list):
+                indices = indices_data
+            else:
+                indices = indices_data.get("combined", indices_data.get("indices", []))
+            eval_specs = [all_specs[i] for i in indices if i < len(all_specs)]
+            print(f"  Using chain-indices from {args.chain_indices}: {len(eval_specs)} chains")
+        else:
+            eval_specs = load_flower_official_eval_specs(args.n_chains, args.chain_length, offset=args.chain_offset)
         print(f"  Using official FLOWER HulcWrapper environment")
         print(f"  Sequence source: flower_official")
         use_official_env = True
@@ -907,7 +921,8 @@ def main():
               f"{res.get('chain_5',0):>7.1%} {res.get('avg_latency_ms',0):>7.1f}")
     print("=" * 70)
 
-    wrapper.close()
+    if not use_official_env:
+        wrapper.close()
 
 
 if __name__ == "__main__":

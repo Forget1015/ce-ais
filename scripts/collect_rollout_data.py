@@ -38,8 +38,11 @@ def parse_args():
     parser.add_argument("--max-steps", type=int, default=360)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--output-dir", type=str, default="data/rollout_flower_seed42")
+    parser.add_argument("--vla-type", type=str, default="flower", choices=["flower", "robovlms"])
     parser.add_argument("--flower-checkpoint-dir", type=str, default="data/flower_calvin_abc")
     parser.add_argument("--flower-code-path", type=str, default="external/flower_vla_calvin")
+    parser.add_argument("--robovlms-checkpoint-dir", type=str, default="data/robovlms")
+    parser.add_argument("--robovlms-code-path", type=str, default="external/RoboVLMs")
     parser.add_argument("--encoder-ckpt", type=str, default="checkpoints/encoder_epoch0044.pt")
     return parser.parse_args()
 
@@ -47,8 +50,8 @@ def parse_args():
 def main():
     args = parse_args()
 
-    torch.manual_seed(args.seed)
-    np.random.seed(args.seed)
+    from pytorch_lightning import seed_everything
+    seed_everything(0, workers=True)
 
     os.makedirs(args.output_dir, exist_ok=True)
     device = torch.device(args.device)
@@ -83,17 +86,27 @@ def main():
     for p in encoder.parameters():
         p.requires_grad_(False)
 
-    # === 2. Load FLOWER VLA (frozen) ===
-    print("[2/4] Loading FLOWER VLA...", flush=True)
+    # === 2. Load VLA (frozen) ===
+    print(f"[2/4] Loading {args.vla_type} VLA...", flush=True)
     from src.dual_stream.vla_adapter import build_vla_adapter
-    vla_config = {
-        "type": "flower",
-        "device": str(device),
-        "action_dim": 7,
-        "chunk_size": 1,
-        "flower_checkpoint_dir": args.flower_checkpoint_dir,
-        "flower_code_path": args.flower_code_path,
-    }
+    if args.vla_type == "flower":
+        vla_config = {
+            "type": "flower",
+            "device": str(device),
+            "action_dim": 7,
+            "chunk_size": 1,
+            "flower_checkpoint_dir": args.flower_checkpoint_dir,
+            "flower_code_path": args.flower_code_path,
+        }
+    elif args.vla_type == "robovlms":
+        vla_config = {
+            "type": "robovlms",
+            "device": str(device),
+            "action_dim": 7,
+            "chunk_size": 1,
+            "robovlms_checkpoint_dir": args.robovlms_checkpoint_dir,
+            "robovlms_code_path": args.robovlms_code_path,
+        }
     adapter = build_vla_adapter(vla_config)
 
     # === 3. Create CALVIN Env ===
@@ -102,8 +115,9 @@ def main():
     env_config = {
         "use_real_env": True,
         "data_dir": args.data_dir,
+        "scene": "calvin_scene_D",
+        "cameras": "static_and_gripper",
         "use_egl": True,
-        "seed": args.seed,
         "max_chain_length": args.chain_length,
     }
     wrapper = CALVINWrapper(config=env_config)

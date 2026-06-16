@@ -1,0 +1,20 @@
+# CE-AIS v2 + Uncertainty-Gated Steering
+# 只在 uncertainty 高的步骤上 steering，低 uncertainty 直接 pass-through
+# 目标：L1/L3/L4 不下降，L5 继续提升
+
+inherit_from: "/data0/yejinxuan/ce-ais/configs/base.yaml"
+
+bilateral_gating:
+  lambda_max: 0.3
+  sensitivity: 0.1
+  hard_uncertainty_threshold: 0.3   # uncertainty > 0.3 才允许 steering
+  min_lambda: 0.05                  # gating_lambda < 0.05 时直接 pass-through
+
+steering:
+  n_steps: 1
+  step_size: 0.005
+  kl_weight: 30.0
+  action_delta_max: 0.08
+  enable_accept_reject: true
+  accept_energy_margin: 0.0
+  diagnostics: true

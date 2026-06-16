@@ -1,0 +1,35 @@
+======================================
+CE-AIS Fast Test
+Config: configs/uncertainty_gated.yaml
+Tag: gated_baseline
+Output: results/fast_test/gated_baseline
+Chains: 28 (18 regression + 10 golden)
+======================================
+[1/2] Running frozen_flower baseline...
+[1/2] frozen_flower done.
+[2/2] Running ce_ais...
+[2/2] ce_ais done.
+
+======================================
+Results Analysis
+======================================
+Total chains: 28
+
+  Metric                 Frozen   CE-AIS        Δ
+  --------------------------------------------------
+  Avg Len                 4.857    4.893   +0.036
+  L1                     100.0%   100.0%    +0.0%
+  L2                     100.0%   100.0%    +0.0%
+  L3                      96.4%   100.0%    +3.6%
+  L4                      96.4%    96.4%    +0.0%
+  L5                      92.9%    92.9%    +0.0%
+
+  Regression subset (18 chains, flower全通过 gated原来失败):
+    CE-AIS 全通过: 17/18 (目标: 越高越好, 之前全是0)
+    CE-AIS Avg Len: 4.944 (Frozen: 4.778)
+
+  Golden subset (10 chains, flower原来失败 gated修复了):
+    CE-AIS 全通过: 9/10 (目标: 保持高, 之前=10)
+    CE-AIS Avg Len: 4.800 (Frozen: 5.000)
+
+Done! Full logs: results/fast_test/gated_baseline/

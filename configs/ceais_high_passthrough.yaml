@@ -1,0 +1,21 @@
+# 方向A：提高 passthrough 阈值（减少无效干预）
+# 思路：uncertainty > 0.25 时完全不干预（之前是 0.3）
+# 分析：slider 精确任务时 energy_before 相对高（模型不太确定），
+#       降低阈值让更多"半确定"步不被干预
+
+inherit_from: "/data0/yejinxuan/ce-ais/configs/base.yaml"
+
+bilateral_gating:
+  lambda_max: 0.3
+  sensitivity: 0.1
+  hard_uncertainty_threshold: 0.25
+  min_lambda: 0.05
+
+steering:
+  n_steps: 1
+  step_size: 0.005
+  kl_weight: 30.0
+  action_delta_max: 0.08
+  enable_accept_reject: true
+  accept_energy_margin: 0.0
+  diagnostics: true

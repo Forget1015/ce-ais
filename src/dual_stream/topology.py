@@ -106,6 +106,7 @@ class DualStreamTopology:
             "uncertainty_sum": 0.0,
             "gating_lambda_sum": 0.0,
         }
+        self._step_log = []
 
     def get_diagnostics(self) -> Dict[str, Any]:
         if not hasattr(self, "_diag"):
@@ -124,6 +125,54 @@ class DualStreamTopology:
             "uncertainty_mean": diag["uncertainty_sum"] / total,
             "gating_lambda_mean": diag["gating_lambda_sum"] / total,
         })
+        # Per-step distributions for hyperparameter tuning
+        if hasattr(self, "_step_log") and self._step_log:
+            import numpy as _np
+            uncertainties = [s["uncertainty"] for s in self._step_log if s.get("uncertainty") is not None]
+            energy_deltas = [s["energy_before"] - s["energy_after"] for s in self._step_log
+                           if s.get("energy_before") is not None and s.get("energy_after") is not None]
+            lambdas = [s["gating_lambda"] for s in self._step_log if s.get("gating_lambda") is not None]
+            action_deltas = [s["action_delta_inf"] for s in self._step_log if s.get("action_delta_inf") is not None]
+
+            if uncertainties:
+                u = _np.array(uncertainties)
+                diag["uncertainty_percentiles"] = {
+                    "p10": float(_np.percentile(u, 10)),
+                    "p25": float(_np.percentile(u, 25)),
+                    "p50": float(_np.percentile(u, 50)),
+                    "p75": float(_np.percentile(u, 75)),
+                    "p90": float(_np.percentile(u, 90)),
+                    "p95": float(_np.percentile(u, 95)),
+                    "max": float(u.max()),
+                }
+            if energy_deltas:
+                ed = _np.array(energy_deltas)
+                diag["energy_delta_percentiles"] = {
+                    "p10": float(_np.percentile(ed, 10)),
+                    "p50": float(_np.percentile(ed, 50)),
+                    "p90": float(_np.percentile(ed, 90)),
+                    "mean": float(ed.mean()),
+                }
+            if lambdas:
+                la = _np.array(lambdas)
+                diag["gating_lambda_percentiles"] = {
+                    "p50": float(_np.percentile(la, 50)),
+                    "p90": float(_np.percentile(la, 90)),
+                    "p95": float(_np.percentile(la, 95)),
+                }
+            if action_deltas:
+                ad = _np.array(action_deltas)
+                diag["action_delta_percentiles"] = {
+                    "p50": float(_np.percentile(ad, 50)),
+                    "p90": float(_np.percentile(ad, 90)),
+                    "p95": float(_np.percentile(ad, 95)),
+                    "max": float(ad.max()),
+                }
+            # Intervention outcome stats
+            intervened_steps = [s for s in self._step_log if s.get("accepted")]
+            passthrough_steps = [s for s in self._step_log if not s.get("accepted")]
+            diag["intervention_count"] = len(intervened_steps)
+            diag["passthrough_count"] = len(passthrough_steps)
         return diag
 
     def safe_step(
@@ -295,6 +344,17 @@ class DualStreamTopology:
         self._diag["energy_after_sum"] += self._to_float(info.get("energy_after")) or 0.0
         self._diag["uncertainty_sum"] += self._to_float(info.get("uncertainty")) or 0.0
         self._diag["gating_lambda_sum"] += self._to_float(info.get("gating_lambda")) or 0.0
+
+        if hasattr(self, "_step_log"):
+            self._step_log.append({
+                "status": status,
+                "accepted": info.get("accepted", False),
+                "uncertainty": self._to_float(info.get("uncertainty")),
+                "gating_lambda": self._to_float(info.get("gating_lambda")),
+                "energy_before": self._to_float(info.get("energy_before")),
+                "energy_after": self._to_float(info.get("energy_after")),
+                "action_delta_inf": float(info.get("action_delta_inf") or 0.0),
+            })
 
     @staticmethod
     def _to_cpu_tensor(value: Any) -> Optional[torch.Tensor]:

@@ -680,6 +680,7 @@ class RoboVLMsAdapter(VLAAdapter):
             ckpt_path=str(ckpt_path),
             configs=configs,
             device=self.device,
+            raw_calvin=True,
         )
         return model
 

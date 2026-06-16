@@ -1,0 +1,35 @@
+======================================
+CE-AIS Fast Test
+Config: configs/ceais_strict_reject.yaml
+Tag: strict_reject
+Output: results/fast_test/strict_reject
+Chains: 28 (18 regression + 10 golden)
+======================================
+[1/2] Running frozen_flower baseline...
+[1/2] frozen_flower done.
+[2/2] Running ce_ais...
+[2/2] ce_ais done.
+
+======================================
+Results Analysis
+======================================
+Total chains: 28
+
+  Metric                 Frozen   CE-AIS        Δ
+  --------------------------------------------------
+  Avg Len                 4.857    4.393   -0.464
+  L1                     100.0%   100.0%    +0.0%
+  L2                     100.0%    96.4%    -3.6%
+  L3                      96.4%    85.7%   -10.7%
+  L4                      96.4%    85.7%   -10.7%
+  L5                      92.9%    71.4%   -21.4%
+
+  Regression subset (18 chains, flower全通过 gated原来失败):
+    CE-AIS 全通过: 11/18 (目标: 越高越好, 之前全是0)
+    CE-AIS Avg Len: 4.222 (Frozen: 4.778)
+
+  Golden subset (10 chains, flower原来失败 gated修复了):
+    CE-AIS 全通过: 9/10 (目标: 保持高, 之前=10)
+    CE-AIS Avg Len: 4.700 (Frozen: 5.000)
+
+Done! Full logs: results/fast_test/strict_reject/

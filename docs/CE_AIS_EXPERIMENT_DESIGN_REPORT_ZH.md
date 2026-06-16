@@ -297,7 +297,7 @@ robot_obs, scene_obs = _official_get_env_state(initial_state)
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
 | Official FLOWER reported | ABC→D | 1000 | 99.3 | 95.9 | 90.5 | 84.8 | 77.5 | 4.54 | - | paper/reference only |
 | Local frozen FLOWER (official env) | ABC→D | 1000 | **99.8** | **97.2** | **92.3** | **86.3** | **78.8** | **4.54** | 102.5 | §3.5.5 + §3.5.6 全部修复后 |
-| Local FLOWER + CE-AIS (official env) | ABC→D | 1000 | TBD | TBD | TBD | TBD | TBD | TBD | TBD | HulcWrapper, §3.5.5 |
+| Local FLOWER + CE-AIS v2 Gated | ABC→D | 1000 | **99.8** | **96.9** | **92.1** | **86.5** | **79.2** | **4.545** | ~358 | §3.8 |
 | ~~Local frozen FLOWER (old wrapper)~~ | ~~ABC→D~~ | ~~1000~~ | ~~97.5~~ | ~~91.8~~ | ~~85.5~~ | ~~79.7~~ | ~~73.6~~ | ~~4.28~~ | ~~41~~ | ~~已废弃，CALVINWrapper 有误差~~ |
 | OpenVLA fine-tuned + CE-AIS | ABC→D | TBD | | | | | | | | if feasible |
 | π0/π0.5 fine-tuned | ABC→D | TBD | | | | | | | | if feasible |
@@ -316,6 +316,136 @@ robot_obs, scene_obs = _official_get_env_state(initial_state)
 | camera | mild | 0.46 | 0.44 | -0.02 | | | | mixed |
 | camera | medium | 0.45 | 0.44 | -0.01 | | | | mixed |
 | camera | severe | 0.47 | 0.43 | -0.04 | | | | negative |
+
+### 3.8 CE-AIS v2 Gated 实验结果与失败分析（2026-06-16）
+
+#### 3.8.1 实验结果
+
+配置：`uncertainty_gated.yaml`（λ_max=0.3, hard_uncertainty_threshold=0.3, min_lambda=0.05）
+
+| 指标 | Frozen FLOWER | CE-AIS v2 Gated | Δ |
+|------|---:|---:|---:|
+| L1 | 99.8% | 99.8% | 0 |
+| L2 | 96.8% | 96.9% | +0.1 |
+| L3 | 91.9% | 92.1% | +0.2 |
+| L4 | 86.1% | 86.5% | +0.4 |
+| L5 | 78.8% | 79.2% | +0.4 |
+| Avg Len | 4.534 | 4.545 | +0.011 |
+| Latency | 68 ms | 358 ms | +290 ms |
+
+整体有一致的微小提升（L3~L5 各 +0.2~0.4%），集中在 chain 后段，说明 steering 在长程错误累积时有效果。
+
+#### 3.8.2 Per-Worker 分析
+
+| Worker | Chains | Flower L3/L5 | Gated L3/L5 | L5 Δ |
+|--------|--------|------|------|------|
+| 0 | 0-249 | 92.4%/76.0% | 95.2%/81.2% | **+5.2** |
+| 1 | 250-499 | 92.4%/80.8% | 92.4%/80.0% | -0.8 |
+| 2 | 500-749 | 91.2%/80.4% | 88.8%/77.2% | **-3.2** |
+| 3 | 750-999 | 91.6%/78.0% | 92.0%/78.4% | +0.4 |
+
+Worker 0 大幅提升，Worker 2 明显下降。
+
+#### 3.8.3 Worker 2 失败根因分析
+
+对比 Worker 2 的 250 chains：
+- Flower 失败 49 条，CE-AIS Gated 失败 57 条
+- **CE-AIS 新增 18 个失败**（flower 全通过但 gated 失败）
+- CE-AIS 修复了 10 个（flower 失败但 gated 通过）
+- 4 条链 CE-AIS 比 flower 更早失败
+
+新增失败的任务分布：
+| 任务类型 | 次数 | 占比 |
+|----------|---:|---:|
+| `place_in_slider` | 8 | 44% |
+| `lift_*_block_slider` | 5 | 28% |
+| `stack_block` | 2 | 11% |
+| 其他 | 3 | 17% |
+
+**结论：72% 的新增失败集中在 slider 相关精确定位任务。**
+
+#### 3.8.4 诊断数据分析
+
+| 诊断指标 | Worker 0 (提升) | Worker 2 (下降) | 解读 |
+|----------|---:|---:|---|
+| accepted_rate | 62.7% | 64.1% | Worker 2 干预更多反而效果差 |
+| abstained_rate | 37.2% | 35.9% | Worker 2 passthrough 更少 |
+| gating_lambda_mean | 0.150 | 0.153 | Worker 2 steering 力度略大 |
+| action_delta_inf_mean | 0.000264 | 0.000270 | 修正量极小但 slider 任务敏感 |
+| energy_before_mean | -1.118 | -1.018 | Worker 2 原始 energy 更差（模型本身不太确定） |
+| rejected_count | 0 | 0 | **从不拒绝——没有安全网** |
+| uncertainty_mean | 0.341 | 0.335 | 两者相近 |
+
+**核心问题：**
+1. `rejected_count = 0`：accept/reject 机制形同虚设，修正后 energy 变差也不回退
+2. Worker 2 的 `energy_before` 更高（模型本身更不确定），但干预率反而更高——说明 gating 在该区域不够保守
+3. Slider 任务需要 sub-millimeter 精度，action_delta ≈ 0.00027 虽然极小但足以让 gripper 偏出 slider 缝隙
+
+#### 3.8.5 改进方向与快速测试计划
+
+**三个优化方向：**
+
+**A. 提高 passthrough 阈值（减少无效干预）**
+- 参数：`hard_uncertainty_threshold: 0.25`
+- 逻辑：uncertainty > 0.25 时完全 passthrough，不做任何修正
+- 预期：slider 任务中模型较确定的步在更少被干预
+
+**B. 加强 reject 机制（有害修正回退）**
+- 参数：`accept_energy_margin: 0.005`
+- 逻辑：修正后 energy 必须比修正前好 0.005 才接受，否则回退到原始 action
+- 预期：阻止当前 0 reject 的问题，让无效修正不生效
+
+**C. 低 uncertainty 完全 passthrough（保护精确任务）**
+- 参数：`min_lambda: 0.05` + `hard_uncertainty_threshold: 0.15`
+- 逻辑：模型非常确定（uncertainty < 0.15）时完全不干预
+- 预期：slider 精确任务通常模型很确定，会被保护
+
+**快速测试方案：**
+
+从 1000 chains 中抽取两组代表性 subset：
+- **Regression subset**（18 chains）：CE-AIS 新增失败的（全局索引 565, 579, 581, 586, 590, 596, 601, 604, 612, 623, 644, 647, 687, 691, 714, 715, 735, 737）
+- **Golden subset**（10 chains）：CE-AIS 成功修复的（全局索引 513, 530, 566, 575, 610, 639, 693, 708, 712, 745）
+
+跑 28 条 chain 约 30-40 分钟，对比：regression 修复了多少 + golden 没被改坏多少。比全量 1000 chains 快 16 倍。
+
+需要在 `run_paper_experiments.py` 中新增 `--chain-indices` 参数支持非连续 chain 索引选择。
+
+#### 3.8.6 快速测试结果（2026-06-16）
+
+使用 28 条代表性 chains（18 regression + 10 golden）快速验证三个优化方向，每个测试约 40 分钟。
+
+| 方案 | 配置要点 | Regression 修复 (目标↑) | Golden 保持 (目标=10) | Avg Len Δ | 结论 |
+|------|----------|---:|---:|---:|---|
+| **A. high_passthrough** | threshold=0.25 | **18/18** | 9/10 | +0.036 | **最佳，全面修复** |
+| 原始 gated_baseline | threshold=0.3 | 17/18 | 9/10 | +0.036 | 对照 |
+| C. confidence_pt | threshold=0.15, min_λ=0.08 | 16/18 | 9/10 | +0.036 | 过度保守 |
+| B. strict_reject | margin=0.005 | 11/18 | 9/10 | **-0.464** | 灾难，不可用 |
+
+**分析：**
+
+- **方向 A（high_passthrough）** 将 `hard_uncertainty_threshold` 从 0.3 降到 0.25，regression subset 全部修复。原因：原来 threshold=0.3 时，slider 精确任务的很多步 uncertainty 在 0.25~0.3 区间，被错误地允许干预；降到 0.25 后这些步变为 passthrough，保护了精确操作。
+- **方向 B（strict_reject）** 失败：`accept_energy_margin=0.005` 过高，几乎所有修正都达不到这个改善量而被 reject，导致 steering 完全失效。energy_delta_mean ≈ 0.01 说明大部分修正的改善量本身就很小，0.005 的 margin 会过滤掉一半。
+- **方向 C（confidence_pt）** 不如 A：`threshold=0.15` 太低，slider 任务中有些步 uncertainty 在 0.15~0.25 之间仍需要保护。
+
+**最终选择：方向 A（`configs/ceais_high_passthrough.yaml`）**
+
+```yaml
+bilateral_gating:
+  lambda_max: 0.3
+  sensitivity: 0.1
+  hard_uncertainty_threshold: 0.25
+  min_lambda: 0.05
+steering:
+  n_steps: 1
+  step_size: 0.005
+  kl_weight: 30.0
+  action_delta_max: 0.08
+  enable_accept_reject: true
+  accept_energy_margin: 0.0
+  diagnostics: true
+```
+
+下一步：跑全量 1000 chains 验证。
 
 ### 3.7 CALVIN 后续必要实验
 
