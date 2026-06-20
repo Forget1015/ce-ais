@@ -317,6 +317,16 @@ robot_obs, scene_obs = _official_get_env_state(initial_state)
 | camera | medium | 0.45 | 0.44 | -0.01 | | | | mixed |
 | camera | severe | 0.47 | 0.43 | -0.04 | | | | negative |
 
+### 3.7 CALVIN 后续必要实验
+
+建议按优先级执行：
+
+1. 复现协议排查：用官方 FLOWER eval pipeline 跑 frozen FLOWER 1000 chains 或至少 500 chains，确认本地 baseline 是否能接近 4.5。
+2. CE-AIS clean 500/1000 chains：如果算力允许，使用同一 protocol 跑 frozen vs CE-AIS。
+3. OOD severity 复测：当前 100 episodes 结果可以作为 pilot，但不适合做最终强结论。
+4. Failure-subset / recovery：从 frozen FLOWER 失败轨迹中抽中间状态，让 CE-AIS 评估 recovery，这是更适合 CE-AIS 的创新性实验。
+5. Latency optimization ablation：展示 mc_samples、n_steps、grad_mode 对 latency/performance 的影响。
+
 ### 3.8 CE-AIS v2 Gated 实验结果与失败分析（2026-06-16）
 
 #### 3.8.1 实验结果
@@ -446,16 +456,361 @@ steering:
 ```
 
 下一步：跑全量 1000 chains 验证。
+### 3.9 CE-AIS v3 全量验证失败与深层机制分析（2026-06-16）
 
-### 3.7 CALVIN 后续必要实验
+**1. 快速测试为什么失灵**
+- 28条测试chain全来自Worker 2（chains 500-749），完全没覆盖Worker 0/1/3
+- v3 (threshold=0.25) 在全量前70chains失败68个，v2 gated只有59个，反而退步
+- 结论：subset设计有选择偏差，不能代表全量
 
-建议按优先级执行：
+**2. v2 Gated的真实画像**
+- 1000 chains中：83条提升，80条退步，837条持平
+- 净增仅11个tasks (Avg Len +0.011)
+- 100%接受率，0次拒绝--accept/reject机制形同虚设
+- 干预率63%，但84%的chain不受影响
 
-1. 复现协议排查：用官方 FLOWER eval pipeline 跑 frozen FLOWER 1000 chains 或至少 500 chains，确认本地 baseline 是否能接近 4.5。
-2. CE-AIS clean 500/1000 chains：如果算力允许，使用同一 protocol 跑 frozen vs CE-AIS。
-3. OOD severity 复测：当前 100 episodes 结果可以作为 pilot，但不适合做最终强结论。
-4. Failure-subset / recovery：从 frozen FLOWER 失败轨迹中抽中间状态，让 CE-AIS 评估 recovery，这是更适合 CE-AIS 的创新性实验。
-5. Latency optimization ablation：展示 mc_samples、n_steps、grad_mode 对 latency/performance 的影响。
+**3. CE-AIS破坏任务的根因**
+
+破坏的任务分布：slider 66.2%, block 17.5%, 旋转 8.8%, 简单 7.5%
+
+但关键发现：同一类任务既被修复也被破坏
+- place_in_slider: 破坏20 / 修复23
+- lift_*_slider: 破坏33 / 修复21 (净伤害12)
+- stack_block: 破坏11 / 修复13
+
+所以问题不是"哪类任务不该干预"，而是"同一类任务中，什么状态下不该干预"。
+
+三个破坏机制：
+1. 累积偏差：每步delta=0.0003，60-100步累积后轨迹偏移，精确抓取失败
+2. Energy ≠ Task Success：energy衡量"像不像训练数据"，不是"能不能完成任务"。精细动作在训练集中就稀少，CE-AIS把action往"更常见"方向拉
+3. 跨task残留：task 1成功但末端状态被偏移，导致task 2从不利位置开始
+
+**4. 改进方向**
+
+测试时 (只改config)：
+- 降低step_size 0.005→0.003，减小犯错代价
+- 降低action_delta_max 0.08→0.04
+
+测试时 (改代码)：
+- 时间一致性检测：连续K步correction方向一致→说明在对抗VLA意图→停止干预
+- 相对energy margin：要求 energy_delta / |energy_before| > 阈值，而非固定margin
+
+训练时：
+- 用CE-AIS自身产生的失败轨迹做hard negative mining (当前负样本是随机perturbation，太容易)
+- 当前world model acc=0.890 (v2 finetune)，正负区分能力有上限，需要更难的负样本
+
+**5. 正确的快速测试设计**
+- 从每个worker各取5-8条regression chain，总计20-30条
+- 确保4个worker都有覆盖
+
+### 3.10 快速测试 v2 结果与调参瓶颈确认（2026-06-16）
+
+基于 §3.9 的反思，重新构造了 40-chain diagnostic subset（每个 worker 各 10 条，5 regression + 5 golden），测试了两个更保守的配置：
+
+| 方案 | step_size | action_delta_max | min_lambda | threshold |
+|------|-----------|-----------------|------------|-----------|
+| small_step | 0.003 | 0.04 | 0.05 | 0.3 |
+| conservative | 0.003 | 0.04 | 0.10 | 0.3 |
+
+#### 结果
+
+| Config | L1 | L2 | L3 | L4 | L5 | Avg Len |
+|--------|-----|-----|-----|-----|-----|---------|
+| Flower (baseline) | 95.0% | 75.0% | 55.0% | 50.0% | 50.0% | 3.250 |
+| v2 Gated (原始) | 95.0% | 75.0% | 57.5% | 50.0% | 47.5% | 3.250 |
+| **small_step** | 95.0% | 80.0% | 65.0% | 57.5% | 55.0% | **3.525** |
+| **conservative** | 95.0% | 80.0% | 62.5% | 57.5% | 55.0% | **3.500** |
+
+#### 细粒度分析
+
+| | Regression 修复(20条) | Regression 仍差 | Golden 保持(20条) | Golden 丢失 |
+|--|--|--|--|--|
+| v2 Gated | 0/20 | 20/20 | 20/20 | 0/20 |
+| small_step | 9/20 | 11/20 | 13/20 | 0/20 |
+| conservative | 10/20 | 10/20 | 13/20 | 0/20 |
+
+#### 结论
+
+降低 step_size/action_delta_max 确实修复了部分 regression（9-10条），但同时丢失了 7 条 golden 的修复能力。净效果仅 +2~3 条，在全量 1000 chains 中不会显著超过 v2 Gated。
+
+**核心判断：仅靠全局超参数调节已无法突破当前瓶颈。** v2 Gated 处于修复能力与破坏风险的微妙平衡点，调参只能在二者之间做 trade-off。
+
+### 3.11 CE-AIS 机制瓶颈深度分析与后续改进路线（2026-06-16）
+
+#### 3.11.1 为什么简单调参难以继续提升
+
+已测试的所有方向：
+
+1. **降低 threshold (0.3→0.25)**：快速测试看起来好，全量退步（subset 选择偏差）
+2. **增大 margin (0→0.005)**：过于激进，几乎所有 correction 被拒绝，steering 失效
+3. **降低 step_size/delta_max**：减少破坏但同时削弱修复能力，零和博弈
+
+这些结果说明问题不是某个标量超参没调好，而是 **energy model 缺乏足够精细的局部判别能力**。
+
+#### 3.11.2 对 temporal consistency 方案的否决
+
+曾考虑：如果 CE-AIS 连续 K 步朝相似方向修正，则认为在对抗 VLA，停止干预。
+
+否决原因：
+- 连续同向 correction 不一定是错误——对真实偏差的 recovery 也需要持续同向修正
+- "对抗 VLA"不是充分的拒绝理由，CE-AIS 的目标本来就是修正 VLA 的错误
+- 该信号有歧义，不能作为 hard reject rule
+
+#### 3.11.3 训练阶段核心问题：负样本尺度与测试时 correction 尺度可能不匹配
+
+当前测试时 CE-AIS 实际修正幅度：
+
+```
+action_delta_inf_mean ≈ 2.6e-4 ~ 2.7e-4
+```
+
+关键怀疑：训练时正负样本的 action 差异尺度可能远大于此。
+
+需要统计确认的数据（尚未严格验证）：
+
+| 数据来源 | 统计对象 | 待统计指标 |
+|---|---|---|
+| ABC_D pretrain negatives | a_pos vs a_neg | L∞ / L2 gap |
+| FLOWER finetune negatives | success vs failure action | L∞ / L2 gap |
+| CE-AIS test-time corrections | a_init vs a_steered | L∞ / L2 gap |
+
+如果训练负样本 gap >> CE-AIS correction gap，则说明 CE-WM 在 micro-scale 上没有学到有意义的 energy gradient。这将解释为什么 83 条提升 / 80 条退步几乎对半——correction 方向在这个尺度上接近随机。
+
+**注意**：此前讨论中提到的"负样本差异约 1.0"仅为初步估计，不是严格统计结论。需要对三阶段数据分别统计后确认。
+
+#### 3.11.4 后续训练改进方向
+
+**方向 A：micro-scale action negatives**
+
+在成功轨迹 action 附近构造小尺度负样本：
+
+```
+a_neg = a_pos + epsilon,  epsilon ~ N(0, sigma²)
+sigma ∈ {1e-4, 3e-4, 1e-3, 3e-3, 5e-3}
+```
+
+让 CE-WM 在 CE-AIS 实际 correction 尺度附近学到局部能量排序。
+
+注意：极小扰动不一定总是负样本（可能不影响成功）。更稳妥做法是多尺度 ranking loss：
+
+```
+E(z, a_expert) < E(z, a_expert + eps_small) < E(z, a_expert + eps_large)
+```
+
+**方向 B：CE-AIS-induced hard negatives**
+
+从 v2 Gated 的 regression chains 中重新 rollout，记录每步 a0、a*、energy、task outcome。
+
+对于 FLOWER 成功但 CE-AIS 失败的 chains，a* 是最有价值的 hard negative：
+1. 离 a0 很近
+2. CE-WM 当前认为它更好（energy 更低）
+3. 实际导致任务失败
+
+用这些样本 finetune energy head，直接修正 CE-WM 的错误偏好。
+
+**方向 C：pairwise comparator head**
+
+当前：E(z, a) → 标量绝对 energy
+
+改为增加一个 comparator：
+```
+C(z, a0, a*) → p(a* better than a0)
+```
+
+用于 accept/reject 决策。不替代原 energy head，而是专门服务于"两个接近 action 哪个更好"的判断。
+
+训练数据：
+1. expert action vs micro-perturbed action
+2. FLOWER success action vs CE-AIS harmful correction
+3. CE-AIS helpful correction vs FLOWER failed action
+
+该方向更符合 CE-AIS 实际需求：测试时本质是 local pairwise ranking，不是 global energy estimation。
+
+#### 3.11.5 推荐实验优先级
+
+1. **尺度统计**：确认 train-test action scale mismatch 是否真实存在
+2. **收集 per-step diagnostic 数据**：对 regression/golden chains rollout 记录每步 a0、a*
+3. **micro-scale hard negative 重训 energy head**：改变负样本构造方式
+4. **pairwise comparator head**（如果 3 不够）
+5. **暂缓全局超参数搜索**
+
+### 3.12 尺度统计结果：确认 train-test action scale mismatch（2026-06-16）
+
+#### 3.12.1 统计方法
+
+分别统计三个阶段的 action gap（L∞ norm）：
+1. 训练负样本：`data/rollout_flower_seed42/contrastive_pairs.npz` 中 `pos_action` vs `neg_action`
+2. CE-AIS 测试时 correction：`results/ce_ais_v2_gated/` 中 diagnostics 的 `action_delta_inf`
+
+训练负样本的生成策略（`src/data/perturbation.py`）：
+- `velocity_reversal`：xyz 速度取反（前 3 维 ×-1）
+- `gripper_anomaly`：夹爪维替换为随机值
+- `random_displacement(scale=0.5)`：xyz 加 N(0, 0.5) 噪声
+- `collision_violation(scale=4)`：xyz 放大 4x + 随机翻转
+- `temporal_shuffle`：时序打乱 / 随机翻转符号
+- `joint_limit_violation`：推向极限值 [0.8, 1.0]
+
+#### 3.12.2 统计结果
+
+**训练负样本 (1,549,545 pairs)**
+
+| 指标 | L∞ | L2 |
+|------|-----|-----|
+| mean | 1.134 | 1.260 |
+| p10 | 0.229 | 0.326 |
+| p50 | 0.844 | 1.035 |
+| p90 | 2.000 | 2.132 |
+| min | 0.013 | — |
+
+**CE-AIS 测试时 correction (4 workers × 250 chains)**
+
+| 指标 | action_delta_inf |
+|------|-----------------|
+| mean | 2.65e-4 |
+| p50 | 3.20e-4 |
+| p90 | 5.41e-4 |
+| p95 | 5.85e-4 |
+| max | 7.41e-4 |
+
+#### 3.12.3 尺度对比
+
+| 比较 | 比值 |
+|------|------|
+| 训练 mean / 测试 mean | **4280x** |
+| 训练 p10 / 测试 mean | 863x |
+| 训练 min / 测试 max | 17.9x |
+
+**训练负样本中没有任何一个样本的 L∞ gap < 0.01。CE-AIS 工作在 ~0.0003 的尺度上。**
+
+#### 3.12.4 结论
+
+Scale mismatch 假设已**确认**：
+
+1. CE-WM energy head 在训练时从未见过 L∞ < 0.01 的 action 差异
+2. CE-AIS 测试时的 steering correction 在 L∞ ≈ 0.0003 的尺度上工作
+3. 差距约 4000 倍，即使是训练中最接近的负样本（gap=0.013）也是 CE-AIS max correction 的 18 倍
+4. 因此 CE-WM 在 CE-AIS 工作尺度上的 energy landscape 没有学到有意义的结构
+5. 这解释了 83 提升 / 80 退步近似对半的现象——steering 方向在该尺度上接近随机
+
+### 3.13 方向 A 实施：micro-scale negatives 重训 energy head
+
+#### 3.13.1 设计思路
+
+当前 energy head 只见过 gap > 0.01 的粗粒度负样本。需要让它学习在 CE-AIS 实际工作尺度（1e-4 ~ 5e-3）上的局部 energy ordering。
+
+核心改动：**构造多尺度微小 perturbation 作为负样本**。
+
+```
+a_neg = a_expert + epsilon
+epsilon ~ N(0, sigma²·I)
+sigma ∈ {5e-4, 1e-3, 2e-3, 5e-3, 1e-2}
+```
+
+与原始策略（velocity_reversal 等粗粒度扰动）相比，这些负样本：
+- 距离正样本非常近（和 CE-AIS correction 同尺度）
+- 迫使 energy head 学习微小差异的能量排序
+- 更符合 CE-AIS 测试时实际面临的判别任务
+
+#### 3.13.2 训练策略
+
+**方案：多尺度 ranking loss**
+
+不是简单二分类（expert=正，perturbation=负），而是要求能量按扰动尺度排序：
+
+```
+E(z, a_expert) < E(z, a_expert + eps_small) < E(z, a_expert + eps_large)
+```
+
+实现方式：在现有 NCE loss 基础上，对每个 anchor 生成多个不同 sigma 的负样本，按 sigma 大小排序作为 ranking target。
+
+**训练数据来源**：现有 `data/rollout_flower_seed42/` 中的 310K positive steps，只需改负样本生成方式，不需要新数据。
+
+**模型选择**：在当前最好的 energy head（`checkpoints_finetuned_energy_head_v2/energy_head_v2_best.pt`，acc=0.890）基础上 finetune，只训练 energy head 参数（0.17% 可训练参数）。
+
+#### 3.13.3 实现计划
+
+1. 新增 `src/data/micro_perturbation.py`：多尺度微小 perturbation 生成器
+2. 新增 `scripts/finetune_energy_head_micro.py`：micro-scale finetune 脚本
+3. 新增 `configs/finetune_micro_scale.yaml`：训练配置
+4. 训练后在 40-chain fast test subset 上验证效果
+
+#### 3.13.4 关键发现：backbone 对微小 action 差异物理上不可区分
+
+在实施方向 A 之前，做了一个关键验证实验：对 200 个样本，分别测试不同 sigma 扰动后 energy 的变化方向（E 应该上升=扰动是坏的）。
+
+| sigma | ΔE mean | E↑比例 | 结论 |
+|-------|---------|--------|------|
+| 1e-4 | +0.00010 | 53% | 完全随机 |
+| 3e-4 | +0.00022 | 53.5% | 随机（CE-AIS 工作尺度） |
+| 1e-3 | -0.0034 | 46% | 随机 |
+| 3e-3 | +0.012 | 57% | 微弱信号 |
+| 1e-2 | -0.037 | 47.5% | 仍混乱 |
+| 5e-2 | -0.394 | 43% | 有方向性 |
+| 0.5 | -7.45 | 4% | 强信号 |
+
+在 sigma ≤ 1e-2 范围内，energy 变化方向完全随机（~50%），说明 backbone 对这个尺度的 action 差异没有有意义的表达。
+
+**根因分析：**
+
+CE-WM 架构为 `input_proj([z;a]) → 32层Mamba → energy_head`：
+- `input_proj: Linear(135 → 640)`，其中 z=128维，a=7维
+- Δa = 0.0003 经过 input_proj 后：`|Δhidden| / |hidden| ≈ 0.0015%`
+- 经过 32 层 Mamba 非线性变换后，此信号完全淹没在数值噪声中
+
+**这意味着：**
+1. 不是 energy head 训练不够，是 backbone 在物理上无法区分 a 和 a+0.0003
+2. 单独 finetune energy head 无法解决问题
+3. 当前 CE-AIS 的 correction 幅度（0.0003）太小，steering 方向在该尺度上接近随机
+4. 必须让 correction 幅度和 model 能区分的尺度对齐
+
+#### 3.13.5 修正后的实施方案：steering scale 对齐 + model 重训
+
+**核心思路：让 steering correction 和 model 的有效区分尺度对齐。**
+
+目前 correction 太小（0.0003）是因为 `kl_weight=30.0` 过度约束了 steering。降低 kl_weight 让 correction 增大到 model 能区分的尺度（~0.01），同时用对应尺度的负样本重训 model，确保 energy gradient 方向正确。
+
+**具体计划：**
+
+**Step 1：降低 kl_weight，增大 steering 幅度**
+
+```yaml
+steering:
+  step_size: 0.005
+  kl_weight: 3.0~5.0  # 从 30 降到 3~5
+  action_delta_max: 0.05  # 匹配新的 correction 尺度
+```
+
+预期 correction 从 0.0003 增大到 ~0.005-0.01（增大 20-30 倍）。
+
+**Step 2：用对应尺度负样本重训 CE-WM**
+
+训练配置：
+- 负样本 sigma: {0.003, 0.005, 0.01, 0.02, 0.05}（和新的 correction scale 匹配）
+- 解冻范围：后 8 层 Mamba + energy head（约 30M + 0.2M = 30.7M 参数，25%）
+- 保持前 24 层冻结（保留大尺度 world model 能力）
+- 训练数据：现有 310K positive steps，在线生成 micro negatives
+- Loss：多尺度 ranking loss + 原 NCE loss 混合（不丢失原有大尺度区分能力）
+
+**Step 3：可选架构改进——action 双通路**
+
+当前问题：action 信息经过 32 层后衰减为 0。
+
+改进：在 energy head 的输入中直接拼接 raw action（skip connection），让 energy head 能看到原始 action 差异：
+
+```
+原: energy_head(backbone_output)
+改: energy_head([backbone_output; a])  # 拼接原始 action
+```
+
+这样即使 backbone 对 Δa 不敏感，energy head 仍能直接感知 action 差异。
+
+改动极小（energy head input dim 从 640 改为 647），但效果可能显著。
+
+**Step 4：验证流程**
+
+1. 先做 Step 1（只改 kl_weight 配置），在 40-chain subset 上验证 correction 是否增大
+2. 做 Step 2 + Step 3（重训），用新的 checkpoint 再跑 40-chain subset
+3. 如果 subset 结果好，跑全量 1000 chains
 
 ---
 

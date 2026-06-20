@@ -16,6 +16,7 @@ from typing import Any, Dict, List, Optional
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
@@ -330,14 +331,30 @@ class PretrainPipeline:
                         z_flat = self.encoder(rgb_flat, depth_flat, pose_flat)
                     z_pos = z_flat.view(B_, T_, -1)  # [B, T, d_z]
 
-                    # 生成 K 个负样本：按摄动策略轮转
+                    # 生成 K 个负样本：混合多源策略
+                    # K=5: 2 uniform + 2 multi_scale_gaussian + 1 原始策略
                     a_neg_list = []
+                    neg_types = []  # 记录每个负样本的类型用于 ranking
+                    fixed_strategies = [
+                        "uniform_sampling",
+                        "uniform_sampling",
+                        "multi_scale_gaussian",
+                        "multi_scale_gaussian",
+                    ]
+                    orig_strategies = [
+                        s for s in perturbation_strategies
+                        if s not in ("uniform_sampling", "multi_scale_gaussian",
+                                     "micro_perturbation", "medium_perturbation",
+                                     "large_perturbation", "hard_negative_mining")
+                    ]
                     for k in range(K):
-                        strat = perturbation_strategies[
-                            k % len(perturbation_strategies)
-                        ]
+                        if k < len(fixed_strategies):
+                            strat = fixed_strategies[k]
+                        else:
+                            strat = orig_strategies[k % len(orig_strategies)]
                         a_neg_k = PerturbationRegistry.apply(strat, a_pos)
                         a_neg_list.append(a_neg_k)
+                        neg_types.append(strat)
                     a_neg = torch.stack(a_neg_list, dim=1)  # [B, K, T, d_a]
                 else:
                     # 合成数据回退路径
@@ -370,9 +387,30 @@ class PretrainPipeline:
                     energy_neg_flat = ce_wm(z_expanded, a_neg_flat)
                     energy_neg = energy_neg_flat.view(B, K_batch)  # [B, K]
 
-                    loss, loss_components = self.nce_loss(
+                    # --- Loss: NCE + Ranking + Energy Regularization ---
+                    loss_nce, loss_components = self.nce_loss(
                         energy_pos, energy_neg, return_components=True
                     )
+
+                    # Ranking: E(pos) < E(each neg), with margin
+                    # uniform negatives (idx 0,1) should have higher energy than gaussian (idx 2,3)
+                    ones = torch.ones(B, device=energy_pos.device)
+                    loss_rank = torch.zeros(1, device=energy_pos.device)
+                    for k_idx in range(K_batch):
+                        margin = 0.5 if k_idx < 2 else 0.2  # uniform gets larger margin
+                        loss_rank = loss_rank + F.margin_ranking_loss(
+                            energy_neg[:, k_idx], energy_pos,
+                            target=ones, margin=margin
+                        )
+                    loss_rank = loss_rank / K_batch
+
+                    # Energy regularization: prevent energy from going too low for uniform samples
+                    energy_uniform = energy_neg[:, :2]  # first 2 are uniform
+                    loss_reg = F.relu(-1.0 - energy_uniform).mean()
+
+                    loss = loss_nce + 0.5 * loss_rank + 0.1 * loss_reg
+                    loss_components["ranking"] = loss_rank.detach()
+                    loss_components["energy_reg"] = loss_reg.detach()
 
                 if not torch.isfinite(loss):
                     if self.accelerator.is_main_process:

@@ -1,0 +1,16 @@
+# CE-WM 多源负样本重训配置
+# 修复 energy landscape 结构性缺陷：让 expert 成为全局能量最低点
+# 负样本：2 uniform + 2 multi_scale_gaussian + 1 原始策略
+
+inherit_from: "/data0/yejinxuan/ce-ais/configs/base.yaml"
+
+data:
+  num_workers: 6
+
+training:
+  ce_wm_epochs: 40
+  cewm_batch_size: 256
+  learning_rate: 1.0e-4
+  neg_sample_ratio: 5
+  grad_clip_norm: 1.0
+  checkpoint_interval: 1

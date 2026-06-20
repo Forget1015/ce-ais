@@ -5,9 +5,15 @@ checkpoints/
 checkpoints_sub/
 checkpoints_new_sub/
 checkpoints_finetuned_energy_head/
+checkpoints_finetuned_energy_head_v3/
 checkpoints_calibrated_cewm/
+*.pth
+*.pt
 external/flower_vla_calvin/calvin_env/
 external/flower_vla_calvin/LIBERO/
+
+# 日志和tensorboard
+logs/
 # 虚拟环境
 .venv/
 

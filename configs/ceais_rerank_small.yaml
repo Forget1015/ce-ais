@@ -1,0 +1,21 @@
+# CE-AIS Rerank 小幅度配置
+# σ=0.05，在 model 有一定判别力的范围内做保守选择
+
+inherit_from: "base.yaml"
+
+steering:
+  mode: "rerank"
+  candidate_count: 32
+  candidate_noise_std: 0.05
+  deviation_weight: 2.0
+  action_delta_max: 0.1
+  enable_accept_reject: false
+  diagnostics: true
+
+bilateral_gating:
+  lambda_max: 1.0
+  sensitivity: 0.1
+  window_size: 50
+  mc_samples: 5
+  hard_uncertainty_threshold: null
+  min_lambda: 0.0

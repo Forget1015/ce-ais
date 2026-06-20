@@ -1,0 +1,142 @@
+/data0/yejinxuan/ce-ais/.venv/lib/python3.12/site-packages/lightning_lite/__init__.py:29: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools<81.
+  __import__("pkg_resources").declare_namespace(__name__)
+Global seed set to 0
+======================================================================
+CE-AIS Paper Main Experiments
+Methods: ['ce_ais']
+Chains: 200 x 5
+Device: cuda:0 (requested=cuda:0, visible=3)
+EGL: enabled (EGL_VISIBLE_DEVICES=0)
+======================================================================
+
+[1] Initializing CALVIN environment...
+Detected HuggingFace format
+Loading config from: /data0/yejinxuan/ce-ais/data/flower_calvin_abc/config.yaml
+/data0/yejinxuan/ce-ais/external/flower_vla_calvin/flower/evaluation/utils.py:201: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  hydra.initialize("../../conf/datamodule/datasets")
+Processing camera: rgb_static
+Instantiating transform for camera rgb_static : {'_target_': 'torchvision.transforms.Resize', 'size': 224, 'antialias': True}
+Instantiating transform for camera rgb_static : {'_target_': 'flower.utils.transforms.RandomShiftsAug', 'pad': 10}
+Instantiating transform for camera rgb_static : {'_target_': 'flower.utils.transforms.ScaleImageTensor'}
+Instantiating transform for camera rgb_static : {'_target_': 'torchvision.transforms.Normalize', 'mean': [0.48145466, 0.4578275, 0.40821073], 'std': [0.26862954, 0.26130258, 0.27577711]}
+Processing camera: rgb_gripper
+Instantiating transform for camera rgb_gripper : {'_target_': 'torchvision.transforms.Resize', 'size': 224, 'antialias': True}
+Instantiating transform for camera rgb_gripper : {'_target_': 'flower.utils.transforms.RandomShiftsAug', 'pad': 4}
+Instantiating transform for camera rgb_gripper : {'_target_': 'flower.utils.transforms.ScaleImageTensor'}
+Instantiating transform for camera rgb_gripper : {'_target_': 'torchvision.transforms.Normalize', 'mean': [0.48145466, 0.4578275, 0.40821073], 'std': [0.26862954, 0.26130258, 0.27577711]}
+trying to load lang data from:  /data0/yejinxuan/ce-ais/data/task_ABC_D/training/lang_annotations/auto_lang_ann.npy
+trying to load lang data from:  /data0/yejinxuan/ce-ais/data/task_ABC_D/validation/lang_annotations/auto_lang_ann.npy
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+Users of this version of Gym should be able to simply replace 'import gym' with 'import gymnasium as gym' in the vast majority of cases.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+pybullet build time: Oct 21 2025 10:07:17
+/data0/yejinxuan/ce-ais/external/flower_vla_calvin/calvin_env/calvin_env/envs/play_table_env.py:290: UserWarning: 
+The version_base parameter is not specified.
+Please specify a compatability version level, or None.
+Will assume defaults for version 1.1
+  @hydra.main(config_path="../../conf", config_name="config_data_collection")
+Environment variable EGL_VISIBLE_DEVICES is already set. Is this intended?
+argv[0]=--width=200
+argv[1]=--height=200
+EGL device choice: 3 of 17 (from EGL_VISIBLE_DEVICES)
+Loaded EGL 1.5 after reload.
+GL_VENDOR=NVIDIA Corporation
+GL_RENDERER=NVIDIA A100-SXM4-80GB/PCIe/SSE2
+GL_VERSION=3.3.0 NVIDIA 595.71.05
+GL_SHADING_LANGUAGE_VERSION=3.30 NVIDIA via Cg compiler
+Version = 3.3.0 NVIDIA 595.71.05
+Vendor = NVIDIA Corporation
+Renderer = NVIDIA A100-SXM4-80GB/PCIe/SSE2
+Loading model from /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors
+Checking for HF format: model.safetensors == 'model.safetensors' and /data0/yejinxuan/ce-ais/data/flower_calvin_abc/config.yaml exists: True
+Detected HuggingFace format
+Loading config from: /data0/yejinxuan/ce-ais/data/flower_calvin_abc/config.yaml
+Loading model from /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors
+Loading Florence-2 from /data0/yejinxuan/hf_cache/hub/Florence-2-large
+The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+Loading pretrained weights from /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors...
+Loaded safetensors file
+Pretrained weights loaded with the following issues:
+  ⚠️ Missing keys (not found in checkpoint, using default init): 2
+    ['vlm.language_model.final_logits_bias', 'vlm.language_model.model.shared.weight'] ...
+  ⚠️ Unexpected keys (ignored): 2
+    ['vlm.language_final_logits_bias', 'vlm.language_shared.weight'] ...
+Finished loading model /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors
+Successfully loaded model.
+  Using chain-indices from configs/fast_test_subsets_v2.json: 40 chains
+  Using official FLOWER HulcWrapper environment
+  Sequence source: flower_official
+Global seed set to 0
+
+[Eval] Running: ce_ais
+Loading Florence-2 from /data0/yejinxuan/hf_cache/hub/Florence-2-large
+Loading pretrained weights from /data0/yejinxuan/ce-ais/data/flower_calvin_abc/model.safetensors...
+Loaded safetensors file
+Pretrained weights loaded with the following issues:
+  ⚠️ Missing keys (not found in checkpoint, using default init): 2
+    ['vlm.language_model.final_logits_bias', 'vlm.language_model.model.shared.weight'] ...
+  ⚠️ Unexpected keys (ignored): 2
+    ['vlm.language_final_logits_bias', 'vlm.language_shared.weight'] ...
+  Loaded encoder checkpoint: /data0/yejinxuan/ce-ais/checkpoints/encoder_epoch0044.pt
+  Loaded CE-WM checkpoint: /data0/yejinxuan/ce-ais/checkpoints_calibrated_cewm/checkpoints_finetuned_energy_head_v2/energy_head_v2_best.pt
+    [ce_ais] chain 1/40 start: ['rotate_blue_block_right', 'lift_pink_block_table', 'place_in_slider', 'move_slider_left', 'open_drawer']
+ven = NVIDIA Corporation
+ven = NVIDIA Corporation
+    [ce_ais] chain 1/40 task 1/5 failed: 360 steps
+    [ce_ais] chain 2/40 start: ['open_drawer', 'push_red_block_right', 'move_slider_left', 'lift_pink_block_slider', 'place_in_slider']
+    [ce_ais] chain 2/40 task 1/5 failed: 360 steps
+    [ce_ais] chain 3/40 start: ['rotate_pink_block_right', 'lift_pink_block_table', 'place_in_slider', 'move_slider_right', 'lift_blue_block_slider']
+    [ce_ais] chain 3/40 task 1/5 failed: 360 steps
+    [ce_ais] chain 4/40 start: ['move_slider_left', 'push_red_block_right', 'open_drawer', 'turn_off_led', 'push_into_drawer']
+    [ce_ais] chain 4/40 task 1/5 failed: 360 steps
+    [ce_ais] chain 5/40 start: ['move_slider_right', 'push_blue_block_right', 'turn_off_lightbulb', 'push_into_drawer', 'lift_red_block_slider']
+    [ce_ais] chain 5/40 task 1/5 success: 63 steps
+    [ce_ais] chain 5/40 task 2/5 success: 52 steps
+    [ce_ais] chain 5/40 task 3/5 failed: 360 steps
+    [ce_ais] chain 6/40 start: ['lift_blue_block_slider', 'place_in_drawer', 'turn_off_led', 'push_red_block_left', 'move_slider_right']
+    [ce_ais] chain 6/40 task 1/5 failed: 360 steps
+    [ce_ais] chain 7/40 start: ['rotate_red_block_right', 'turn_on_lightbulb', 'lift_pink_block_slider', 'stack_block', 'move_slider_right']
+    [ce_ais] chain 7/40 task 1/5 success: 196 steps
+    [ce_ais] chain 7/40 task 2/5 success: 128 steps
+    [ce_ais] chain 7/40 task 3/5 failed: 360 steps
+    [ce_ais] chain 8/40 start: ['push_blue_block_right', 'turn_on_lightbulb', 'open_drawer', 'lift_blue_block_table', 'place_in_drawer']
+    [ce_ais] chain 8/40 task 1/5 failed: 360 steps
+    [ce_ais] chain 9/40 start: ['move_slider_right', 'lift_blue_block_slider', 'place_in_slider', 'turn_off_led', 'rotate_pink_block_left']
+    [ce_ais] chain 9/40 task 1/5 success: 84 steps
+    [ce_ais] chain 9/40 task 2/5 failed: 360 steps
+    [ce_ais] chain 10/40 start: ['turn_off_led', 'lift_red_block_slider', 'place_in_slider', 'move_slider_right', 'push_blue_block_left']
+    [ce_ais] chain 10/40 task 1/5 success: 17 steps
+    [ce_ais] chain 10/40 task 2/5 failed: 360 steps
+    [ce_ais] 10/40 chains, L1 success: 40.0%
+    [ce_ais] chain 11/40 start: ['turn_off_lightbulb', 'rotate_red_block_right', 'lift_red_block_table', 'stack_block', 'close_drawer']
+    [ce_ais] chain 11/40 task 1/5 success: 49 steps
+    [ce_ais] chain 11/40 task 2/5 failed: 360 steps
+    [ce_ais] chain 12/40 start: ['open_drawer', 'rotate_blue_block_right', 'move_slider_right', 'lift_pink_block_slider', 'place_in_drawer']
+    [ce_ais] chain 12/40 task 1/5 failed: 360 steps
+    [ce_ais] chain 13/40 start: ['rotate_red_block_right', 'lift_red_block_table', 'stack_block', 'close_drawer', 'turn_off_lightbulb']
+    [ce_ais] chain 13/40 task 1/5 success: 125 steps
+    [ce_ais] chain 13/40 task 2/5 failed: 360 steps
+    [ce_ais] chain 14/40 start: ['move_slider_right', 'lift_red_block_slider', 'stack_block', 'open_drawer', 'unstack_block']
+    [ce_ais] chain 14/40 task 1/5 success: 71 steps
+    [ce_ais] chain 14/40 task 2/5 failed: 360 steps
+    [ce_ais] chain 15/40 start: ['rotate_red_block_right', 'move_slider_left', 'lift_blue_block_slider', 'stack_block', 'open_drawer']
+    [ce_ais] chain 15/40 task 1/5 failed: 360 steps
+    [ce_ais] chain 16/40 start: ['push_red_block_left', 'lift_blue_block_table', 'stack_block', 'unstack_block', 'turn_off_lightbulb']
+    [ce_ais] chain 16/40 task 1/5 failed: 360 steps
+    [ce_ais] chain 17/40 start: ['move_slider_right', 'lift_blue_block_table', 'place_in_slider', 'turn_off_lightbulb', 'rotate_red_block_left']
+    [ce_ais] chain 17/40 task 1/5 success: 147 steps
+    [ce_ais] chain 17/40 task 2/5 failed: 360 steps
+    [ce_ais] chain 18/40 start: ['turn_on_led', 'rotate_pink_block_right', 'lift_red_block_table', 'place_in_drawer', 'close_drawer']
+    [ce_ais] chain 18/40 task 1/5 success: 17 steps
+    [ce_ais] chain 18/40 task 2/5 failed: 360 steps
+    [ce_ais] chain 19/40 start: ['lift_pink_block_slider', 'stack_block', 'move_slider_left', 'close_drawer', 'turn_off_led']
+    [ce_ais] chain 19/40 task 1/5 failed: 360 steps
+    [ce_ais] chain 20/40 start: ['push_blue_block_right', 'open_drawer', 'turn_on_lightbulb', 'push_into_drawer', 'move_slider_right']
+    [ce_ais] chain 20/40 task 1/5 failed: 360 steps
+    [ce_ais] 20/40 chains, L1 success: 45.0%
+    [ce_ais] chain 21/40 start: ['rotate_pink_block_left', 'lift_pink_block_table', 'stack_block', 'move_slider_right', 'open_drawer']
+    [ce_ais] chain 21/40 task 1/5 success: 108 steps

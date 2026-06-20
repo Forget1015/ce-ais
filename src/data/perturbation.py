@@ -216,6 +216,48 @@ def joint_limit_violation(
     return perturbed
 
 
+@PerturbationRegistry.register("uniform_sampling")
+def uniform_sampling(
+    action: torch.Tensor, low: float = -1.0, high: float = 1.0, **kwargs
+) -> torch.Tensor:
+    """从 action space 均匀采样，覆盖整个空间。"""
+    return torch.rand_like(action) * (high - low) + low
+
+
+@PerturbationRegistry.register("multi_scale_gaussian")
+def multi_scale_gaussian(
+    action: torch.Tensor, **kwargs
+) -> torch.Tensor:
+    """从多个 σ 中随机选一个加高斯噪声。"""
+    scales = [0.01, 0.05, 0.1, 0.3]
+    idx = torch.randint(0, len(scales), (1,)).item()
+    return action + scales[idx] * torch.randn_like(action)
+
+
+@PerturbationRegistry.register("micro_perturbation")
+def micro_perturbation(
+    action: torch.Tensor, scale: float = 0.003, **kwargs
+) -> torch.Tensor:
+    """微小高斯扰动，匹配 CE-AIS steering 工作尺度。"""
+    return action + scale * torch.randn_like(action)
+
+
+@PerturbationRegistry.register("medium_perturbation")
+def medium_perturbation(
+    action: torch.Tensor, scale: float = 0.01, **kwargs
+) -> torch.Tensor:
+    """中等高斯扰动，匹配 CE-AIS n_steps=3 预期尺度。"""
+    return action + scale * torch.randn_like(action)
+
+
+@PerturbationRegistry.register("large_perturbation")
+def large_perturbation(
+    action: torch.Tensor, scale: float = 0.05, **kwargs
+) -> torch.Tensor:
+    """较大高斯扰动，介于 micro 和原始策略之间。"""
+    return action + scale * torch.randn_like(action)
+
+
 @PerturbationRegistry.register("hard_negative_mining")
 def hard_negative_mining(
     action: torch.Tensor,

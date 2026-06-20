@@ -1,0 +1,18 @@
+inherit_from: "base.yaml"
+
+steering:
+  mode: "rerank"
+  candidate_count: 32
+  candidate_noise_std: 0.1
+  deviation_weight: 1.0
+  action_delta_max: 0.2
+  enable_accept_reject: false
+  diagnostics: true
+
+bilateral_gating:
+  lambda_max: 1.0
+  sensitivity: 0.1
+  window_size: 50
+  mc_samples: 5
+  hard_uncertainty_threshold: null
+  min_lambda: 0.0

@@ -19,6 +19,25 @@ from src.world_model.energy_head import EnergyHead
 from src.world_model.mamba3_core import Mamba3Block
 
 
+class EnergyHeadWithAction(nn.Module):
+    """Energy head with action skip connection."""
+
+    def __init__(self, d_model: int, action_dim: int = 7):
+        super().__init__()
+        d_in = d_model + action_dim
+        self.mlp = nn.Sequential(
+            nn.Linear(d_in, d_in // 2),
+            nn.GELU(),
+            nn.Linear(d_in // 2, 1),
+        )
+        self.action_dim = action_dim
+
+    def forward(self, h, a=None):
+        if a is None:
+            return self.mlp(h).squeeze(-1)
+        return self.mlp(torch.cat([h, a], dim=-1)).squeeze(-1)
+
+
 class CausalEnergyWorldModel(nn.Module):
     """
     Mamba-3 因果能量世界模型。
@@ -77,8 +96,12 @@ class CausalEnergyWorldModel(nn.Module):
         # 取最后时间步的隐状态
         h_final = x[:, -1, :]  # [B, d_model]
 
-        # 能量头输出标量
-        energy = self.energy_head(h_final)  # [B]
+        # 能量头输出标量（支持 action skip connection）
+        if isinstance(self.energy_head, EnergyHeadWithAction):
+            a_last = a_seq[:, -1, :]
+            energy = self.energy_head(h_final, a_last)
+        else:
+            energy = self.energy_head(h_final)
         return energy
 
     def get_uncertainty(

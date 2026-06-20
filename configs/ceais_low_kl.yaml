@@ -1,0 +1,20 @@
+# CE-AIS v4: Steering Scale 对齐实验
+# 核心改动: kl_weight 30→5，让 correction 增大到 model 能区分的尺度
+# 目的: 验证增大 correction 后 action_delta 是否从 0.0003 提升到 ~0.005-0.01
+
+inherit_from: "/data0/yejinxuan/ce-ais/configs/base.yaml"
+
+bilateral_gating:
+  lambda_max: 0.3
+  sensitivity: 0.1
+  hard_uncertainty_threshold: 0.3
+  min_lambda: 0.05
+
+steering:
+  n_steps: 1
+  step_size: 0.005
+  kl_weight: 5.0
+  action_delta_max: 0.05
+  enable_accept_reject: true
+  accept_energy_margin: 0.0
+  diagnostics: true

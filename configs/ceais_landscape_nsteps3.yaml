@@ -1,0 +1,21 @@
+inherit_from: "base.yaml"
+
+steering:
+  mode: "langevin"
+  n_steps: 3
+  step_size: 0.02
+  anneal_rate: 0.7
+  noise_scale: 0.001
+  kl_weight: 5.0
+  action_delta_max: 0.1
+  enable_accept_reject: true
+  accept_energy_margin: 0.0
+  diagnostics: true
+
+bilateral_gating:
+  lambda_max: 1.0
+  sensitivity: 0.1
+  window_size: 50
+  mc_samples: 5
+  hard_uncertainty_threshold: null
+  min_lambda: 0.0

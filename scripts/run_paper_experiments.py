@@ -416,7 +416,17 @@ def build_ce_ais_policy(config_dict, vla_config, device, encoder_ckpt=None, cewm
     cewm_mgr = CheckpointManager(checkpoint_dir=ckpt_dir, prefix="cewm")
     cewm_ckpt = resolve_ckpt(cewm_ckpt) if cewm_ckpt else cewm_mgr.find_latest()
     if cewm_ckpt:
-        cewm_mgr.load(filepath=cewm_ckpt, model=ce_wm, map_location=device)
+        ckpt_data = torch.load(cewm_ckpt, map_location=device, weights_only=False)
+        ckpt_state = ckpt_data.get("model_state_dict", ckpt_data.get("state_dict", ckpt_data))
+        # Detect action skip connection energy head
+        if any("energy_head.mlp.0.weight" in k for k in ckpt_state):
+            eh_w = ckpt_state["energy_head.mlp.0.weight"]
+            if eh_w.shape[1] > cewm_config.d_model:
+                from src.world_model.ce_wm import EnergyHeadWithAction
+                action_dim = eh_w.shape[1] - cewm_config.d_model
+                ce_wm.energy_head = EnergyHeadWithAction(cewm_config.d_model, action_dim).to(device)
+        ce_wm.load_state_dict(ckpt_state, strict=False)
+        ce_wm.eval()
         print(f"  Loaded CE-WM checkpoint: {cewm_ckpt}")
 
     topology = DualStreamTopology(

@@ -1,0 +1,22 @@
+# CE-AIS Rerank 配置
+# 用 energy model 的排序能力做 test-time action selection
+# 不依赖 gradient 方向，只需要 model 能正确排序候选 action
+
+inherit_from: "base.yaml"
+
+steering:
+  mode: "rerank"
+  candidate_count: 64
+  candidate_noise_std: 0.3
+  deviation_weight: 0.5
+  action_delta_max: 0.5
+  enable_accept_reject: false
+  diagnostics: true
+
+bilateral_gating:
+  lambda_max: 1.0
+  sensitivity: 0.1
+  window_size: 50
+  mc_samples: 5
+  hard_uncertainty_threshold: null
+  min_lambda: 0.0

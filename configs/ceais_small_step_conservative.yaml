@@ -1,0 +1,20 @@
+# CE-AIS v4b: 降低修正幅度 + 提高min_lambda
+# 思路: step_size 0.003 + action_delta_max 0.04 + min_lambda 0.10
+# 除了修正更小，还减少干预率(从63%降到约50%)
+
+inherit_from: "/data0/yejinxuan/ce-ais/configs/base.yaml"
+
+bilateral_gating:
+  lambda_max: 0.3
+  sensitivity: 0.1
+  hard_uncertainty_threshold: 0.3
+  min_lambda: 0.10
+
+steering:
+  n_steps: 1
+  step_size: 0.003
+  kl_weight: 30.0
+  action_delta_max: 0.04
+  enable_accept_reject: true
+  accept_energy_margin: 0.0
+  diagnostics: true
